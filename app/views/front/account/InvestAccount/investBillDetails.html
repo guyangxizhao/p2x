@@ -1,0 +1,73 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | 我的账户   | 理财子账户 | 我的理财账单  | '+investDetail?.title+'借款标账单详细表  '/}
+
+<!-- 内容区域 start -->
+<div class="cleafix"></div>
+<div class="bid w998center">
+	<h3>
+		<a href="@{front.invest.investAction.investHome()}" class="btn btn-link">我要理财</a> > 回款标详情
+	</h3>
+	<!-- 借款标信息 -->
+	#{include 'front/invest/InvestAction/investBidInfo.control' /}
+	<!-- 确认投标栏 -->
+	#{include 'front/invest/InvestAction/investConfirm.control' /}
+	<!-- 借款标详情  投标记录   借款标提问记录-->
+	#{include 'front/invest/InvestAction/investBidDetails.control' /}
+</div>
+<!-- 内容区域 end -->
+<script>
+    function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#investBillSubmit").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script>
+showTime();
+
+function showTime() {
+	var endTime = " ${bid?.investExpireTime?.format('yyyy/MM/dd HH:mm:ss')}";
+	time_end = new Date(endTime); //结束的时间
+			      
+	var tt = time_end.getTime();
+	var now = new Date().getTime();
+	var cha = tt-now;
+	var SysSecond = parseInt(cha);
+
+	if (SysSecond > 0) {
+		int_day=Math.floor(SysSecond/86400000);
+		SysSecond-=int_day*86400000;
+		int_hour=Math.floor(SysSecond/3600000);
+		SysSecond-=int_hour*3600000;
+		int_minute=Math.floor(SysSecond/60000);
+		SysSecond-=int_minute*60000;
+		int_second=Math.floor(SysSecond/1000);
+        
+		if(int_hour < 10) {
+			int_hour="0" + int_hour;
+		}
+		if(int_minute < 10) {
+       		int_minute="0" + int_minute;
+		}
+		if (int_second < 10) {
+			int_second="0" + int_second;
+		}
+		$("#day").html(int_day);
+		$("#hours").html(int_hour);
+		$("#minutes").html(int_minute);
+		$("#seconds").html(int_second);
+	} else {
+		$(".timer-td").html("投标已截止");
+		return;
+	}
+	setTimeout('showTime()',1000); 
+}
+
+
+
+
+
+</script>

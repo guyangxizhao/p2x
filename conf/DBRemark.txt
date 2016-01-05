@@ -1,0 +1,105 @@
+houyaoshan
+
+"jp64GVM12GPjh9S1Df3yE3114i4FHDjso2",//p2x银关
+"snfddURKmMmiUszH2au7dyM4qiR6M",//p2x私钥
+1.
+添加列t_users
+wallet_address String  --井通钱包地址
+wallet_secret String --井通钱包秘钥【私钥】
+修改model --- v_users,t_users
+public String wallet_address;//井通钱包地址
+public String wallet_secret;//井通钱包秘钥
+>>SQLTempletes
+V_USERS sql语句中添加 wallet_address wallet_secret
+
+
+
+
+
+
+----------------------------------------
+1.注册
+controllers.front.account.LoginAndRegisterAction.registerSuccess
+
+注册成功后需要注册井通钱包
+执行: 
+	Jingtum.register()   
+	Jingtum.activity()
+激活:井通钱包  （转账由p2x银关向注册用户转30swt）
+修改:v_users  register方法
+添加users.save前的判断
+
+
+-------------
+2.借款审核
+controllers.supervisor.bidManager.BidPlatformAction;
+添加常量 Constants
+public static final int BID_JINGTUMAUDIT = 15; // 井通审核 中
+public static final int BID_JINGTUM_THROUGH = 16; // 井通审核 通过
+/* 修改状态 */
+原有模式，审核通过后，直接筹款
+现有：
+	修改为
+		query.setParameter(4, Constants.BID_JINGTUMAUDIT);// 审核状态为井通审核
+3.查询井通的审核状态
+	p2x.app.business.Bid.getP2xTumStatus
+设置自动任务，5min/次
+jobs.autojingtumstatus  自动任务调用
+
+
+4.支付接口【井通】
+
+p0_cmd		业务类型			是	Max(20)	固定值“Deposit”	1
+p1_custom	商户编号			是	Max(11)	商户在井通银关的唯一身份标识。商户可以登录井通银关获得商户标识		2
+p2_order	商户订单号			是	Max(50)	商户业务处理的流水号，需要在提交的所有订单号中保持唯一性	3
+p3_account	商户充值用户井通地址	是	Max(32)	用户的井通地址，用于接收商户主货币，必填项	4
+p4_amount	交易金额			是	Max(20)	没有单位，精确到四位小数，必须大于0.0001	5
+p5_currency	交易币种			是	Max(60)	商户的主货币，或者是商户对应的用户通	6
+p6_product	商品名称			否	Max(20)	用于交易时显示在井通银关的订单产品信息。上面名称为空，默认现实“商品名称”四个汉字；中文需要转码	7
+p7_desc		商品描述			否	Max(20)	商品描述；中文需要转码	8
+p8_url		商户接收支付成功数据的地址	否	Max(200)	支付成功后，井通银关会向该地址发送两次成功支付的通知	9
+p9_ext		商户扩展信息		否	Max(200)	返回时原样返回给商户	10
+pa_pass		支付通道			否	Max(50)	默认为“”，到井通银关进行网关支付；可以直连支付，直连支付的的通道如附录“直连通道”所述	11
+pb_period	订单的有效期		否	Max(10)	默认为7天，数字需和pc_unit一起使用	12
+pc_unit		订单有效期的单位	否	Max(10)	默认为7天，单位必须是“day”和“month”，其他参数无效	13
+pd_need		应答机制			否	Max(1)	固定值为“1”，需要应答机制；收到井通银关的点对点支付成功通知，商户必须回复success: true的JSON返回值，否则井通银关将任务商户系统没有收到通知，启动重发机制，通知20次，每次间隔2分钟	14
+hmac		签名数据			是	Max(32)	上面需要前面的参数的值组成的字符串数据的签名	
+
+5.支付接口【易宝支付】
+class User yeepay;
+public String keyValue;   			// 商家密钥
+public String nodeAuthorizationURL;	// 交易请求地址
+private String p0_Cmd; 		     	// 在线支付请求，固定值 ”Buy”
+public String p1_MerId;				// 商户编号
+public String p2_Order;				// 商户订单号
+public String p3_Amt;           	// 支付金额
+private String p4_Cur;				// 交易币种  人民币
+public String p5_Pid; 				// 商品名称
+public String p6_Pcat; 				// 商品种类
+public String p7_Pdesc;				// 商品描述
+public String p8_Url;				// 商户接收支付成功数据的地址
+private String p9_SAF;				// 需要填写送货信息 0：不需要  1:需要  【本平台暂时没有实物，无需送货地址】
+public String pa_MP;				// 商户扩展信息
+private String pd_FrpId;    		// 支付通道编码
+private String pr_NeedResponse;		// 默认为"1"，需要应答机制
+private String hmac;					// 交易签名串
+
+Constants 添加易宝支付 常量
+application.conf 添加常量配置  
+#易宝支付【3】
+#yeeURL=https://www.yeepay.com/app-merchant-proxy/node
+yeeURL=https://www.yeepay.com/app-merchant-proxy/node
+yee_merchant_url=front/account/callback
+yee_server_url=front/account/callbackSys
+
+FundsManage submitRecharge   确认充值接口  添加易宝支付的 接口判断
+
+
+#提现
+前台  发送提现申请 
+后台  审核提现申请，通过后，通过httpclient 请求井通平台  通通的提现接口，请求成功后，p2x接收结果，并记录结果，确认提现结果
+
+#还款
+再需要还款的时候，根据当前标的借款人，进行分按比例
+
+

@@ -1,0 +1,94 @@
+%{
+	boolean ipsEnable = constants.Constants.IPS_ENABLE;
+	boolean debtUse = constants.Constants.DEBT_USE;
+	boolean isMsg = constants.Constants.IS_MSG;
+	int currentGateWay = constants.IPSConstants.CurrentGateWay;
+}%
+<div class="nav js-nav" style="height:450px">
+	<dl>
+		<dt>
+			<i></i>
+			<a href="@{front.account.accountHome.home()}">账户总览</a>
+		</dt>
+	</dl>
+	<dl>
+		<dt>
+			<i class="ico-loan"></i>
+			<a>借款管理</a>
+			<span></span>
+		</dt>
+		<dd>
+			<a href="@{front.account.accountHome.myLoans()}">我的借款</a>
+			<a href="@{front.account.accountHome.auditingLoanBids()}">借款申请查询</a>
+			<a href="@{front.account.AccountHome.auditMaterialsIPS()}">审核资料提交</a>
+		</dd>
+	</dl>
+	<dl>
+		<dt>
+			<i class="ico-investment"></i>
+			<a>账户管理</a>
+			<span></span>
+		</dt>
+		<dd>
+			<a href="@{front.account.basicInformation.basicInformation()}">个人信息</a>
+			<a href="@{front.account.basicInformation.safetyInformation()}">安全信息</a>
+			<a href="@{front.account.FundsManage.BankCardItem()}">银行卡管理</a>
+		</dd>
+	</dl>
+	<dl>
+		<dt>
+			<i class="ico-account"></i>
+			<a>投资管理</a>
+			<span></span>
+		</dt>
+		<dd>
+			<a href="@{front.account.InvestAccount.investBills()}?type=Payment">我的投资</a>
+			*{<a>债权转让</a>}*
+			<a href="@{front.account.InvestAccount.auditmaticInvest()}">自动投标</a>
+		</dd>
+	</dl>
+	<dl>
+		<dt>
+			<i class="ico-capital"></i>
+			<a>资金管理</a>
+			<span></span>
+		</dt>
+		<dd>
+			<a href="@{front.account.FundsManage.dealRecord()}">交易记录</a>
+			<a href="@{front.account.FundsManage.recharge()}">充值</a>
+			<a href="@{front.account.FundsManage.withdrawal()}">提现</a>
+		</dd>
+	</dl>
+	<dl>
+		<dt>
+			<i class="ico-news"></i>
+			<a>消息中心</a>
+			<span></span>
+		</dt>
+		<dd>
+			<a href="@{front.account.Message.systemMsgs()}">站内信</a>
+		</dd>
+	</dl>
+</div>
+<script type="text/javascript">
+	var url = '${request.url}';
+	var setted = false;
+	$("dd > a").each(function() {
+		var _el = $(this);
+		if (_el.attr("href") == url) {
+			_el.addClass("on");
+			_el.parent().css("display", "block").prev().addClass("active");
+			setted = true;
+			return false;
+		}
+	});
+	if (!setted) {
+		$("dt > a").each(function() {
+			var _el = $(this);
+			if (_el.attr("href") == url) {
+				_el.parent().addClass("active");
+				return false;
+			}
+		});
+	}
+</script>

@@ -1,0 +1,155 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户 | 借款管理 | 上传资料'/}
+#{if status == "1"}
+<div class="bidSuccess w998center">
+	<span><i></i>上传资料成功！</span>
+	<div>
+	#{if productId!=null || productId!=""}
+	<span><a href="@{front.account.AccountHome.auditMaterialsIPS()}?productId=${productId}">返回</a></span>
+	#{/if}
+	#{else}
+	<span><a href="@{front.account.AccountHome.auditMaterialsIPS()}">返回</a></span>
+	#{/else}
+	</div>
+</div>
+#{/if}
+#{else}
+<div class="cleafix"></div>
+<div class="authentication w998center">
+	<p class="title">上传资料</p>
+	<table class="table">
+		<tr>
+			<td class="text-right" style="width: 100px;">名称类别：</td>
+			<td id="itemName">${name}</td>
+		</tr>
+		<tr>
+			<td class="text-right">资料描述：</td>
+			<td id="description">${description}</td>
+		</tr>
+		<tr>
+			<td class="typefile" colspan="2">
+				<a href="javascript:;">选取文件</a>
+				<input class="js-file" type="file" name="file" id="file">
+				<span>未选择文件</span>
+				<input type="hidden" id="fileType" name="fileType" value="${type}"/>
+				<button class="btn-link" onclick="uploadFile();">上传文件</button>
+			</td>
+		</tr>
+	</table>
+	<table class="table upload-table">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>资料类别</th>
+				<th>上传时间</th>
+				<th>大小</th>
+				<th>状态</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	<p class="subimtbtn">
+		<button class="btn btn-primary m-btn" onclick="createUserAuditItemSubmit();">确定提交</button>
+	</p>
+</div>
+<div class="loan-cleafix"></div>
+<script type="text/javascript">
+	var itemIndex, items;
+	var key1, key2, key3 = 0;
+	
+	$(function() {
+		itemIndex = 0;
+		items = new Array();
+		key1 = "${sign}";
+		key2 = "${signItemId}";
+	});
+
+	function uploadFile() {
+		var a = $("#file").val();
+		if(a == "") {
+			alert("请选择上传的图片");
+			return;
+		}
+	   			
+		var d = new Date();
+		var date = d.getFullYear() + "-" + appendZero(d.getMonth() + 1) + "-" + appendZero(d.getDate()); 
+
+		var type = $("#fileType").val();
+		$.ajaxFileUpload({
+			url : "@{FileUpload.uploadFile()}",
+			secureuri : false,
+			fileElementId : 'file',
+			dataType : 'text',
+			data: { 
+				"type": type
+			},
+			success : function(data) {
+				data = $.evalJSON(data);
+				if (data.code < 0) {
+					return;
+				}
+
+				var html = '<tr><td style="text-align:center;">'.concat(itemIndex + 1)
+						.concat('</td><td style="text-align:center;">')
+						.concat(data.fileType)
+						.concat('</td><td style="text-align:center;">')
+						.concat(date)
+						.concat('</td><td style="text-align:right;">')
+						.concat(data.size)
+						.concat(' KB</td><td style="text-align:center;">成功</td></tr>');
+				$(".upload-table tbody").append(html);
+				
+				items[itemIndex] = data.fileName;
+				itemIndex++;
+			},
+			error : function(data, status, e) {
+				var html = '<tr><td style="text-align:center;">'.concat(itemIndex + 1)
+						.concat('</td><td style="text-align:center;">---</td><td style="text-align:center;">')
+						.concat(date)
+						.concat('</td><td style="text-align:right;">---</td><td style="text-align:center;">失败</td></tr>');
+				$(".upload-table tbody").append(html);
+				
+				itemIndex++;
+			}
+		});
+	}
+	   	
+	//补0函数
+	function appendZero(s){return ("00"+ s).substr((s+"").length);}  
+	       
+	/* 提交 */
+	function createUserAuditItemSubmit(){
+		var len = items.length;
+		if(len <= 0){
+			alert('请先上传资料!');
+			return;
+		}
+	   		
+		var str = '您上传了'+itemIndex+'项资料，其中'+len+'项成功，'+(itemIndex-len)+'项失败。\n确定提交?';
+
+		if(!confirm(str)){
+			return;
+		}	
+
+		var action = #{jsAction @front.account.AccountHome.createUserAuditItemIPS(':sign',':signItemId',':items', ':size') /};
+		$(".btn-primary").addClass("btnDisable").text("正在提交...").unbind("click");
+		$.post(action({sign:key1, signItemId:key2, items:items, size:key3}), function(data) {
+			if (data.status == 4) {
+				if(${productId!=""}){
+				window.location.href = "@{front.account.AccountHome.uploadSuccess()}?productId=${productId}";
+				}else{
+				window.location.href = "@{front.account.AccountHome.uploadSuccess()}";
+				}
+			} else if ("" != data.msg) {
+				$(".btn-primary").removeClass("btnDisable").text("确定提交").click(createUserAuditItemSubmit);
+				alert(data.msg);
+				return;
+			}
+		});
+	}
+</script>
+#{/else}

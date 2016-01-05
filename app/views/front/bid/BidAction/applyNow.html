@@ -1,0 +1,67 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + '|申请' + product?.name/}
+#{if code > 0}
+	#{include 'front/bid/BidAction/loanSucceed.control'/}
+#{/if}
+#{if code == 0}
+#{if flash.get("msg") != null}
+<script type="text/javascript">
+	alert('${flash.get("msg")}');
+</script>
+#{/if}
+<div class="cleafix"></div>
+<div class="loanInfo w998center">
+	<h3>
+		<a href="@{index()}" class="btn btn-link">我要借款</a> > 借款发布
+	</h3>
+	#{include 'front/bid/BidAction/applyNowWrite.html'/}
+</div>
+<div class="xf_c_wyjk_2_jkcpLjsq" id="rechargeWin" style="display: none;">
+	<div class="s_boxbg"></div>
+	<div class="s_nomoney">
+		<span class="s_closebtn" onclick='$("#rechargeWin").hide();'>×</span>
+		<p class="sure-message">亲，您的平台账户余额不足，<br/>请及时充值。</p>
+		<a href="@{front.account.FundsManage.recharge()}" target="_blank" class="s_confirmbtns btn-sure">确定</a>
+		<a href="#" onclick='$("#rechargeWin").hide();' class="s_confirmbtns btn-cancel">取消</a>
+	</div>						
+</div>
+#{/if}
+#{elseif code < 0}
+<script type="text/javascript">
+%{int payTypeInvest = constants.Constants.PAY_TYPE_INVEST;}%
+#{if code == -999}
+	#{if payTypeInvest == 2}
+		$("#rechargeWin").show();
+	#{/if}
+	#{elseif payTypeInvest == 3}
+		window.open("@{front.account.FundsManage.recharge()}");
+	#{/elseif}
+#{/if}
+#{elseif code == -998}
+	#{if payTypeInvest == 3}
+		$("#rechargeWin").show();
+	#{/if}
+	#{elseif payTypeInvest == 4}
+		window.open("@{front.account.PaymentAction.transferUserToMer()}");
+	#{/elseif}
+#{/elseif}
+#{elseif code == -1000}
+	if (confirm('${flash?.msg}')) {
+		#{if constants.Constants.IPS_ENABLE}
+			window.location.href = "@{front.account.FundsManage.rechargePayIps()}";
+		#{/if}
+		#{else}
+			window.location.href = "@{front.account.FundsManage.recharge()}";
+		#{/else}
+	}
+#{/elseif}
+#{else}
+	if('${flash.msg}'!=''){
+		alert('${flash?.msg}');
+	}
+#{/else}
+</script>
+#{/elseif}

@@ -1,0 +1,64 @@
+
+
+
+<table class="table repaymentTable" id="table3">
+							<tbody>
+								<tr>
+									<th align="center">序号</th>
+								  	<th>借款项目</th>
+								  	<th align="left">投资本金</th>
+								  	<th>年利率</th>
+								  	<th>已赚利息</th>
+								  	<th>实收本息</th>
+								  	<th>结清日期</th>
+								  	<th>操作</th>
+								</tr>
+				
+				            #{if page?.page?.size()!=0}
+						        #{list items:page?.page,as:'invest'}
+								<tr>
+									<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+									<td align="left">${invest?.title}</td>
+									<td align="center">${invest?.income_amounts?.format("###,##0.00")}元</td>
+									<td align="center">
+									#{if invest.status == 0 || invest.status == -1 || invest.status == -5}
+									未逾期
+									#{/if}
+									#{elseif invest.status == -7}
+									#{/elseif}
+									#{else}
+									逾期
+									#{/else}
+									</td>
+									<td align="center"><span class="membill_list_whk">
+									#{if invest.status == -1 || invest.status == -2 || invest.status == -5 || invest.status == -6}
+									未收款
+									#{/if}
+									#{elseif invest.status == -7}
+									已转让
+									#{/elseif}
+									#{else}
+									已收款
+									#{/else}
+									</span></td>
+									<td align="center">${invest?.repayment_time?.format('yyyy-MM-dd')}</td>
+									<td align="center">#{if invest.status != -7}${invest?.real_repayment_time?.format('yyyy-MM-dd')} #{/if}</td>
+									
+									<td align="center">
+									 #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails(invest?.sign)}" class="btn btn-link">账单</a>
+									 #{/if}
+									</td>
+								 
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>
+					<div class="xf_wylc_page xf_membill_view_page1" style="border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
+		#{page funMethod:"tab3",pageTitle:"交易记录", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:5/}
+		</div>
+		<script>
+		  function showPage(currPage,pageSize){
+		         tab3(pageSize,currPage);
+		    }
+	   </script>

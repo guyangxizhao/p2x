@@ -1,0 +1,180 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle +' | 我的账户   | 理财子账户 | 我的理财账单  | '+investDetail?.title+'借款标账单详细表  '/}
+<div class="cleafix"></div>
+             <div class="account w998center" style="margin-bottom: 600px;">
+    <h3>
+		<a href="@{front.invest.investAction.investHome()}" class="btn btn-link">我要理财</a> > 查看回款标
+	</h3>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/} 
+	<div class="content">
+      <div class="paymentDetails">
+        <div class="info">
+          <p class="ctop">
+            <span class="pull-left name">${billInvest?.title}</span>
+            <span class="pull-right amount">实际收款本金: <i>${billInvest?.real_receive_corpus?.format('#,##0.00')}元</i></span>
+          </p>
+          <table class="table smtable">
+            <thead>
+              <tr>
+                <th>本期应收款金额</th>
+                <th>本期应收利息</th>
+                <th>本息合计</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">${billInvest?.receive_corpus?.format('#,##0.00')}元</th>
+                <td>${billInvest?.receive_interest?.format('#,##0.00')}元</td>
+                <td>${(billInvest?.receive_corpus+billInvest?.receive_interest)?.format('#,##0.00')}元</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="repay">收款日期：${billInvest?.receive_time?.format('yyyy-MM-dd')}</p>
+          <p class="repay">收款状态：
+                     #{if billInvest?.status==-1}
+                                                                  未收款
+                     #{/if}
+                     #{if billInvest?.status==-2}
+                                                                逾期未收款
+                     #{/if}
+                     #{if billInvest?.status==-3}
+                                                                本金垫付收款
+                     #{/if}
+                     #{if billInvest?.status==-4}
+                                                                逾期收款
+                     #{/if}
+                     #{if billInvest?.status==-5}
+                                                               待收款
+                     #{/if}
+                     #{if billInvest?.status==-6}
+                                                               逾期待收款
+                     #{/if}
+                     #{if billInvest?.status==-7}
+                                                               已转让出
+                     #{/if}
+                     #{if billInvest?.status==0}
+                                                               正常收费
+                     #{/if}
+          
+                                                  </p>
+          <p class="cbottom">
+            <span>收款期数:<i>${billInvest?.periods}</i>期</span>
+          </p>
+        </div>
+        <div class="pdbalance">
+          <div class="pdbalance-top">
+            <p>
+              账户余额<br>
+              <span style="font-size:17px">${(account?.user_account-account?.freeze)?.format('#,##0.00')}</span>
+            </p>
+            <a class="btn btn-warning long" href="@{front.account.FundsManage.withdrawal()}">提现</a>
+          </div>
+          <p class="infop">实际收款日期：  
+              #{if billInvest?.real_receive_time!=null}
+               ${ billInvest?.real_receive_time?.format('yyyy-MM-dd')}
+              #{/if}
+              #{else}
+                                            未收款
+              #{/else}
+              </p>
+          <p class="inputp">实收本息：  ${(billInvest?.real_receive_corpus+billInvest?.real_receive_interest)?.format('#,##0.00')} 元</p>
+          <p class="inputp">待收本息：   ${(billInvest?.receive_corpus+billInvest?.receive_interest-billInvest?.real_receive_corpus-billInvest?.real_receive_interest)?.format('#,##0.00')} 元</p>
+        </div>
+        <div class="auditData">
+          <p class="title2 title">历史还款情况</p>
+          	#{form @investBillsVew(), id:'tijiao'}
+	<input type="hidden" id="currPage" name="currPage" />
+	<input type="hidden" id="sign" name="sign" value="${sign}">
+	     #{/form}
+          <table class="table smtable audit-width">
+            <thead>
+              <tr>
+                <th>回款标题</th>
+                <th>待收金额</th>
+                <th>是否逾期</th>
+                <th>还款状态</th>
+                <th>收款时间</th>
+                <th>实际收款时间</th>
+              </tr>
+            </thead>
+            <tbody>
+            #{if page?.page?.size!=0}
+            #{list items:page.page,as:'bill'}
+            
+              <tr>
+                <th scope="row">${bill?.title}</th>
+                 <td> ${(bill?.receive_corpus+bill?.receive_interest-bill?.real_receive_corpus-bill?.real_receive_interest)?.format('#,##0.00')}</td>
+                <td>#{if bill?.status==-2||bill?.status==-4||bill?.status==-6}
+                                                      逾期
+                #{/if}#{else}
+                                                    未逾期
+                #{/else}</td>
+                <td>#{if bill?.status==-1}
+                                                                  未收款
+                     #{/if}
+                     #{if bill?.status==-2}
+                                                                逾期未收款
+                     #{/if}
+                     #{if bill?.status==-3}
+                                                                本金垫付收款
+                     #{/if}
+                     #{if bill?.status==-4}
+                                                                逾期收款
+                     #{/if}
+                     #{if bill?.status==-5}
+                                                               待收款
+                     #{/if}
+                     #{if bill?.status==-6}
+                                                               逾期待收款
+                     #{/if}
+                     #{if bill?.status==-7}
+                                                               已转让出
+                     #{/if}
+                     #{if bill?.status==0}
+                                                               正常收费
+                     #{/if}</td>
+                <td>${bill?.receive_time?.format('yyyy-MM-dd')}</td>
+                <td> #{if bill?.real_receive_time!=null}
+                     ${ bill?.real_receive_time?.format('yyyy-MM-dd')}
+                     #{/if}
+                     #{else}
+                                                              未收款
+                     #{/else}</td>
+               
+                     </tr>
+               #{/list}
+               #{/if}
+           </tbody>
+          </table>
+         <div class="xf_wylc_page xf_membill_view_page1">
+		#{page pageTitle:"交易记录", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:5/}
+		</div>
+        </div>
+      </div>
+    </div>
+    <div class="xf_con_mem_nav"></div>
+  </div>
+  <script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script>
+    function showPage(currPage,pageSize){
+    	 $("#currPage").val(currPage);
+         $("#tijiao").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(29);
+		showHighLightFront2(7, 5);
+	});
+//-->
+</script>
+  
+  
+  

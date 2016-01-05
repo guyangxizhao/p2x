@@ -1,0 +1,52 @@
+<table  class="table repaymentTable">
+	 <thead>
+		<tr>
+		  	<!-- <th align="center" height="45">编号</th> -->
+			<th align="center">标题</th>
+			<!-- <th align="center">类型</th> -->
+			<th align="center">金额</th>
+			<th align="center">年利率</th>
+			<th align="center">本息合计</th>
+<!-- 			<th align="center" width="50">须提资料</th>
+		  	<th align="center" width="50">通过资料</th>
+		  	<th align="center" width="60">未通过资料</th>
+			<th align="center">状态</th> -->
+			<th  width="90">投标进度</th>
+			<th align="center" >操作</th>
+		</tr>
+		#{list pageBean?.page}
+		<tr>
+			<!-- <td align="center">${_?.bid_no}</td> -->
+			<td align="center">
+					${_?.title}
+			</td>
+			<!-- <td align="center">
+				#{img src:"${_?.small_image_filename}",alt:"",width:"20",height:"20"}#{/img}
+			</td> -->
+			<td align="center">￥${_?.amount?.format('###,##0.00')}</td>
+			<td align="center">${_?.apr}%</td>
+			<td align="center">￥${_?.capital_interest_sum?.format('###,##0.00')}</td>
+			<!-- <td align="center">
+				#{if _?.status == 1}
+					提前借款
+				#{/if}
+				#{else}
+					借款中
+				#{/else}
+			</td> -->
+			<td align="left">
+				<span class="xf_c_idx_4_proWrap"> 
+					<span class="xf_c_idx_4_proPer" style="width:${_?.loan_schedule}px; ">
+						${_?.loan_schedule}%
+					</span> 
+				</span>
+			</td>
+			<td><a class="btn btn-link" href="@{bidDetail(_?.sign)}">详情</a></td>
+		</tr>
+		#{/list}
+	 </thead>
+</table>
+<div class="xf_wylc_page xf_membill_view_page1">
+	#{page  funMethod:"loaningBids",pageTitle:"筹款中的记录列表", currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:5/}
+</div>
+<!-- 内容区域 end -->

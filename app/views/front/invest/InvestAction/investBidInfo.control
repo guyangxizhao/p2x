@@ -1,0 +1,70 @@
+<div class="info-top" style="height:380px;">
+	<div class="box-left">
+		<div class="title">
+			<span class="pull-left">${bid?.title}</span>
+			<span class="pull-right">借款状态：<i>${bid?.strStatus}</i></span>
+		</div>
+		<table class="box">
+			<tr class="fs">
+				<td>借款金额</td>
+				<td>年利率</td>
+				<td>借款期限</td>
+			</tr>
+			<tr>
+				<td>${bid?.amount?.format('#,##0.00')}元</td>
+				<td><span>${bid?.apr?.format('0.00')}%</span></td>
+				<td>${bid?.period}${bid?.strPeriodUnit}</td>
+			</tr>
+		</table>
+		<table class="box2">
+			<tr>
+				<td width="50%">
+					<span>还款日期：</span>
+					#{if bid?.repaymentTime == null}
+						---
+					#{/if}
+					#{else}
+						${bid?.repaymentTime?.format('yyyy-MM-dd')}
+					#{/else}
+				</td>
+				<td width="50%">
+					<span>还款方式：</span>
+					${bid?.repayment?.name}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>已投金额：</span>
+					${bid?.hasInvestedAmount?.format('#,##0.00')}元
+				</td>
+				<td>
+					<span>还需金额：</span>
+					${(bid?.amount - bid?.hasInvestedAmount)?.format('#,##0.00')}元
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>最小认购金额：</span>
+					${bid?.averageInvestAmount?.format('#,##0.00')}元
+				</td>
+				<td>
+					<span>投标进度：</span>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="${bid?.loanSchedule?.format('0')}" aria-valuemin="0" aria-valuemax="100" style="width:${bid?.loanSchedule?.format('0')}%;">
+							${bid?.loanSchedule?.format('0')}%
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>投标总数：</span>
+					${bid?.investCount}
+				</td>
+				<td>
+					<span>浏览次数：</span>
+					${bid?.readCount}
+				</td>
+			</tr>
+		</table>
+	</div>

@@ -1,0 +1,134 @@
+%{
+	business.User currUser = business.User.currUser();
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	String platUrl = constants.Constants.BASE_URL;
+	java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+	boolean ipsEnable = constants.Constants.IPS_ENABLE;
+	boolean debtUse = constants.Constants.DEBT_USE;
+}%
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>#{get 'title' /}</title>
+<meta name="keywords" content="${currBackstageSet?.seoKeywords}" />
+<meta name="description" content="${currBackstageSet?.seoDescription}" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta property="qc:admins" content="133011667666155146375" />
+<meta property="wb:webmaster" content="6582954f8f7d9e1d" />
+<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/sitex.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+<!-- 新页面 -->
+<link rel="icon" href="@{'/public/images/favicon.ico'}">
+<link href="@{'/public/stylesheets/vendor/bootstrap.min.css'}" rel="stylesheet">
+<link href="@{'/public/stylesheets/basic.css'}" rel="stylesheet">
+<link href="@{'/public/stylesheets/public.css'}" rel="stylesheet">
+<script type="text/javascript" src="@{'/public/javascripts/vendor/jquery.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/koala.min.1.5.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+<script type="text/javascript" charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.lazyload.min.js'}"></script>
+<!-- 新页面 -->
+<script type="text/javascript" src="@{'/public/javascripts/vendor/jquery.circliful.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/vendor/mSlide.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/vendor/bootstrap.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/main.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/vendor/holder.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/validate/jquery.validate.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/validate/messages_zh.js'}"></script>
+</head>
+<body>
+<!-- 头部start -->
+#{include "front/home/HomeAction/frontHeader.control"/}
+<!--头部 end-->
+<!-- 中间部start -->
+#{doLayout /}
+<!-- 中间部end -->
+<!-- 尾部 start-->
+#{include "front/home/HomeAction/frontFooter.control"/}
+<!-- 尾部end -->
+#{include "front/account/AccountHome/overBorrowIps.control"/}
+#{include "common/homeVipApply2.control"/}
+#{include 'common/acitveEmail.control'/}
+</body>
+<script type="text/javascript">
+http_path ="${constants.Constants.BASE_URL}";
+  $(document).keyup(function(event){
+    if(event.keyCode == 13){
+      if(document.activeElement.id == 'code'){
+        login();
+      }
+    }
+  });
+  function vipApply(){
+     if('${currUser?.isEmailVerified}' == 'false') {
+     	 showDiv($("#email_box"));
+     	 return;
+     }
+    showDiv($("#xf_mem_acc_sjvip_tcc"));
+  }
+
+  function login(){
+    var name = $("#name").val();
+           
+    if(name == ''){
+      alert("请输入用户名或邮箱");
+      return;
+    }
+
+    if($("#password").val() == ''){
+      alert("请输入密码");
+      return;
+    }
+
+    if($("#code").val() == ''){
+      alert("请输入验证码");
+      return;
+    }
+    $("#submit").submit();
+  }
+
+//   $(function(){
+// 	$('img.lazy').lazyload({ 
+// 	  //effect:'fadeIn' 
+// 	});
+//     $("#xf_h_idx_1_hydjfdgdf").limit();
+	   
+//     /* 所有继承页面flash.error的值弹框,被继承页面则无需再写 */
+//     if('${flash.error}' !='') {
+//       alert('${flash?.error}');
+//       if('${flash?.emailUrl}' !='') {
+//         window.open('${flash?.emailUrl}');
+//       }
+//     }
+// 	/*与重复提交冲突，注释，如功能发生冲突，请更改其他处
+//     if('${flash.success}' != ''){
+//       alert('${flash?.success}');
+//     }
+// 	*/  	
+//     //获取图片验证码
+//     if('${currUser?.name}' == '' && '${loginOrRegister}' == '') {
+//       var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+//       $.post(setCode({}),function(data){
+//         var arr=eval(data);
+//         var img = arr.img;
+//         $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img)	
+// 		$("#randomID").val(img);
+// 	  });
+// 	}
+//   });
+
+  function change(){
+    var setCode = #{jsAction @front.account.LoginAndRegisterAction.setCode()/}
+	$.post(setCode({}),function(data){
+	  var arr=eval(data);
+	  var img = arr.img;
+	  $("#img").attr("src","@{front.account.LoginAndRegisterAction.getImg()}?id="+img);
+	  $("#randomID").val(img);	
+	});
+  }
+</script>
+</html>

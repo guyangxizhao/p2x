@@ -1,0 +1,200 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} #{set title:currBackstageSet.seoTitle +' | 我的账户 | 站内信 | 系统消息' /}
+
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>借款管理>我的借款
+    </h3>
+    #{include "front/account/AccountHome/homeLeft.control"/}
+   <div class="content">
+    #{form @systemMsgs(), id:'systemMsgs'}
+      <input name="currPage"  type="hidden" id="currPage"/>
+      <input name="pageSize"   type="hidden" id="pageSize"/>
+    #{/form}
+      <div class="repayment repaymentLetter">
+        <div class="title">
+          <span class="on">站内信</span>
+        </div>
+        <div class="insideLetter" id="content">
+          <p>
+            <a href="javascript:markMsgsReaded(0);">标记已读</a>
+            <a href="javascript:deleteSystemMsgs();">删除</a>
+          </p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th width="36">
+                  <input type="checkbox"  name="check_all" onclick="checkAll()" value="-1">
+                </th>
+                <th width="86">状态</th>
+                <th>标题</th>
+                <th>时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+             #{list pageBean.page, as:'msg'}
+              <tr>
+                <th scope="row">
+                  <input type="checkbox" name="check_box" value="${msg.id}">
+                </th>
+                <td>
+                #{if msg.read_status=="未读"}
+                  	<i class="letterState"></i>
+                #{/if}
+                #{else}
+               		<i class="letterState read"></i>
+                #{/else}
+                </td>
+                <td>${msg?.title}</td>
+                <td>${msg?.time?.format("yyyy-MM-dd HH:mm:ss")}</td>
+                <td><a href="javascript:systemMsgDetail(${msg_index});">查看</a></td>
+              </tr>
+              #{/list}
+            </tbody>
+          </table>
+            #{page pageTitle:"站内信记录", currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:5/}
+        </div>
+      </div>
+    </div>
+  </div>
+	
+	<!-- 清除浮动 -->
+	<div class="clear"></div>
+<!-- 内容区域 end -->
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+	var g_index = 1;
+	 function showPage(currPage,pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#systemMsgs").submit();
+    }
+	function markMsgsReaded() {
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function(){
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+
+		if (ids == "") {
+			alert("请选择要标记为阅读的信息!");
+			return;
+		}
+
+		$.ajax({
+			url : "@{markMsgsReaded()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				location.reload();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+
+	}
+
+	function markMsgsUnread() {
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function(){
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+
+		if (ids == "") {
+			alert("请选择要标记为未读的信息!");
+			return;
+		}
+
+		$.ajax({
+			url : "@{markMsgsUnread()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				location.reload();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+	
+	function systemMsgDetail(index) {
+		g_index = index;
+	
+		$.ajax({
+			url : "@{systemMsgDetail()}",
+			type : "POST",
+			data : {
+				"index" : index,
+				/* "keyword" : $("#xf_membill_shurk_yhm").val(),
+				"readStatus" : $("#read_status").val() */
+			},
+			success : function(data) {
+				$("#content").html("");
+				$("#content").html(data).show();
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+	function deleteSystemMsgs() {
+		var arr = new Array();
+
+		$('input:checkbox[name=check_box]:checked').each(function(){
+			arr.push($(this).val());
+		});
+		
+		var ids = arr.join(",");
+		
+		if (ids == "") {
+			alert("请选择要删除的信息!");
+			return;
+		}
+		
+		if (!confirm("确认要删除？")) {
+            return;
+        }
+		
+		$.ajax({
+			url : "@{deleteSystemMsgs()}",
+			type : "POST",
+			data : {
+				"ids" : ids
+			},
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.msg);
+					
+					return;
+				}
+				
+				location.reload();				
+			},
+			error : function() {
+				alert("对不起，出现错误!");
+			}
+		});
+		
+	}
+
+	function search() {
+		window.location.href = "@{front.account.Message.systemMsgs()}?keyword=" + encodeURIComponent($("#xf_membill_shurk_yhm").val())+"&readStatus="+$("#read_status").val();
+	}
+</script>

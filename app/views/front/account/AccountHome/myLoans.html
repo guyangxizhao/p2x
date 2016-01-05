@@ -1,0 +1,99 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户  | 借款子账户  | 我的借款账单'/}
+
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>借款管理>我的借款
+    </h3>
+    #{include "front/account/AccountHome/homeLeft.control"/}
+    <div class="content">
+      <div class="repayment js-slideBox">
+        <div class="title hd">
+        <span id="sp3" class="on">借款中的贷款</span>
+          <span id="sp1">还款中的贷款</span>
+          <span id="sp2">已还清的贷款</span>
+        </div>
+        <div class="bd" id="contentList">
+        </div>
+      </div>
+    </div>
+</div> 
+<!-- 内容区域 end -->
+  <div class="loan-cleafix"></div>   
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>	
+<script type="text/javascript">
+$(function(){
+	 var pageNum =1;
+	 var pageSize = 10;
+	 loaningBids(pageNum,pageSize);	
+})
+$("#sp1").click(function(){
+    var pageNum =1;
+    var pageSize = 10;
+    $("sp1").addClass("on");
+    $("sp2").removeClass("on");
+    $("sp3").removeClass("on");
+    showRepaymenting(pageNum,pageSize);
+})
+$("#sp2").click(function(){
+ 	var pageNum =1;
+ 	var pageSize = 10;
+ 	$("sp2").addClass("on");
+    $("sp1").removeClass("on");
+    $("sp").removeClass("on");
+    showSuccessBids(pageNum,pageSize);
+})
+$("#sp3").click(function(){
+ 	var pageNum =1;
+ 	var pageSize = 10;
+ 	$("sp3").addClass("on");
+    $("sp1").removeClass("on");
+    $("sp1").removeClass("on");
+    loaningBids(pageNum,pageSize);
+})
+ function showRepaymenting(pageNum,pageSize){
+	var content= $("#contentList");
+	content.html("");
+   	$.ajax({
+   	  url:"@{repaymentBids()}",
+   	  type:"POST",
+   	  data:{"pageNum" : pageNum,"pageSize" : pageSize},
+   	  success:function(data){content.html(data);},
+	  error:function(){alert("对不起，出现错误!");}
+   	})
+    }
+function showSuccessBids(pageNum,pageSize){
+	var content= $("#contentList");
+	content.html("");
+   	$.ajax({
+   	  url:"@{successBids()}",
+   	  type:"POST",
+   	  data:{"pageNum" : pageNum,"pageSize" : pageSize},
+   	  success:function(data){content.html(data);},
+	  error:function(){alert("对不起，出现错误!");}
+   	})
+    } 
+function loaningBids(pageNum,pageSize){
+	var content= $("#contentList");
+	content.html("");
+   	$.ajax({
+   	  url:"@{loaningBids()}",
+   	  type:"POST",
+   	  data:{"pageNum" : pageNum,"pageSize" : pageSize},
+   	  success:function(data){content.html(data);},
+	  error:function(){alert("对不起，出现错误!");}
+   	})
+    }
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(8);
+		showHighLightFront2(7, 3);
+	});
+//-->
+</script>	
+		

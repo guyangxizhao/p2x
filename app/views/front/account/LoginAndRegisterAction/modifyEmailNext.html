@@ -1,0 +1,83 @@
+<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}">
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/sitex.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/temp.css'}" />
+<!-- 新页面 -->
+<link rel="icon" href="@{'/public/images/favicon.ico'}">
+<link href="@{'/public/stylesheets/vendor/bootstrap.min.css'}" rel="stylesheet">
+<link href="@{'/public/stylesheets/basic.css'}" rel="stylesheet">
+<link href="@{'/public/stylesheets/public.css'}" rel="stylesheet">
+
+<script type="text/javascript" src="@{'/public/javascripts/vendor/jquery.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/koala.min.1.5.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.json-2.4.min.js'}"></script>
+<script type="text/javascript" charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/jquery.lazyload.min.js'}"></script>
+<!-- 新页面 -->
+<script type="text/javascript" src="@{'/public/javascripts/vendor/jquery.circliful.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/vendor/mSlide.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/vendor/bootstrap.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/main.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/vendor/holder.js'}"></script>
+<div class="account w998center">
+
+<div class="xf_con_mem_nav"></div>
+
+	<!-- 左边导航区域 -->
+		
+       <div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>修改邮箱</span>
+          <a class="close" href="###">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap updateEmail">
+          <table class="table">
+            
+            <tr>
+              <td class="tdL"><i>*</i> 新的邮箱地址：</td>
+              <td>
+                <input class="form-control" value="" placeholder="" type="email" id="Email">
+              </td>
+            </tr>
+           
+            <tr>
+              <td></td>
+              <td>
+                <a class="submitbtn updateEmailBtn" onclick="saveEmail()" style="margin-left: 0px;">发送邮件</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+
+  /**
+      * 设置邮件
+      */
+     function saveEmail(){
+	    var Email=$("#Email").val();
+     	if(Email==""){
+     	  alert("邮箱不能为空");
+     	  return;
+     	}
+     	if(!Email.match(/^[a-z0-9_.+-]+@[a-z0-9]+(\.[a-z]+)+$/ig)){
+     	   alert("请填写正确的邮箱");
+     	   return;
+     	}
+     	var saveEmail = #{jsAction @front.account.BasicInformation.saveEmail(':email')/}
+			$.post(saveEmail({email:Email}),function(data){
+					 var arr = eval(data);
+			        alert(arr.error.msg);
+                  
+		 });
+}
+
+</script>

@@ -1,0 +1,32 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	boolean ipsEnable = constants.Constants.IPS_ENABLE;
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle +' | 我的账户 | 我的账户首页' /}
+
+<div class="cleafix"></div>
+<!-- 内容区域 start -->
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a> > 账户总览
+    </h3>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 账户总揽-->
+	#{include "front/account/AccountHome/homeInfo.control"/}
+</div>
+<div class="loan-cleafix"></div>
+<!-- 内容区域 end -->
+<!-- vip弹出层  -->
+#{include "front/account/AccountHome/homeVipApply.control"/}
+#{include "front/account/AccountHome/homeVipContent.control"/}
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+$(function(){
+	if('${user?.isEmailVerified}' == 'false' && !${ipsEnable}) {
+    	 showDiv($("#email_box"));
+    	 return;
+    }
+});
+</script>

@@ -1,0 +1,72 @@
+    <div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="title">
+          <span class="on">安全信息</span>
+        </div>
+        <div class="safetyWrap">
+          <span class="title">安全认证</span>
+          <p class="safety-item">
+            <i class="safety-ico"></i>
+            <span class="realName">实名认证</span>
+            #{if user?.realityName==null}
+            <span class="unauthorized">未认证</span>
+            <a class="slink" href="@{front.account.CheckAction.checkRealName()}">认证</a>
+            #{/if}
+            #{else}
+            <span class="unauthorized">已认证</span>
+            <a class="slink">${user?.realityName.asterisk()}</a>
+            #{/else}
+          </p>
+          <p class="safety-item">
+            <i class="safety-ico phone"></i>
+            <span class="realName">手机认证</span>
+           #{if user?.isMobileVerified==false}
+            <span class="unauthorized">未绑定</span>	
+            <a class="slink" href="@{front.account.basicInformation.modifyMobile()}?type=Mobile">绑定</a>
+            #{/if}
+            #{else}
+            <span class="unauthorized">已绑定</span>				
+            <a class="sbtn" href="@{front.account.basicInformation.modifyMobile()}?type=mobile">修改</a>
+            #{/else}
+          </p>
+          <p class="safety-item">
+            <i class="safety-ico email"></i>
+            <span class="realName">邮箱认证</span>
+            #{if user?.isEmailVerified}
+            <span class="unauthorized">已设置</span>
+            <a class="sbtn" href="@{front.account.basicInformation.modifyEmail()}?type=email">修改</a>
+            #{/if}
+            #{else}
+            <span class="unauthorized">未设置</span>
+            <a class="slink" href="@{front.account.basicInformation.modifyEmail()}?type=Email">设置</a>
+             #{/else}
+            </p>
+          <span class="title">密码管理</span>
+          <p class="safety-item">
+            <i class="safety-ico loginPW"></i>
+            <span class="realName">登录密码</span>
+            #{if user?.password!=null}
+            <span class="unauthorized">已设置</span>
+            <a class="sbtn" href="@{front.account.BasicInformation.modifyPassword()}?type=Password">修改</a>
+            #{/if}
+            #{else}
+            <span class="unauthorized">未设置</span>
+            <a class="slink" href="###">设置</a>
+            #{/else}
+          </p>
+          <p class="safety-item">
+            <i class="safety-ico payPW"></i>
+            <span class="realName">交易密码</span>
+            #{if user?.payPassword==null}
+            <span class="unauthorized">未设置</span>
+            <a class="slink" href="@{front.account.BasicInformation.modifyPassword()}?type=payPassword">设置</a>
+            #{/if}
+            #{else}
+            <span class="unauthorized">已设置</span>
+            <a class="sbtn" href="@{front.account.BasicInformation.modifyPassword()}?type=payPasswords">修改</a>
+            
+            #{/else}
+          </p>
+        </div>
+      </div>
+    </div>

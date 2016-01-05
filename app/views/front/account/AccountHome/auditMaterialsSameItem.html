@@ -1,0 +1,109 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户 | 借款管理 | 借款资料查看'/}
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a> > 借款管理
+    </h3>
+    	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+<div class="content">
+      <div class="repayment viewDetails">
+        <div class="title2">
+          查看详情
+          <a class="close" href="javascript:history.go(-1);">
+            <span class="glyphicon glyphicon-remove"  aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="tablewrap">
+          <table class="table">
+            <tr>
+              <td>
+                审核科目：
+              </td>
+              <td colspan="3">
+                <input class="form-control" type="text" value="${item?.auditItem?.name}">
+              </td>
+            </tr>
+            <tr>
+              <td>有效期状态：</td>
+              <td>
+              #{if item?.status == 2}
+				<input class="form-control" type="text" value="有效">
+				#{/if}
+				#{elseif item?.status == 3}
+					<input class="form-control" type="text" value="失效">
+				#{/elseif}
+				#{else}
+					<input class="form-control" type="text" value="无效">
+				#{/else}
+			  </td>
+              <td>有效期：</td>
+              <td>
+                <input class="form-control" type="text" value="${item?.auditItem?.period}个月">
+                <span></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                信用积分：
+              </td>
+              <td colspan="3">
+              #{list items}
+               <input class="form-control" type="text" value="${_?.credit_score}">
+              #{/list}
+               
+              </td>
+            </tr>
+            <tr>
+              <td>到期时间：</td>
+              <td><input class="form-control" type="text" value="${item?.expireTime?.format('yyyy-MM-dd')}"></td>
+              <td>创建时间：</td>
+              <td>
+                <input class="form-control" type="text" value="${item?.time?.format('yyyy-MM-dd')}">
+                <span></span>
+              </td>
+            </tr>
+            <tr>
+              <td>提交时间：</td>
+              <td><input class="form-control" type="text" value="${item?.submitTime?.format('yyyy-MM-dd')}"></td>
+              <td>审核时间：</td>
+              <td>
+                <input class="form-control" type="text" value="${item?.auditTime?.format('yyyy-MM-dd')}">
+                <span></span>
+              </td>
+            </tr>
+            <tr>
+              <td>审核周期：</td>
+              <td><input class="form-control" type="text" value="${item?.auditItem?.auditCycle}个工作日"></td>
+              <td>审核费用：</td>
+              <td>
+                <input class="form-control" type="text" value="￥${item?.auditItem?.auditFee?.format('0.00')}">
+                <span></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                审核意见：
+              </td>
+              <td colspan="3">
+                <textarea class="form-control" rows="4">${item?.suggestion}</textarea>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+	</div>
+</div>
+<div class="loan-cleafix"></div>
+<script>
+function closessubmititem(){
+	$("#xf_wyjkfb_4_window").hide(300);
+	//$("#hide").hide();
+}
+
+
+</script>

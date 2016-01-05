@@ -1,0 +1,45 @@
+<table class="dataAudit">
+	<tr>
+		<th>序号</th>
+		<th>投标人</th>
+		<th>投标金额</th>
+		<th>投标时间</th>
+		<th>投标状态</th>
+		<th>提问情况</th>
+	</tr>
+	#{list items:pageBean?.page , as: 'records'}	
+	<tr>
+		<td>${records_index}</td>
+		<td>
+		    %{
+								       String account = records.name;
+								       account = account.substring(0, 1).concat("***")
+										.concat(account.substring(account.length() - 1));
+							           }%
+	      ${account}
+		
+		</td>
+		<td style="text-align:right;">${records?.invest_amount?.format('#,##0.00')}元</td>
+		<td>${records?.time?.format('yyyy-MM-dd')}</td>
+		<td>
+			#{if records?.transfer_status == 0}
+			正常
+			#{/if}
+			#{if records?.transfer_status == -1}
+			已转让出
+			#{/if}
+			#{if records?.transfer_status == 1}
+			转让中
+			#{/if}
+		</td>
+		<td>
+			问<span class="xf_wylc_view_tblist">（${records?.question_count}）</span>
+			答<span class="xf_wylc_view_tblist">（${records?.answer_count}）</span>
+		</td>
+	</tr>
+	#{/list}
+</table>
+<!-- 分页器 -->
+<div class="xf_wylc_page xf_zqzr_view_page1">
+#{page funMethod:"showBidRecords",currPage:pageBean.currPage,pageSize:pageBean.pageSize,totalCount:pageBean.totalCount,theme:2,style:2 /}
+</div>

@@ -1,0 +1,101 @@
+#{extends 'common/frontMain.html' /}
+%{ business.BackstageSet
+currBackstageSet = business.BackstageSet.getCurrentBackstageSet(); }%
+#{set title:currBackstageSet.seoTitle+'|登录' /}
+
+<link href="@{'public/stylesheets/verify.css'}" rel="stylesheet"type="text/css" />
+<div class="xf_login_inputsr"onLoad="document.forms.form_name.input_name.focus()>
+	<!-- 登录 -->
+	<div class="xf_login_inputsr">
+		#{form @front.account.loginAndRegisterAction.logining(), id:'loginForm'}
+		<div class="login-wrap w998center">
+			<div class="login-left">
+				<a href="@{front.account.LoginAndRegisterAction.register()}"></a>
+			</div>
+			<div class="login-right">
+				<div id="userCue" class="cue"></div>
+				<div class="input-group">
+					<span class="user"></span> <input type="text" class="form-control" id="name" name = "name" tabIndex="1"
+					value="${flash?.name}" 	placeholder="请输入手机号/邮箱">
+				</div>
+				<div class="input-group">
+					<span class="pw"></span> <input type="password" name = "password" tabIndex="2"
+					value="${flash?.password}"	class="form-control" id="passwd" placeholder="请输入密码">
+				</div>
+				<div class="input-group">
+					<div class="input-groups">
+					<input class="form-control w166" type="text" id="code" name="code" value="${flash?.code}" tabIndex="3"   placeholder="请输入验证码"/>
+				</div>	
+				<div class="input-groups">
+					<input type="hidden" name="randomID" id="randomID" />
+					<img src="" class="" id="img" onclick="change()" style="width: 110px;">
+					<a onclick="change()" class="a" style="border-bottom-width: 10px; margin-top: 0px;">刷新</a>
+				</div>
+				
+				</div>
+				<div class="input-group">
+				<a class="btn btn-primary" id="reg">安全登录</a>
+				</div>
+				<p>
+					<a class="registered"
+						href="@{front.account.LoginAndRegisterAction.register}">免费注册</a>
+					<a class="forgetPassword"
+						href="@{front.account.loginAndRegisterAction.resetPasswordByEmail()}">忘记登录密码</a>
+				</p>
+			</div>
+		</div>
+		#{/form}
+	</div>
+</div>
+<script src="@{'/public/javascripts/verify.js'}"></script>
+<script type="text/javascript">
+	$(function(){
+		if('${flash.error}' !='') {
+			alert('${flash?.error}');
+		}
+		$("#name").focus();
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+			var arr=eval(data);
+			var img = arr.img;
+			$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+			$("#randomID").val(img);
+		});
+	});
+	$.validator.addMethod("testUsername", function(value, element) {       
+		     var regx = /^[a-z0-9_.+-]+@[a-z0-9]+(\.[a-z]+)+$/ig;      
+		     return this.optional(element) || (regx.test(value));       
+		 },"请输入正确的手机号码或邮箱地址");
+	$("#loginForm1").validate({
+		rules : {
+			name: { required : true , minlength : 5,testUsername:true} ,  
+			passwd : { required : true ,minlength : 6,maxlength:20,testPassword : true,message:"密码必须为6-20位"} ,
+			code :{ required : true , minlength : 4,message:"验证码必须为4位"}  ,
+			}
+	}
+	);
+	 $(document).keyup(function(event){
+		    if(event.keyCode == 13){
+		    	$("#loginForm").submit();
+			 // validate();
+		    }
+		  });
+	  function validate(){
+		 var username=$("#name").val().trim();
+		 var password=$("#passwd").val().trim();
+		 var verifyCode=$("#code").val().trim();
+	 	 if(''==username){
+			 alert("请输入用户名!");
+			 return false;
+		 }
+		 if(''==password){
+			 alert("请输入密码!");
+			 return false;
+		 }
+		 if(''==password){
+			 alert("请输入验证码!");
+			 return false;
+		 } 
+		 $("#loginForm").submit();
+	 } 
+</script>

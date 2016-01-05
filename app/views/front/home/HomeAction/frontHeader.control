@@ -1,0 +1,48 @@
+%{ business.User currUser = business.User.currUser(); }%
+<div class="top">
+	<div class="top_inner">
+		<div class="top_inner_left">
+		*{
+			<span>
+				客服热线 : <i>4006-854-855</i>
+			</span>
+			<a class="threePartyLogin" href="http://weibo.com/u/0000" title="微博关注"></a>
+			<a class="threePartyLogin wx" href="http://weixing.com/u/0000" title="微信关注"></a>
+		}*
+		</div>
+		<div class="top_inner_right">
+			#{if currUser == null}
+			<a href="@{front.account.loginAndRegisterAction.login()}" class="login">登录</a> |
+			<a href="@{front.account.LoginAndRegisterAction.register()}">注册</a> |
+			#{/if}
+			#{else}
+			<span>
+				您好, <a href="@{front.account.AccountHome.home()}">${currUser?.name?.asterisk()}</a>
+			</span>
+			<a href="@{front.account.loginAndRegisterAction.logout()}">安全退出</a>
+			#{/else}
+			<a href="@{front.home.HomeAction.help}">帮助中心</a>
+		</div>
+	</div>
+</div>
+<div class="mainNav">
+	<div class="mainNav_inner">
+		<div class="logo">
+			<a href="@{front.home.HomeAction.home()}">
+				<img src="@{'public/images/logo.jpg'}">
+			</a>
+		</div>
+		<ul class="tabIcon">
+			<li><a href="@{front.home.HomeAction.home()}" 
+				#{if request.url == "/" || request.url == "/p2x/"}class="on"#{/if}>首页</a></li>
+			<li>
+				<a href="@{front.bid.bidAction.index()}" 
+				#{if request.url.indexOf("/front/bidAction/") > -1}class="on"#{/if}>我要借款</a>
+			</li>
+			<li><a href="@{front.invest.InvestAction.investHome()}" 
+				#{if request.url.indexOf("/front/invest/") > -1}class="on"#{/if}>我要理财</a></li>
+			<li><a href="@{front.account.accountHome.home()}" 
+				#{if request.url.indexOf("/front/account/") > -1}class="on"#{/if}>我的账户</a></li>
+		</ul>
+	</div>
+</div>

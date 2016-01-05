@@ -1,0 +1,57 @@
+<div class="cleafix"></div>
+<div class="publishingSuccess w998center" style="padding-top: 0px;padding-bottom: 500px;">
+	<h3>
+		<i></i>发布成功！
+	</h3>
+	<p>借款标题：${flash.title}</p>
+	<p>借款金额：${flash.amount}</p>
+	<p>借款状态：
+		#{if flash.status == '0'}审核中#{/if}
+		#{elseif flash.status == '1'}提前借款#{/elseif}
+		#{elseif flash.status == '10'}待验证#{/elseif}
+		#{else}状态异常#{/else}
+	</p>
+	<span>完善资料</span>
+	<p>必须审核资料：
+	#{list product?.requiredAuditItem}
+		${_index}、${_?.auditItem?.name} &nbsp&nbsp&nbsp&nbsp
+		#{if _index % 3 == 0}
+			<br/>
+		#{/if}
+	#{/list}
+	</p>
+	<p>可选审核资料：
+	#{list product?.selectAuditItem}
+		${_index}、${_?.auditItem?.name} &nbsp&nbsp&nbsp&nbsp
+		#{if _index % 3 == 0}
+			<br/>
+		#{/if}
+	#{/list}
+	</p>
+	<p class="pubsbtn">
+		<a href="@{front.account.AccountHome.auditMaterialsIPS()}?productId=${product.id}" class="btn btn-primary">现在提交</a>
+		<a href="@{index()}" class="btn btn-primary later">稍后再说</a>
+	</p>
+</div>
+<div class="loan-cleafix"></div>
+<script type="text/javascript">
+<!--
+	$(function(){
+		$("#xf_wyjkfb_4_window").show();
+		
+		$(".xf_wyjkfb_4_windowClose,#xf_wyjkfb_4_windowCancle").click(function(){				
+			$("#xf_wyjkfb_4_window").hide(500);
+		});
+		
+		%{
+		  boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		  boolean isMag = constants.Constants.IS_MSG;
+		}%
+    	#{if ipsEnable && isMag}
+    	if (confirm("资金托管测试环境,请点击确定前去回复短信确认发标")) {
+			window.open("http://58.246.68.126:7082/IpsSmsTimer/index.jsp");
+		}
+    	#{/if}
+	})
+//-->
+</script>

@@ -1,0 +1,41 @@
+<table class="table repaymentTable">
+	         <thead>
+	           <tr>
+	             <th>借款标题</th>
+	             <th>借款金额</th>
+	             <th>借款期限</th>
+	             <th>还款方式</th>
+	             <th>逾期账单</th>
+	             <th>本息合计</th>
+	             <th>操作</th>
+	           </tr>
+	         </thead>
+	         <tbody>
+	        	#{list pageBean?.page}
+	           <tr>
+	             <td>${_?.title}</td>
+	             <td>￥${_?.amount?.format('###,##0.00')}</td>
+	             <td>${_?.period}
+					#{if _?.period_unit == -1} 
+						[年] 
+					#{/if} 
+					#{elseif _?.period_unit == 1}
+						[日] 
+					#{/elseif} 
+					#{else} 
+						[月] 
+					#{/else}
+				</td>
+	             <td>${_?.repayment_type_name}</td>
+	             <td>${_?.overdue_count}</td>
+	            <td>${_?.capital_interest_sum}</td>
+	             <td>
+	               <a class="btn btn-link" href="@{loanBillDetailByBid(_?.sign2)}">详情</a>
+	             </td>
+	           </tr>
+	        	#{/list}
+	         </tbody>
+	       </table>
+    <div class="xf_wylc_page xf_membill_view_page1">
+	#{page  funMethod:"showSuccessBids",pageTitle:"已还完的记录列表", currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:5/}
+	</div>

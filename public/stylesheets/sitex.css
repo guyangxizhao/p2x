@@ -1,0 +1,37 @@
+.p2x_h_idx_1_welbgr{display:inline-block;background:url(../images/index_bg.png) no-repeat -27px 3px; width:20px;height:22px;margin-left:5px;margin-right:5px;margin-bottom:-2px;}
+.xf_h_idx_1_jrscw2:hover .p2x_h_idx_1_welbgr{background: url(../images/top_wb.png) no-repeat 0px 5px; }
+
+.p2x_h_idx_1_navigator{height:44px;background:url(../images/index_bg.png) repeat-x 5px -636px;margin-top:0px;margin-bottom:-5px;}
+
+.p2x_h_idx_1_login{height:330px;width:272px;left:958px;top:15px;overflow:hidden;position:absolute;background:none repeat scroll 0 0 #FFFFFF;opacity:0.6;border-radius:3px;z-index:1000;}
+.p2x_h_idx_1_btn{height:35px;width:92px;position:absolute;font-size:18px;text-align:center;}
+.p2x_h_idx_1_btn_lgn{top:287px;left:25px;}
+.p2x_h_idx_1_btn_reg{top:287px;left:140px;}
+
+.p2x_c_idx_4_loaningWrap{clear:both;background:#fff;border:1px solid #E8E9EB;border-top:2px solid #195a9b;margin-top:10px;width:100%;height:100%;padding-bottom:32px;}
+.p2x_h_idx_1_kfdh{margin-left:10px;}
+.p2x_c_idx_3_main{width:80%;margin:0 auto;}
+.p2x_c_idx_3_jk{padding:20px 0px;background:#fff;width:80%;margin-left:10%;}
+.p2x_c_idx_5_aside{float:left;width:275px;margin-left:25px;margin-top:10px;}
+.p2x_c_idx_3_mainLeft{width:779px;height:509px;float:left;}
+
+.p2x_f_idx_4_wrap{background:#FFFFFF;height:30px;margin:5px 0 10px 0;padding:5px 0px 5px 25%;}
+.p2x_cp_idx_5_wrap{background:#475059;padding:30px 0px;font-family:Microsoft YaHei;font-size:16px;}
+
+.show_bordre{border:1px solid #000000;}
+.t_center{text-align: center;}
+
+
+/*注册页新加样式*/
+
+#selectItem{  width:500px; height:520px; z-index:2;}
+#selectItem h2{ width:100%; height:65px;}
+#preview{margin:1px;border:1px solid #CCC;}
+#result{border:1px solid #CCC;margin-top:10px;}
+
+
+/*top01-pro*/
+#top01-pro{ background:url(../images/additional_tab_img/bg02.gif) repeat-x left bottom; margin-left:30px; display:inline; float:left; height:28px; width:344px;}
+#top01-pro li{ float:left; display:inline; margin-left:9px;}
+#top01-pro li b{ cursor:pointer; display:block; float:left; background:url(../images/additional_tab_img/bg03.gif) no-repeat -82px 0; text-align:center; line-height:28px; width:76px; height:28px; font-size:14px; color:#00c;}
+#top01-pro li.hover b{ background:url(../images/additional_tab_img/bg03.gif) no-repeat; font-weight:bold; text-decoration:none; color:#023d52;}

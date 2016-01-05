@@ -1,0 +1,308 @@
+
+<!-- 标题 -->
+<div class="content" style="margin-top:0px;">
+    <div class="title">
+	<span>${product?.name}</span>
+	</div>
+	<p>
+		<a href="@{applyNow(product?.id, 0, 2)}" class="xf_con_inputfbjk" target="_blank">发布此借款</a>
+	</p>
+
+<!-- 内容描述 -->
+   <p>额度范围：${product?.minAmount}-${product?.maxAmount}元</p>
+    <p>
+		必审资料：
+	
+	
+			#{list product?.requiredAuditItem}
+				${_?.auditItem?.name}
+			#{/list}
+	
+    </p>
+    <p>
+		选审资料：
+	
+			#{list product.selectAuditItem}
+				${_?.auditItem?.name}
+			#{/list}
+    </p>
+   
+ <div class="info-wrap js-tab">
+<!-- 产品描述 -->
+<div class="xf_con_wyjk_r_content" id="xf_wyjkview_xxk">
+
+	 <div class="info-tab">
+          <p class="title2 hd">
+            <a class="on" id="a1">产品描述</a>
+            <a class=""   id="a2">申请条件</a>
+            <a class=""   id="a3">还款流程</a>
+          </p>
+      </div>
+		*{ 标签切换列表 }*
+		#{list product?.lables}
+			#{if _index > 3}
+				<li class="xf_con_wyjk_r_liNoborder">${_?.name}</li>
+			#{/if}
+		#{/list}
+	
+						
+	  <div class="tab-content" id="content">
+	           <div class="bd" style="display: block;">
+		     <table class="table table-bordered">
+			   <tbody>
+				<tr>
+					<td class="lefttd">产品特点</td>
+                   <td class="padding-0" colspan="3">
+						${product?.characteristic}
+					</td>
+				</tr>
+				<tr>
+				 <td class="lefttd">适合人群</td>
+                  <td class="padding-0" colspan="3">
+						${product?.fitCrowd}
+					</td>
+				</tr>
+				<tr>
+					 <td class="lefttd">额度范围</td>
+                     <td class="padding-0">
+						${product?.minAmount}-${product?.maxAmount}元
+					</td>
+					<td class="width-110">贷款利率</td>
+                    <td>
+						${product?.minInterestRate}%~${product?.maxInterestRate}% 
+						(即月利率:${product?.monthMinApr}%~${product?.monthMaxApr}%)
+					</td>
+				</tr>
+				<tr>
+					<td class="lefttd">贷款期限</td>
+                  <td class="padding-0">
+						
+							${product?.periodYear}(年)<br/>
+							#{list product?.periodMonthArray}
+								${_},
+							#{/list}(月)<br/>
+							#{list product?.periodDayArray}
+								${_},
+							#{/list}(日)
+						
+					</td>
+					 <td class="width-110">投标时间</td>
+					<td>
+						${product?.investPeriod}(日)
+					</td>
+				</tr>
+				<tr>
+					 <td class="lefttd">审核时间</td>
+                    <td class="padding-0">
+						满标后${product?.auditCycle}个工作日
+					</td>
+					  <td class="width-110">还款方式</td>
+					 <td>
+						#{list product?.repaymentType}
+							${_?.name}
+						#{/list}
+					</td>
+				</tr>
+				<tr>
+					<td class="lefttd">
+						手 续 费
+					</td>
+					 <td class="padding-0" colspan="3">
+						借款期限${borrowFeeMonth?.format('0')}个月（含）以下，借款成功后，收取本金的${strfee}%；
+						<br/>
+						借款期限${borrowFeeMonth?.format('0')}个月以上，借款成功后，收取本金的${strfee}%以外，
+						<br/>
+						还另外收取超过月份乘本金的${borrowFeeRate}%（不成功不收取成交服务费）。
+					</td>
+				</tr>
+				<!--*{ 基本信息字段 }*
+				#{list product?.lables}
+					#{if _index < 3}
+						#{list items : _?.fields, as : 'field'}
+							<tr>
+								<td align="center" valign="middle" class="xf_wyjk_taletitle">
+									${field?.name}
+								</td>
+								<td colspan="3">
+									${field?.content}
+								</td>
+							</tr>
+						#{/list}
+					#{/if}
+				#{/list}-->
+			</tbody>
+		</table>
+	</div>
+	<div class="bd" style="height: 500px; display: none;">
+	<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms" style=" width: 653px;margin-left: 17px;">
+			<tr>
+				<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+					申请人条件
+				</td>
+				<td>${product?.applicantCondition}</td>
+			</tr>
+			*{ 审核人条件字段 }*
+			#{list product?.lables[2]?.fields}
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+						${_?.name}
+					</td>
+					<td>
+						${_?.content}
+					</td>
+				</tr>
+			#{/list}
+		</table>
+            
+          </div>
+          <div class="bd" style="height: 500px; display: none;">
+          	<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms" style="width: 653px;margin-left: 17px">
+			<tr>
+				<td align="center" class="xf_wyjk_taletitle">
+					电脑上还款：
+				</td>
+				<td>
+					1、登录我的账户
+				</td>
+				<td>
+					2、充值
+				</td>
+				<td>
+					3、查看借款账单
+				</td>
+				<td>
+					4、点击账单还款
+				</td>
+				<td>
+					5、系统扣款成功
+				</td>
+				<td>
+					6、成功还款
+				</td>
+			</tr>
+			<tr>
+				<td align="center" class="xf_wyjk_taletitle">
+					手机上还款：
+				</td>
+				<td>
+					1、安装APP
+				</td>
+				<td>
+					2、充值
+				</td>
+				<td>
+					3、查看借款账单
+				</td>
+				<td>
+					4、点击账单还款
+				</td>
+				<td>
+					5、系统扣款成功
+				</td>
+				<td>
+					6、成功还款
+				</td>
+			</tr>
+		</table>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>	
+	
+	<div class="xf_con_wyjk_tentultbody">
+		<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms">
+			<tr>
+				<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+					申请人条件
+				</td>
+				<td>${product?.applicantCondition}</td>
+			</tr>
+			*{ 审核人条件字段 }*
+			#{list product?.lables[2]?.fields}
+				<tr>
+					<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+						${_?.name}
+					</td>
+					<td>
+						${_?.content}
+					</td>
+				</tr>
+			#{/list}
+		</table>
+	</div>
+	<div class="xf_con_wyjk_tentultbody">
+		<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms">
+			<tr>
+				<td align="center" class="xf_wyjk_taletitle">
+					电脑上还款：
+				</td>
+				<td>
+					1、登录我的账户
+				</td>
+				<td>
+					2、充值
+				</td>
+				<td>
+					3、查看借款账单
+				</td>
+				<td>
+					4、点击账单还款
+				</td>
+				<td>
+					5、系统扣款成功
+				</td>
+				<td>
+					6、成功还款
+				</td>
+			</tr>
+			<tr>
+				<td align="center" class="xf_wyjk_taletitle">
+					手机上还款：
+				</td>
+				<td>
+					1、安装APP
+				</td>
+				<td>
+					2、充值
+				</td>
+				<td>
+					3、查看借款账单
+				</td>
+				<td>
+					4、点击账单还款
+				</td>
+				<td>
+					5、系统扣款成功
+				</td>
+				<td>
+					6、成功还款
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	*{ 其它字段 }*
+	#{if product?.lables?.size > 3}
+		#{list product?.lables}
+			#{if _index > 3}
+				<div class="xf_con_wyjk_tentultbody">
+					<table border="0" cellpadding="0" cellspacing="0" width="740" class="xf_wyjk_viewcpms">
+						<tbody>
+								#{list items : _?.fields, as : 'field'}
+									<tr>
+										<td align="center" valign="middle" class="xf_wyjk_taletitle" style="width: 20%">
+											${field?.name}
+										</td>
+										<td>
+											${field?.content}
+										</td>
+									</tr>
+								#{/list}
+						</tbody>
+					</table>
+				</div>
+			#{/if}
+		#{/list}
+	#{/if}
+</div>

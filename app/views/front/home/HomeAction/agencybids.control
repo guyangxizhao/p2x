@@ -1,0 +1,57 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+	<div class="index_propaganda">
+		<div class="wrap">
+			<div class="propaganda_item">
+				<div class="item">
+					<div class="out_box">
+						<i class="front_box"></i> <i class="back_box"></i>
+					</div>
+				</div>
+				<h3>门槛低</h3>
+				<p>50元即可出借</p>
+				<p>高效利用闲散资金</p>
+			</div>
+			<div class="propaganda_item">
+				<div class="item">
+					<div class="out_box">
+						<i class="front_box syg"></i> <i class="back_box syg"></i>
+					</div>
+				</div>
+				<h3>收益高</h3>
+				<p>预期年化收益>14%</p>
+				<p>万元预期最低年收益1400元</p>
+			</div>
+			<div class="propaganda_item">
+				<div class="item">
+					<div class="out_box">
+						<i class="front_box bxbz"></i> <i class="back_box bxbz"></i>
+					</div>
+				</div>
+				<h3>本息保障</h3>
+				<p>24小时放款</p>
+				<p>一站式接口服务</p>
+			</div>
+			<div class="propaganda_item last">
+				<i class="dataimg"></i>
+				<div class="data">
+					<p class="data-wrap">
+						<i class="data-bg">${currMonth}月</i>数据
+					</p>
+					<p>
+						<span>${currBackstageSet?.regPeople}</span> 人成功注册
+					</p>
+					<p>
+						<span>${currBackstageSet?.investPeople}</span> 人成功投资
+					</p>
+					<p>
+						<span>${currBackstageSet?.loanMoney}</span> 人实现借款
+					</p>
+					<p>
+						<span>${currBackstageSet?.dealMoney}</span> 万元成交
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,21 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 投资管理  | 自动投标'/}
+
+<!-- 内容区域 start -->
+<div class="cleafix"></div>
+<div class="account w998center">
+	<h3>
+		<a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>投资管理>自动投标
+	</h3>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	#{include "front/account/InvestAccount/auditmaticInvestContent.control"/}
+	<!-- 清除浮动 -->
+</div>
+<div class="loan-cleafix"></div>
+<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

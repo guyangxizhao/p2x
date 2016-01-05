@@ -1,0 +1,90 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'应付账单' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <!--右上-->
+          <div class="xf_ht_obu_fklm">
+                                           募集期利息
+          </div>
+          <div class="xf_htgl_jgone xf_ht_fff_sz">
+            <h3 class="xf_htgl_jgtitle">募集期利息设置</h3>
+            <div class="xf_ht_gl_jgone_botton">
+           
+            <table class="xf_ht_cwsz_zdsz_f_k" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left">
+                <input type="radio" name="repayType" value="0" #{if backstageSet?.recruitmentPeriod == "0"}checked="checked"#{/if} > 关闭此功能<br />
+                        
+                </td>
+              </tr>
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left">
+                <input type="radio" name="repayType" value="1" #{if backstageSet?.recruitmentPeriod == "1"}checked="checked"#{/if}> 开启此功能<br />
+                           
+                </td>
+              </tr>
+            </table>
+             
+             <table class="xf_ht_cwsz_zdsz_f_k" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+              <td width="20">&nbsp;</td>
+              <td align="left">
+                
+                <input id="interest" class="search_w" value="${backstageSet?.interest}" type="text" style="width:150px" value="" placeholder="利息" name="interest">
+                <span class="xf_ht_cwsz_zdsz_f">
+                                                         每天的利息。例如：0.01
+                </span>             
+                </td>
+              </tr>     
+            </table>
+            </div>
+          </div>
+          <div class="xf_htgl_jgsix_hyg">
+            <input class="xf_ht_tcc_button_ok" type="button" onclick="save();" value="确  定">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	  showHighLight(2,2,8);
+  });
+  
+  function save() {
+    var recruitmentPeriod = $(':radio[name="repayType"]:checked').val();
+    var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/ 
+    var interest  = $('#interest').val();
+    if (!re.test(interest)) {
+    	alert("请输入数字(例:0.02)"); 
+    	return false;
+    }
+    $.ajax({
+      url : "@{settingRaiseInterest()}",
+      type : "POST",
+      data : {
+        "recruitmentPeriod" : recruitmentPeriod,
+        "interest":interest
+      },
+      success : function(data) {
+        alert(data.msg);
+        //alert(data.PROCESS_INFO);
+        console.log(data);
+      },
+      error : function() {
+        alert("对不起，出现错误!");
+      }
+    });
+  }
+</script>
+
+

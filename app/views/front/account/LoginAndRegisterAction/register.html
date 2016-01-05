@@ -1,0 +1,241 @@
+#{extends 'common/frontMain.html' /}
+%{
+	business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle + '--注册' /}
+
+<link href="@{'public/stylesheets/verify.css'}" rel="stylesheet"type="text/css" />
+<div class="login-wrap w998center">
+	<div class="login-left">
+		<a></a>
+	</div>
+	<div class="login-right retrievePassword register">
+		<div class="hint_area"></div>
+		#{form @front.account.loginAndRegisterAction.registering(), id:'regForm'}
+			#{if step == "1"}
+			<div class="input-group">
+				<span></span>
+				<input type="text" class="form-control" placeholder="请输入手机号/邮箱" id="userName" name="userName" value="${flash?.userName}" />
+			</div>
+			<div class="input-group">
+				<span class="pw"></span>
+				<input type="password" class="form-control" placeholder="请输入新密码" id="password" name="password" value="${flash?.password}" value="" />
+			</div>
+			<div class="input-group">
+				<span class="pw"></span>
+				<input type="password" class="form-control" placeholder="请再次输入新密码" id="confirmPassword" name="confirmPassword" value="${flash?.confirmPassword}" value="" />
+			</div>
+			<div class="input-group">
+				<input class="form-control w166" type="text" id="code" name="code" value="${flash?.code}" placeholder="请输入验证码"/>
+				<input type="hidden" name="randomID" id="randomID" />
+				<img src="" class="" id="img" onclick="change()">
+				<a onclick="change()" >刷新</a>
+			</div>
+			<p class="userProtocol">
+				<span class="js-protocol"><i></i></span>
+				<b class="js-protocol">我已阅读并同意</b>
+				<a href = "@{front.account.LoginAndRegisterAction.agreement}">《注册用户协议》</a>
+			</p>
+			<div class="input-group">
+				<button type="button" class="btn btn-primary">立即注册</button>
+			</div>
+			#{/if}
+			#{elseif step == "2"}
+			<input type="hidden" id="userName" name="userName" value="${flash?.userName}" />
+			<div class="input-group" id="verDiv">
+				<input type="text" class="form-control code" style="margin-top: 15px;" placeholder="请输入短信验证码" id="recommended" name="recommended" value="${params?.un}"  value="" />
+				<a class="getCode" style="padding-bottom: 0px; border-bottom-style: solid; border-top-style: solid; border-bottom-width: 0px;">获取短信验证码</a>
+			</div>
+			<div class="input-group">
+				<button type="button" class="btn btn-primary">提交验证</button>
+			</div>
+			#{/elseif}
+			<input type="hidden" id="email" name="email" value="" />
+			<input type="hidden" id="mobile" name="mobile" value="" />
+			<input type="hidden" id="regType" name="regType" value="" />
+			<input type="hidden" id="step" name="step" value="${step}" />
+		#{/form}
+	</div>
+</div>
+<!-- 手机注册 结束标签 -->
+<script src="@{'/public/javascripts/verify.js'}"></script>
+<!-- 短息下发手机验证码 -->
+<script type="text/javascript">
+	var regType = "";
+	var vName = true, vPwd = true, vCPwd = true, vSMS = true;
+	
+	var timer, //timer变量，控制时间  
+		curCount; //当前剩余秒数 
+	
+	$(function() {
+		$(".btn-primary").click(toReg);
+		#{if step == "1"}
+		$("#userName").blur(vUsername);
+		$("#password").blur(vPasswd);
+		$("#confirmPassword").blur(vCPasswd);
+		
+		$("#userName").focus(function(){
+			hintError("#userName", ".hint_area", "");
+			$("#userName").removeClass("error");
+		});
+		$("#password").focus(function(){
+			hintError("#password", ".hint_area", "");
+			$("#password").removeClass("error");
+		});
+		$("#confirmPassword").focus(function(){
+			hintError("#confirmPassword", ".hint_area", "");
+			$("#confirmPassword").removeClass("error");
+		});
+		$("#code").focus(function(){
+			hintError("#code", ".hint_area", "");
+			$("#code").removeClass("error");
+		});
+		if ($("#userName").val() !== "")
+			vUsername();
+		
+		change();
+		#{/if}
+		#{elseif step == "2"}
+		$(".getCode").blur(vSMSCode);
+		$(".getCode").click(sendSMS);
+		regType = "tel";
+		#{/elseif}
+		
+		#{if flash?.errorMsg != null}
+		hintError("#recommended", ".hint_area", "${flash?.errorMsg}");
+		#{/if}
+	});
+	 $(document).keyup(function(event){
+		    if(event.keyCode == 13){
+		    	toReg();
+		    }
+		  });
+	function vUsername() {
+		var userName = $("#userName").val().trim();
+		if (userName.match(/^1\d{10}$/g)) {
+//			$("#verDiv").removeClass("hideArea");
+			regType = "tel";
+		} else if (userName.match(/^[a-z0-9_.+-]+@[a-z0-9]+(\.[a-z]+)+$/ig)) {
+			$("#verDiv").addClass("hideArea");
+			regType = "mail";
+		} else {
+			$("#verDiv").addClass("hideArea");
+			hintError("#userName", ".hint_area", "请输入正确的手机号码或邮箱地址");
+			vName = false;
+			regType = "";
+			return;
+		}
+		vName = true;
+	}
+	
+	function vPasswd() {
+		var pwd = $("#password").val();
+		if (!pwd.match(/^.{6,20}$/g)) {
+			hintError("#password", ".hint_area", "密码必须为6-20位");
+			vPwd = false;
+			return;
+		}
+		vPwd = true;
+	}
+	
+	function vCPasswd() {
+		var pwd = $("#password").val(),
+			cPwd = $("#confirmPassword").val();
+		if (pwd != cPwd) {
+			hintError("#confirmPassword", ".hint_area", "两次输入的密码不一致");
+			vCPwd = false;
+			return;
+		}
+		vCPwd = true;
+	}
+	
+	function vSMSCode() {
+		if (regType !== "tel") {
+			vSMS = true;
+			return;
+		}
+		var smsCode = $("#recommended").val();
+		if (smsCode == "") {
+			hintError("#recommended", ".hint_area", "请输入短信验证码");
+			vSMS = false;
+			return;
+		}
+		vSMS = true;
+	}
+
+	function sendSMS() {
+		var smsBtn = $(".getCode");
+		if (smsBtn.hasClass("btnDisable"))
+			return;
+		
+		var tel = $("#userName").val().trim();
+		
+		if (!tel.match(/^1\d{10}$/g)) {
+			hintError("#userName", ".hint_area", "请输入正确的手机号码");
+			return;
+		}
+		
+		var count = ${currBackstageSet.smsLimit} / 1000; //间隔函数，1秒执行
+		curCount = count;
+		
+		// 设置button效果，开始计时  
+       	smsBtn.addClass("btnDisable"); 
+       	smsBtn.text(curCount + "秒内有效");
+		timer = window.setInterval(setSMSTime, 1000); // 启动计时器，1秒执行一次
+       
+		//向后台传递数据
+		$.ajax({     
+	  	 	url:"@{front.account.loginAndRegisterAction.templateSMS_send()}",
+	  	    type:'post',
+	  	    dataType:'json',
+	  	    data:{
+	  	    	'phone':tel
+	  	    },
+	  	    error:function() {     
+	  	       alert('error');
+	  	    },
+	  	  	success:function(data) {
+	  	    	if (data.success) {
+	  	    		hintSuccess(null, ".hint_area", "验证码已发送，请注意查收");
+	  	    	} else {
+	  	    		hintError(null, ".hint_area", "请输入正确的手机号码");
+	  	    	}
+			}
+	  	});
+	}
+	
+	//时间控制  
+	function setSMSTime() {
+	    if (curCount == 0) {
+	        window.clearInterval(timer); // 停止计时器
+			$(".getCode").removeClass("btnDisable"); // 启用按钮 
+	        $(".getCode").text("重新发送验证码");
+	       
+	    } else {
+	        curCount--;
+	        $(".getCode").text(curCount + "秒内有效");
+	   }
+	}
+	
+	function toReg() {
+		#{if step == "1"}
+		vUsername();
+		vPasswd();
+		vCPasswd();
+		#{/if}
+		#{elseif step == "2"}
+		vSMSCode();
+		#{/elseif}
+		
+		if (!vName || !vPwd || !vCPwd || !vSMS)
+			return;
+		if (regType === "tel") {
+			$("#mobile").val($("#userName").val());
+	        $("#regForm").attr("action", "@{front.account.loginAndRegisterAction.registering_tel()}");
+		} else if (regType === "mail") {
+			$("#email").val($("#userName").val());
+		}
+		$("#regType").val(regType);
+		$("#regForm").submit();
+	}
+</script>

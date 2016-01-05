@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="content-Type" content="text/html; charset=utf-8">
+<title>井通支付-跳转，请稍候。。。</title>
+</head>
+<body>
+<form name="jingtum" action='${args.jing_url}' method='POST' id="frm1">
+			<input type='hidden' name='p0_cmd'   value='${args.p0_cmd}'>
+			<input type='hidden' name='p1_custom' value='${args.p1_custom}'>
+			<input type='hidden' name='p2_order' value='${args.p2_order}'>
+			<input type='hidden' name='p3_account'   value='${args.p3_account}'>
+			<input type='hidden' name='p4_amount'   value='${args.p4_amount}'>
+			<input type='hidden' name='p5_currency'   value='${args.p5_currency}'>
+			<input type='hidden' name='p6_product'  value='${args.p6_product}'>
+			<input type='hidden' name='p7_catalog' value='${args.p7_catalog}'>
+			<input type='hidden' name='p8_desc'   value='${args.p8_desc}'>
+			<input type='hidden' name='p9_url'   value='${args.p9_url}'>
+			<input type='hidden' name='pa_ext'    value='${args.pa_ext}'>
+			<input type='hidden' name='pb_pass' value='${args.pb_pass}'>
+			<input type='hidden' name='pc_period' value='${args.pc_period}'>
+			<input type='hidden' name='pd_unit' value='${args.pd_unit}'>
+			<input type='hidden' name='pe_need' value='${args.pe_need}'>
+			<input type='hidden' name='hmac'     value='${args.hmac}'>
+			<input type='submit' />
+		</form>
+<script language="javascript">
+document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

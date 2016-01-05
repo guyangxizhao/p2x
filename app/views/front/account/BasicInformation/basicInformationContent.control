@@ -1,0 +1,301 @@
+<div class="content">
+	<div class="repayment repaymentLetter">
+		<div class="title">
+			<span class="on">个人信息</span>
+		</div>
+		<div class="personalInformation">
+			<div class="headPortrait">
+				#{if user.photo == null || user.photo == ""}
+					#{img src:"/public/images/default-avatar.jpg"}#{/img}
+				#{/if}
+				#{else}
+					#{img src:"${constants.Constants.BASE_URL}${user?.photo}",id:"avatar",alt:"头像",width:"146",height:"136"}#{/img}
+				#{/else}
+				<input type="file" name="imgFile" id="imgFile" onchange="upload();" />
+			</div>
+			#{form @front.account.BasicInformation.saveInformation(), id:'basicInformation'}
+			<table class="table">
+				<tr>
+					<td width="110">
+						<i>*</i>昵称：
+					</td>
+					<td>
+						<span class="switch">${user?.name}</span>
+						<input type="text" class="form-control hide-edit" id="nickname" name="nickname" value="${user?.name}" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>真实姓名：
+					</td>
+					<td>
+						#{if user?.realityName == null || user?.realityName == ""}
+						<span></span>
+						<div>
+							<a href="@{front.account.CheckAction.checkRealName()}">去认证</a>
+						</div>
+						#{/if}
+						#{else}
+						<span>${user?.realityName?.asterisk()}</span>
+						<div class="hasCertified">
+							<i></i> 已认证
+						</div>
+						#{/else}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>身份证号：
+					</td>
+					<td>
+						#{if user?.realityName == null || user?.realityName == ""}
+						<span></span>
+						<div>
+							<a href="@{front.account.CheckAction.checkRealName()}">去认证</a>
+						</div>
+						#{/if}
+						#{else}
+						<span>${user?.idNumber?.asterisk()}</span>
+						<div class="hasCertified">
+							<i></i> 已认证
+						</div>
+						#{/else}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>手机号码：
+					</td>
+					<td>
+						#{if user.isMobileVerified}
+						<span>${user?.mobile?.substring(0, 3)}****${user?.mobile?.substring(7)}</span>
+						<div class="hasCertified">
+							<i></i> 已认证
+						</div>
+						#{/if}
+						#{else}
+						<span></span>
+						<div>
+							<a href="@{front.account.basicInformation.modifyMobile()}?type=Mobile">去认证</a>
+						</div>
+						#{/else}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>邮箱地址：
+					</td>
+					<td>
+						#{if user.isEmailVerified}
+						%{
+							int holder = user.email.indexOf("@");
+							String email = user.email.substring(0, holder);
+							if (email.length() > 1)
+								email = email.substring(0, 1).concat("**");
+							email = email.concat(user.email.substring(holder));
+						}%
+						<span>${email}</span>
+						<div class="hasCertified">
+							<i></i> 已认证
+						</div>
+						#{/if}
+						#{else}
+						<span></span>
+						<div>
+							<a href="@{front.account.basicInformation.modifyEmail()}?type=Email">去认证</a>
+						</div>
+						#{/else}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>性别：
+					</td>
+					<td>
+						<span>${user?.sex}</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>出生年月：
+					</td>
+					<td>
+						<span>
+						#{if user.birthday != null}
+							${user?.birthday?.format("yyyy-MM-dd")}
+						#{/if}
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>最高学历：
+					</td>
+					<td>
+						<span class="switch">${user?.educationName}</span>
+						<select class="form-control hide-edit" id="education" name="education">
+							<option value="">--请选择--</option>
+							#{list educations}
+							<option value="${_?.id}"
+							#{if user.educationId == _?.id} selected#{/if}
+							>${_?.name}</option>
+							#{/list}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>毕业院校：</td>
+					<td>
+						<span class="switch">${user?.graduate}</span>
+						<input type="text" class="form-control hide-edit" id="graduate" name="graduate" value="${user?.graduate}" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>婚姻状况：
+					</td>
+					<td align="left">
+						<span class="switch">${user?.maritalName}</span>
+						#{list maritals}
+						<label class="radio-inline hide-edit">
+							<input type="radio" name="marital" value="${_?.id}" class="marital"
+							#{if user.maritalId == _?.id} checked#{/if}
+							> ${_?.name}
+						</label>
+						#{/list}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>居住地址：
+					</td>
+					<td>
+						<span class="switch">${user?.familyAddress}</span>
+						<input type="text" class="form-control hide-edit" id="familyAddress" name="familyAddress" value="${user?.familyAddress}" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>住房条件：
+					</td>
+					<td>
+						<span class="switch">${user?.houseName}</span>
+						<select class="form-control hide-edit" id="house" name="house">
+							<option value="">--请选择--</option>
+							#{list houses}
+							<option value="${_?.id}"
+							#{if user.houseId == _?.id} selected#{/if}
+							>${_?.name}</option>
+							#{/list}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>所在行业：
+					</td>
+					<td>
+						<span class="switch">${user?.industryName}</span>
+						<select class="form-control hide-edit" id="industry" name="industry">
+							<option value="">--请选择--</option>
+							#{list industries}
+							<option value="${_?.id}"
+							#{if user.industry == _?.id} selected#{/if}
+							>${_?.name}</option>
+							#{/list}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i>*</i>月收入：
+					</td>
+					<td>
+						<span class="switch">￥${user?.income?.format("#,##0.00")}</span>
+						<input type="text" class="form-control hide-edit" style="text-align: right;" id="income" name="income" value="${user?.income?.format('0.00')}" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<a class="updateBtn update" onclick="toEditModel();">修改信息</a>
+						<a class="updateBtn save hide-edit" onclick="toSave();">保存修改</a>
+						<a class="btn hide-edit" style="margin-top:15px;" href="@{front.account.basicInformation.basicInformation()}">取消</a>
+					</td>
+				</tr>
+			</table>
+			#{/form}
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		#{if flash.get("error") != null}
+		alert("${flash.get('error')}");
+		#{/if}
+		#{elseif flash.get("success") != null}
+		alert("${flash.get('success')}");
+		#{/elseif}
+	});
+	function upload() {
+		$.ajaxFileUpload({
+			url : '@{front.account.AccountHome.uploadPhoto()}',
+			secureuri : false,
+			fileElementId : 'imgFile',
+			dataType : 'text',
+			success : function(data) {
+				data = $.evalJSON(data);
+				if (data.code < 0) {
+					alert(data.msg);
+					return;
+				}
+				
+				$("#avatar").attr("src",data.filename);
+				$("#imgFile").val('');
+			},
+			error : function(data, status, e) {
+				alert("上传图片失败");
+			}
+		});
+	}
+	
+	function toEditModel() {
+		$(".hide-edit").removeClass("hide-edit");
+		$(".table td .switch").addClass("hide-edit");
+		$(".update").addClass("hide-edit");
+		$(".save").removeClass("hide-edit");
+	}
+	
+	function toSave() {
+		if ($("#nickname").val().trim() == "") {
+			alert("昵称不能为空");
+			return;
+		}
+	    if($("#education").val().trim() == ''){
+			alert("请选择最高学历");
+			return;
+	    }
+	    if (!$('input[name="marital"]:checked').val()) {
+			alert("请选择婚姻状况");
+			return;
+	    }
+	    if($("#familyAddress").val() == ''){
+	       alert("居住地址不能为空");
+	       return;
+	    }
+	    if($("#house").val() == '') {
+			alert("请选择住房条件");
+			return;
+		}
+	    if($("#industry").val() == '') {
+			alert("请选择所在行业");
+			return;
+		}
+	    if(!$("#income").val().match(/^[1-9]\d+(?:\.\d{1,2})?$/)){
+	       alert("请输入正确的收入金额");
+	       return;
+	    }
+
+	    $(".updateBtn").unbind("click");
+		$("#basicInformation").submit();
+	}
+</script>

@@ -1,0 +1,915 @@
+# Home page                       
+#网站首页
+GET     /                             											front.home.HomeAction.home
+#新手入门我们
+GET     /front/home/getStart              										front.home.HomeAction.getStart
+#关于我们
+GET     /front/home/aboutUs              										front.home.HomeAction.aboutUs
+
+GET     /errorFront                   											Application.errorFront
+GET     /errorSupervisor              											Application.errorSupervisor
+POST    /Application/randomID                           						Application.randomID
+GET     /Application/captcha                            						Application.captcha
+GET     /Application/exportExcel                        						Application.exportExcel
+POST    /Application/getCity                            						Application.getCity
+GET     /images                            			 							Application.images
+GET     /dlimg                            			 	 						Application.dlImages
+GET     /downloadFiles                            		 						Application.downloadFiles
+POST    /vipAgreement                           		 						Application.vipAgreement
+GET 	/dlWidget										 						Application.dlWidget
+GET 	/log										 							Application.logs
+GET 	/dlpacks/{version}										 				Application.dlpacks
+GET     /favicon.ico                            								404
+
+#上传图片
+*     	/FileUpload/uploadImage 												FileUpload.uploadImage
+*     	/FileUpload/uploadImage2 												FileUpload.uploadImage2
+*     	/FileUpload/uploadImageReturnType 										FileUpload.uploadImageReturnType
+# 上传文件
+*     	/FileUpload/uploadFile 													FileUpload.uploadFile
+# 下载图片
+*    	/FileUpload/downloadImage    											FileUpload.downloadImage
+# Map static resources from the /app/public folder to the /public path
+
+GET     /public/                                staticDir:public
+
+# Catch all
+
+#* 		/{frontOrSupervisor}/{packageName}/{controller}/{action}  {frontOrSupervisor}.{packageName}.{controller}.{action}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^快速登录^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GET     /sns/qzone         						 		 						front.quicklogin.qzone.QZoneAPI.index
+GET     /sns/qzone/login         		    									front.quicklogin.qzone.QZoneAPI.login
+GET     /sns/weibo         						 		 						front.quicklogin.weibo.WeiBoAPI.index
+GET     /sns/weibo/login         						 						front.quicklogin.weibo.WeiBoAPI.login
+*	    /quick/regist									 						front.quicklogin.QuickLogin.quickRegist
+POST	/quick/registing								 						front.quicklogin.QuickLogin.quickRegisting
+*		/quick/login									 						front.quicklogin.QuickLogin.quickLogin
+POST	/quick/logining								 	 						front.quicklogin.QuickLogin.quickLogining
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^我的账户^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#1 		account Home page
+
+GET     /front/account/home                      								front.account.AccountHome.home
+POST    /front/account/queryQualityDebts        					            front.account.AccountHome.queryQualityDebts
+POST    /front/account/queryQualityBids          					            front.account.AccountHome.queryQualityBids
+POST    /front/account/attentionUser											front.account.AccountHome.attentionUser
+POST    /front/account/cancelAttentionUser   								    front.account.AccountHome.cancelAttentionUser
+POST    /front/account/vipMoney  											    front.account.AccountHome.vipMoney
+POST    /front/account/vipApply   											    front.account.AccountHome.vipApply
+POST    /front/account/setNoteName  										    front.account.AccountHome.setNoteName
+POST    /front/account/uploadPhoto 											    front.account.AccountHome.uploadPhoto
+POST    /front/account/sendMessage      										front.account.AccountHome.sendMessage
+#申请超额借款页面
+POST    /front/account/applyForOverBorrowInit      								front.account.AccountHome.applyForOverBorrowInit
+#申请超额借款
+POST    /front/account/applyForOverBorrow      									front.account.AccountHome.applyForOverBorrow
+#选择申请超额借款审核资料
+POST    /front/account/selectAuditItemsInit      								front.account.AccountHome.selectAuditItemsInit
+#选择申请超额借款审核资料
+POST    /front/account/submitAuditItemInit      								front.account.AccountHome.submitAuditItemInit
+#申请超额借款页面ips
+POST    /front/account/applyForOverBorrowWin      								front.account.AccountHome.applyForOverBorrowWin
+#选择申请超额借款审核资料ips
+POST    /front/account/selectAuditItemsWin      								front.account.AccountHome.selectAuditItemsWin
+#选择申请超额借款审核资料ips
+POST    /front/account/submitAuditItemWin	      								front.account.AccountHome.submitAuditItemWin
+#资金托管认证注册
+GET    /front/account/approve			                      					front.account.CheckAction.approve
+#资金托管认证注册
+GET     /front/account/check      												front.account.CheckAction.check
+#邮箱认证页面
+GET     /front/account/checkEmail      											front.account.CheckAction.checkEmail
+#发送激活邮件
+POST     /front/account/sendActiveEmail      									front.account.CheckAction.sendActiveEmail
+#邮箱认证成功
+GET     /front/account/checkEmailSuccess     									front.account.CheckAction.checkEmailSuccess
+#实名认证页面
+GET     /front/account/checkRealName      										front.account.CheckAction.checkRealName
+#实名认证
+GET     /front/account/doCheckRealName      									front.account.CheckAction.doCheckRealName
+#手机认证页面
+GET     /front/account/checkMobile      										front.account.CheckAction.checkMobile
+#短信验证码
+GET     /front/account/sendCode      											front.account.CheckAction.sendCode
+#手机认证
+GET     /front/account/doCheckMobile      										front.account.CheckAction.doCheckMobile
+#资金托管开户页面
+GET     /front/account/createIpsAcct      										front.account.CheckAction.createIpsAcct
+#认证成功
+GET     /front/account/checkSuccess      										front.account.CheckAction.checkSuccess
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^首页模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# app上传图像
+*    /app/uploadPhoto                     						        		FileUpload.uploadPhoto
+
+# app服务接口
+*    /app/services                     						        		    app.AppController.index
+
+# app上传用户图像
+*    /app/uploadUserPhoto                     						        	FileUpload.uploadUserPhoto
+
+# 财富工具箱
+GET    /front/homeAction/wealthToolkit                     						front.home.homeAction.wealthToolkit
+# 信用图标说明
+GET    /front/homeAction/creditLevelIco					  			 			front.home.homeAction.creditLevelIco
+# 产品图标说明
+GET    /front/homeAction/productIco					       						front.home.homeAction.productIco
+# 信用借款器
+GET	   /front/homeAction/wealthToolkitCreditCalculator     						front.home.homeAction.wealthToolkitCreditCalculator
+# 还款计算器
+GET	   /front/homeAction/wealthToolkitRepaymentCalculator  						front.home.homeAction.wealthToolkitRepaymentCalculator
+# 还款计算明细
+POST   /front/homeAction/repaymentCalculate				  	 					front.home.homeAction.repaymentCalculate
+# 净值计算器
+GET	   /front/homeAction/wealthToolkitNetValueCalculator   						front.home.homeAction.wealthToolkitNetValueCalculator
+# 利率计算器
+GET    /front/homeAction/wealthToolkitAPRCalculator        						front.home.homeAction.wealthToolkitAPRCalculator
+# 利率计算器(年化收益,总收益)
+POST   /front/homeAction/aprCalculator					   						front.home.homeAction.aprCalculator
+# 服务手续费
+GET    /front/homeAction/wealthToolkitServiceFee           						front.home.homeAction.wealthToolkitServiceFee
+# 超额借款 
+GET    /front/homeAction/wealthToolkitOverLoad             						front.home.homeAction.wealthToolkitOverLoad
+# 理财风云榜（更多） 
+GET    /front/homeAction/moreInvest             								front.home.homeAction.moreInvest
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^我要借款^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#借款首页  
+GET    /front/bidAction/index                          							front.bid.bidAction.index
+#最新满标
+GET    /front/bidAction/fullBid 			     	    						front.bid.bidAction.fullBid
+#详情
+GET    /front/bidAction/detail                         							front.bid.bidAction.detail
+#立即申请
+*    /front/bidAction/applyNow                       							front.bid.bidAction.applyNow
+#发布借款
+POST   /front/bidAction/createBid					    						front.bid.bidAction.createBid
+# 判断当前用户登录的状态
+POST   /front/bidAction/checkUserStatus											front.bid.bidAction.checkUserStatus
+# 完善基本资料
+POST   /front/bidAction/addBaseInfo 											front.bid.bidAction.addBaseInfo
+# 弹框登录
+POST   /front/bidAction/logining												front.bid.bidAction.logining
+# 激活邮箱
+POST   /front/bidAction/activeEmail												front.bid.bidAction.activeEmail
+# 保存基本资料
+POST   /front/bidAction/saveInformation											front.bid.bidAction.saveInformation
+# 计算总利息
+POST   /front/bidAction/planapr													front.bid.bidAction.planapr
+#判断充值后的状态
+#POST  /front/bidAction/success                                                  front.bid.bidAction.success
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^借款子账户^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account loanAccount
+GET    /front/account/loanAccount                          						front.account.AccountHome.loanAccount
+GET    /front/account/myAttentionUser                      						front.account.AccountHome.myAttentionUser
+#我的账户 用户详情 关注的人
+#POST   /front/account/AttentionUsers                     	 					front.account.AccountHome.AttentionUsers
+#关注的人 修改备注名
+POST   /front/account/attentionUserNote                   						front.account.AccountHome.attentionUserNote
+#我关注的人 发送站内信
+POST   /front/account/attentionUsersStation               						front.account.AccountHome.attentionUsersStation
+#我的账户 用户详情  借款列表
+#POST   /front/account/loanList                            						front.account.AccountHome.loanList
+#我的账户 用户详情  最新动态
+#POST   /front/account/currentEvents                       						front.account.AccountHome.currentEvents
+#我的账户 用户详情  投资记录
+#POST   /front/account/investRecords                       						front.account.AccountHome.investRecords
+# 查看资料
+POST   /front/account/showitem													front.account.AccountHome.showitem
+
+
+#  account myMessages 我的站内信
+
+GET      /front/account/systemMsgs                      						front.account.Message.systemMsgs
+GET      /front/account/inboxMsgs                      							front.account.Message.inboxMsgs
+GET      /front/account/outboxMsgs                      						front.account.Message.outboxMsgs
+GET      /front/account/sendMsgInit                      						front.account.Message.sendMsgInit
+POST      /front/account/selectUserInit                      					front.account.Message.selectUserInit
+POST      /front/account/countMessage                      					    front.account.Message.countMessage
+POST      /front/account/sendMsg                      							front.account.Message.sendMsg
+
+POST      /front/account/systemMsgDetail                      					front.account.Message.systemMsgDetail
+POST      /front/account/inboxMsgDetail                      					front.account.Message.inboxMsgDetail
+POST      /front/account/outboxMsgDetail                      					front.account.Message.outboxMsgDetail
+
+POST      /front/account/replyMsgInit                      						front.account.Message.replyMsgInit
+POST      /front/account/replyMsg                      							front.account.Message.replyMsg
+
+POST      /front/account/deleteSystemMsgs                      					front.account.Message.deleteSystemMsgs
+POST      /front/account/deleteInboxMsgs                      					front.account.Message.deleteInboxMsgs
+POST      /front/account/deleteOutboxMsgs                      					front.account.Message.deleteOutboxMsgs
+
+POST      /front/account/markMsgsReaded                      					front.account.Message.markMsgsReaded
+POST      /front/account/markMsgsUnread                      					front.account.Message.markMsgsUnread
+
+# 借款提问
+*      /front/account/bidQuestions												front.account.Message.bidQuestions
+# 提问查看详情
+POST   /front/account/bidQuestionDetail											front.account.Message.bidQuestionDetail
+# 删除提问
+POST   /front/account/deleteBidQuestion				    						front.account.Message.deleteBidQuestion
+# 回复
+POST   /front/account/createAnswers					    						front.account.Message.createAnswers
+#2 account myLoadBills
+*      /front/account/myLoanBills                      							front.account.AccountHome.myLoanBills
+*      /front/account/myLoans                      								front.account.AccountHome.myLoans
+# 下载数据(我的借款账单)
+GET    /front/account/exportLoanBills                      						front.account.AccountHome.exportLoanBills   
+#2 account loanBillDetails
+GET    /front/account/loanBillDetails                  							front.account.AccountHome.loanBillDetails
+GET    /front/account/loanBillDetailByBid                  						front.account.AccountHome.loanBillDetailByBid
+#2 account toLoanBill
+GET    /front/account/toLoanBill                  							    front.account.AccountHome.toLoanBill
+#2 account loanBidDetails
+GET    /front/account/loanBidDetails                  							front.account.AccountHome.loanBidDetails
+GET    /front/account/toInvestBill                                              front.account.InvestAccount.toInvestBill
+#3 account loadBillDetails
+GET    /front/account/loanBillDetail                   							front.account.AccountHome.loanBillDetails
+# 待验证的借款标列表
+*      /front/account/waitVerifyBids											front.account.AccountHome.waitVerifyBids
+# 审核中的借款标列表
+*      /front/account/auditingLoanBids                 							front.account.AccountHome.auditingLoanBids
+# 审核资料认证 
+*      /front/account/auditMaterials                   							front.account.AccountHome.auditMaterials
+# 审核资料认证IPS 
+*      /front/account/auditMaterialsIPS                   						front.account.AccountHome.auditMaterialsIPS
+*      /front/account/auditMaterialsIPSList                   					front.account.AccountHome.auditMaterialsIPSList
+#  
+POST   /front/account/queryUploadedItems                   						front.account.AccountHome.queryUploadedItems
+#  
+GET   /front/account/submitUploadedItems                   						front.account.AccountHome.submitUploadedItems
+# 
+GET   /front/account/clearUploadedItems                   						front.account.AccountHome.clearUploadedItems
+#5 account vipFirst
+GET    /front/account/vipFirst                         							front.account.AccountHome.vipFirst
+# 等待满标的借款标列表
+*      /front/account/loaningBids                      							front.account.AccountHome.loaningBids
+# 待放款的借款标列表
+*      /front/account/readyReleaseBid                      					    front.account.AccountHome.readyReleaseBid
+
+# 还款中的借款标列表
+*      /front/account/repaymentBids                    							front.account.AccountHome.repaymentBids
+#11 account prepayment
+GET    /front/account/prepayment                       							front.account.AccountHome.prepayment
+# 详情
+GET    /front/account/bidDetail                        							front.account.AccountHome.bidDetail
+# 投标记录
+POST   /front/account/bidRecord                        							front.account.AccountHome.bidRecord
+# 已成功的借款标列表
+*      /front/account/successBid                       							front.account.AccountHome.successBids
+# 失败的借款标列表
+*      /front/account/failBid													front.account.AccountHome.failBids
+#17 account repayment
+GET    /front/account/repayment                       	 						front.account.AccountHome.repayment
+#18 account submitRepayment
+POST   /front/account/submitRepayment                 							front.account.AccountHome.submitRepayment
+#19 account deleteMaterials
+GET    /front/account/submitPrepayment                 							front.account.AccountHome.submitPrepayment
+# 审核中->撤销
+GET    /front/account/auditToRepeal                 						    front.account.AccountHome.auditToRepeal
+# 提前借款->撤销
+GET    /front/account/advanceLoanToRepeal                 						front.account.AccountHome.advanceLoanToRepeal
+# 筹款中->撤销
+GET    /front/account/fundraiseToRepeal                 						front.account.AccountHome.fundraiseToRepeal
+# 查看层
+POST   /front/account/auditMaterialsSameItem									front.account.AccountHome.auditMaterialsSameItem
+# 删除用户资料
+GET    /front/account/deleteAuditItem											front.account.AccountHome.deleteAuditItem
+# 提交资料
+POST   /front/account/createUserAuditItem										front.account.AccountHome.createUserAuditItem
+# 提交资料IPS
+POST   /front/account/createUserAuditItemIPS									front.account.AccountHome.createUserAuditItemIPS
+
+# 借款合同
+*      /front/account/pact                                                      front.account.AccountHome.pact
+# 居间服务协议
+*      /front/account/intermediaryAgreement                                     front.account.AccountHome.intermediaryAgreement
+# 保障涵
+*      /front/account/guaranteeBid                                              front.account.AccountHome.guaranteeBid
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^理财子账户^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account investAccount
+GET    /front/account/investAccount                      						front.account.InvestAccount.investAccount
+GET    /front/account/loanAgreement                      						front.account.InvestAccount.loanAgreement
+GET    /front/account/repayingIbbProtoco                      					front.account.InvestAccount.repayingInvestBidBrokerageProtoco
+GET    /front/account/letterOfGuarantee                      					front.account.InvestAccount.letterOfGuarantee
+GET    /front/account/guarantee                      						    front.account.InvestAccount.guarantee
+POST    /front/account/canaleDebt                      						    front.account.InvestAccount.canaleDebt
+POST    /front/account/cancleBid                      						    front.account.InvestAccount.cancleBid
+POST   /front/account/InvestAccount/queryQualityBid                      		front.account.InvestAccount.queryQualityBid
+
+POST   /front/account/InvestAccount/queryQualityDebt                      		front.account.InvestAccount.queryQualityDebt
+
+#2 account investBills
+GET    /front/account/investBill                      							front.account.InvestAccount.investBills
+# 下载数据(我的理财账单)
+GET    /front/account/exportInvestBills                      					front.account.InvestAccount.exportInvestBills
+#3 account investBillDetails
+GET    /front/account/investBillDetail                      					front.account.InvestAccount.investBillDetails
+#我的理财账单 历史还款情况
+POST   /front/account/investBillRepayment                      					front.account.InvestAccount.investBillRepayment
+#4 account investRecord
+*    /front/account/investRecord                      						    front.account.InvestAccount.investRecord
+
+#4 account queryInvestRecords
+POST   /front/account/queryInvestRecords                      					front.account.InvestAccount.queryInvestRecords
+#5 account myDebts
+GET    /front/account/myDebts                      								front.account.InvestAccount.myDebts
+
+POST   /front/account/increaseAuction                      						front.account.InvestAccount.increaseAuction
+#6 account debtDetails
+GET    /front/account/debtDetails                      							front.account.InvestAccount.debtDetails
+#7 account acceptDebts
+POST   /front/account/acceptDebt                      							front.account.InvestAccount.acceptDebts
+#8 account transact
+POST    /front/account/transact                      							front.account.InvestAccount.transact
+#8 account firstDealDebt
+POST    /front/account/firstDealDebt                      						front.account.InvestAccount.firstDealDebt
+#9 account loaningInvestBid
+GET    /front/account/loaningInvestBid                      					front.account.InvestAccount.loaningInvestBid
+
+#9 account queryUserAllloaningInvestBids
+POST   /front/account/queryUserAllloaningInvestBids                      		front.account.InvestAccount.queryUserAllloaningInvestBids
+#10 account repayingInvestBid
+GET    /front/account/repayingInvestBid                      					front.account.InvestAccount.repayingInvestBid
+
+*      /front/investAccount/readyReleaseBid                      					    front.account.InvestAccount.readyReleaseBid
+
+#10 account repayingInvestBid
+POST   /front/account/queryUserAllReceivingInvestBids                      		front.account.InvestAccount.queryUserAllReceivingInvestBids
+
+#10 account repayingInvestBid
+GET    /front/account/billDetails                      							front.account.InvestAccount.billDetails
+
+
+#11 account debtTransfer
+GET    /front/account/debtTransfer                      						front.account.InvestAccount.debtTransfer
+#13 account addBlack
+POST   /front/account/addBlack                      							front.account.InvestAccount.addBlack
+#14 account successInvestBid
+*      /front/account/successInvestBid                      					front.account.InvestAccount.successInvestBid
+
+#15 account blackList
+GET    /front/account/blackList                      							front.account.InvestAccount.blackList
+#15 account removeBlacklist
+POST   /front/account/removeBlacklist                      						front.account.InvestAccount.removeBlacklist
+#16 account investStatistics
+GET    /front/account/investStatistics                      					front.account.InvestAccount.investStatistics
+#16 account auditmaticInvest
+GET    /front/account/auditmaticInvest                      					front.account.InvestAccount.auditmaticInvest
+
+*    /front/account/closeRobot                      							front.account.InvestAccount.closeRobot
+
+#16 account auditmaticInvest
+POST   /front/account/saveOrUpdateRobot                      					front.account.InvestAccount.saveOrUpdateRobot
+#16 account attentionBid
+GET    /front/account/attentionBid                      						front.account.InvestAccount.attentionBid
+#16 account attentionDebts
+POST   /front/account/attentionDebts                      						front.account.InvestAccount.attentionDebts
+#17 account getBalance
+GET    /front/account/getBalance                      							front.account.InvestAccount.getBalance
+#18 account receivedRecord
+GET    /front/account/receivedRecord                      						front.account.InvestAccount.receivedRecord
+
+#20 account receivedDebts
+POST   /front/account/receivedDebt                      						front.account.InvestAccount.receivedDebts
+#20 account transferDebts
+POST   /front/account/transferDebts                      						front.account.InvestAccount.transferDebts
+#21 account notAccept
+POST   /front/account/notAccept                      							front.account.InvestAccount.notAccept
+#21 account debtDetailsSuccess
+GET    /front/account/debtDetailsSuccess                						front.account.InvestAccount.debtDetailsSuccess
+#21 account debtDetailsTransfering
+GET    /front/account/debtDetailsTransfering                					front.account.InvestAccount.debtDetailsTransfering
+#21 account debtDetailsAuditing
+GET    /front/account/debtDetailsAuditing                						front.account.InvestAccount.debtDetailsAuditing
+#21 account debtDetailsNoPass
+GET    /front/account/debtDetailsNoPass                							front.account.InvestAccount.debtDetailsNoPass
+#21 account debtDetailsFailure
+GET    /front/account/debtDetailsFailure                						front.account.InvestAccount.debtDetailsFailure
+#21 account ajaxViewAuctionRecords
+POST   /front/account/ajaxViewAuctionRecords                					front.account.InvestAccount.ajaxViewAuctionRecords
+#21 account receiveDebtDetails
+GET    /front/account/receiveDebtDetails                						front.account.InvestAccount.receiveDebtDetails
+#21 account auctionSuccess
+GET    /front/account/auctionSuccess                							front.account.InvestAccount.auctionSuccess
+
+#21 account auctionFailure
+GET    /front/account/auctionFailure                							front.account.InvestAccount.auctionFailure
+#21 account auctionBidding
+GET    /front/account/auctionBidding                							front.account.InvestAccount.auctionBidding
+
+#21 account auctionWaitConcirm
+GET    /front/account/auctionWaitConcirm                						front.account.InvestAccount.auctionWaitConcirm
+#21 account ajaxViewAuctionRecords
+GET    /front/account/directionalDebt                							front.account.InvestAccount.directionalDebt
+
+# 借款合同
+*      /front/account/InvestAccount/investPact                                  front.account.InvestAccount.investPact
+# 居间服务协议
+*      /front/account/InvestAccount/intermediaryAgreement                       front.account.InvestAccount.intermediaryAgreement
+# 保障涵
+*      /front/account/InvestAccount/guaranteeBid                                front.account.InvestAccount.guaranteeBid
+# 转让协议
+*      /front/debt/deptPact                                                     front.account.InvestAccount.deptPact
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^资金管理^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account accountInformation
+GET    /front/account/accountInformation                      					front.account.FundsManage.accountInformation
+#2 account addBank
+POST   /front/account/addBank                      								front.account.FundsManage.addBank
+#3 account myCredit
+GET    /front/account/myCredit                     	 							front.account.FundsManage.myCredit
+#4 account viewCreditRule
+POST   /front/account/viewCreditRule                      						front.account.FundsManage.viewCreditRule
+#5 account creditintegral
+POST   /front/account/creditintegral                      						front.account.FundsManage.creditintegral
+#5 account creditItem
+POST   /front/account/creditItem                      						    front.account.FundsManage.creditItem
+#6 account applyOverBorrow
+GET    /front/account/applyOverBorrow                      						front.account.FundsManage.applyOverBorrow
+#7 account submitApply
+GET    /front/account/submitApply                      							front.account.FundsManage.submitApply
+#7 account viewOverBorrow
+POST   /front/account/viewOverBorrow                      						front.account.FundsManage.viewOverBorrow
+#7 account viewOverBorrowIps
+POST   /front/account/viewOverBorrowIps                      					front.account.FundsManage.viewOverBorrowIps
+#7 account userAuditItem
+POST   /front/account/userAuditItem                      						front.account.FundsManage.userAuditItem
+#8 account editBank
+POST   /front/account/editBank                      							front.account.FundsManage.editBank
+#9 account deleteBank
+POST   /front/account/deleteBank                      							front.account.FundsManage.deleteBank
+#10 account saveBank
+GET    /front/account/saveBank                      							front.account.FundsManage.saveBank
+#11 account creditDetailLoan
+POST   /front/account/creditDetailLoan                      					front.account.FundsManage.creditDetailLoan
+#11 account creditDetailAuditItem
+POST   /front/account/creditDetailAuditItem                      				front.account.FundsManage.creditDetailAuditItem
+#11 account creditDetailInvest
+POST   /front/account/creditDetailInvest                      					front.account.FundsManage.creditDetailInvest
+#11 account creditDetailRepayment
+POST   /front/account/creditDetailRepayment                      				front.account.FundsManage.creditDetailRepayment
+#11 account creditDetailOverdue
+POST   /front/account/creditDetailOverdue                      					front.account.FundsManage.creditDetailOverdue
+#12 account recharge
+GET    /front/account/recharge                      							front.account.FundsManage.recharge
+GET    /front/account/rechargeApp                      							front.account.FundsManage.rechargeApp
+GET    /front/account/rechargePay                      							front.account.FundsManage.rechargePay
+GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
+#13 account submitRecharge
+*      /front/account/submitRecharge                      						front.account.FundsManage.submitRecharge
+*      /front/account/submitRechargeApp                      						front.account.FundsManage.submitRechargeApp
+POST   /front/account/submitRechargePay                      					front.account.FundsManage.submitRechargePay
+#13 account submitRecharge
+GET    /front/account/callback                      							front.account.FundsManage.callback
+*    /front/account/callbackSys                      							front.account.FundsManage.callbackSys
+#14 account submitRecharge
+POST   /front/account/gCallback                      							front.account.FundsManage.gCallback
+POST   /front/account/gCallbackSys                      						front.account.FundsManage.gCallbackSys
+#15 account submitRecharge   yeepay
+GET   /front/account/yCallback                      							front.account.FundsManage.yCallback
+POST   /front/account/yCallbackSys                      						front.account.FundsManage.yCallbackSys
+#16 account submitRecharge   jingtum
+GET   /front/account/jCallback                      							front.account.FundsManage.jCallback
+POST   /front/account/jCallbackSys                      						front.account.FundsManage.jCallbackSys
+#17 account withdrawal
+*      /front/account/withdrawal                      							front.account.FundsManage.withdrawal
+*		/front/account/withdrawalResultHTML										front.account.FundsManage.withdrawalResultHTML
+# 查询银行卡信息
+POST   /front/account/QueryBankInfo                      						front.account.FundsManage.QueryBankInfo
+# 确认提现
+POST   /front/account/submitWithdrawal                      					front.account.FundsManage.submitWithdrawal
+#18 account applyWithdrawal
+GET    /front/account/applyWithdrawal                      						front.account.FundsManage.applyWithdrawal
+#19 account submitTransfer
+GET    /front/account/submitTransfer                      						front.account.FundsManage.submitTransfer
+#20 account transfer
+GET    /front/account/transfer                      							front.account.FundsManage.transfer
+#21 account dealRecord
+GET    /front/account/dealRecord                      							front.account.FundsManage.dealRecord
+#22 account dealDetails
+GET    /front/account/dealDetail                      							front.account.FundsManage.dealDetails
+#23 account exportData
+GET    /front/account/exportDealRecords                      					front.account.FundsManage.exportDealRecords
+#24 account showitem
+POST    /front/account/FundsManage/showitem                      				front.account.FundsManage.showitem
+
+
+#资金托管测试页面
+GET    /front/account/payment			                      					front.account.FundsManage.payment
+#我的支付账号
+GET    /front/account/payAccount			                      				front.account.FundsManage.payAccount
+#登陆支付账号
+GET    /front/account/loginAccount			                      				front.account.FundsManage.loginAccount
+#开户
+GET    /front/PaymentAction/createAcct			                      			front.account.PaymentAction.createAcct
+#标的登记
+GET    /front/PaymentAction/registerSubject			                      		front.account.PaymentAction.registerSubject
+#登记债权人
+GET    /front/PaymentAction/registerCreditor			                      	front.account.PaymentAction.registerCreditor
+#登记债权转让
+GET    /front/PaymentAction/registerCretansfer			                      	front.account.PaymentAction.registerCretansfer
+#自动投标签约
+GET    /front/PaymentAction/autoNewSigning			                      		front.account.PaymentAction.autoNewSigning
+#自动还款签约
+GET    /front/PaymentAction/repaymentSigning			                      	front.account.PaymentAction.repaymentSigning
+#充值
+GET    /front/PaymentAction/doDpTrade			                      			front.account.PaymentAction.doDpTrade
+#转账
+GET    /front/PaymentAction/transfer			                      			front.account.PaymentAction.transfer
+#还款
+GET    /front/PaymentAction/repaymentNewTrade			                      	front.account.PaymentAction.repaymentNewTrade
+#解冻保证金
+GET    /front/PaymentAction/guaranteeUnfreeze			                      	front.account.PaymentAction.guaranteeUnfreeze
+#提现
+GET    /front/PaymentAction/doDwTrade			                      			front.account.PaymentAction.doDwTrade
+#账户余额查询
+GET    /front/PaymentAction/queryForAccBalance			                      	front.account.PaymentAction.queryForAccBalance
+#商户端获取银行列表查询
+GET    /front/PaymentAction/getBankList			                      			front.account.PaymentAction.getBankList
+#账户信息查询
+GET    /front/PaymentAction/queryMerUserInfo			                      	front.account.PaymentAction.queryMerUserInfo
+#开户回调
+POST    /front/PaymentAction/createAcctCB			                      		front.account.PaymentAction.createAcctCB
+#标的登记回调
+POST    /front/PaymentAction/registerSubjectCB			                      	front.account.PaymentAction.registerSubjectCB
+#登记债权人回调
+POST    /front/PaymentAction/registerCreditorCB			                      	front.account.PaymentAction.registerCreditorCB
+#登记债权转让回调
+POST    /front/PaymentAction/registerCretansferCB			                    front.account.PaymentAction.registerCretansferCB
+#自动投标签约回调
+POST    /front/PaymentAction/autoNewSigningCB			                      	front.account.PaymentAction.autoNewSigningCB
+#自动还款签约回调
+POST    /front/PaymentAction/repaymentSigningCB			                      	front.account.PaymentAction.repaymentSigningCB
+#充值回调
+POST    /front/PaymentAction/doDpTradeCB			                      		front.account.PaymentAction.doDpTradeCB
+#转账回调
+POST    /front/PaymentAction/transferCB			                      			front.account.PaymentAction.transferCB
+#登记担保方
+GET    /front/PaymentAction/registerGuarantor			                      	front.account.PaymentAction.registerGuarantor
+#登记担保方回调
+POST    /front/PaymentAction/registerGuarantorCB			                  	front.account.PaymentAction.registerGuarantorCB
+#本金垫付
+GET    /front/PaymentAction/compensate			                      			front.account.PaymentAction.compensate
+#本金垫付回调
+POST    /front/PaymentAction/compensateCB			                      		front.account.PaymentAction.compensateCB
+#线下收款回调
+POST    /front/PaymentAction/offlineRepaymentCB			                   		front.account.PaymentAction.offlineRepaymentCB
+#代偿还款
+GET    /front/PaymentAction/compensateRepayment			                    	front.account.PaymentAction.compensateRepayment
+#还款回调
+POST    /front/PaymentAction/repaymentNewTradeCB			                    front.account.PaymentAction.repaymentNewTradeCB
+#解冻保证金回调
+POST    /front/PaymentAction/guaranteeUnfreezeCB			                    front.account.PaymentAction.guaranteeUnfreezeCB
+#提现回调
+POST    /front/PaymentAction/doDwTradeCB			                      		front.account.PaymentAction.doDwTradeCB
+#账户余额查询回调
+POST    /front/PaymentAction/queryForAccBalanceCB			                    front.account.PaymentAction.queryForAccBalanceCB
+#商户端获取银行列表查询回调
+POST    /front/PaymentAction/getBankListCB			                      		front.account.PaymentAction.getBankListCB
+#账户信息查询回调
+POST    /front/PaymentAction/queryMerUserInfoCB			                      	front.account.PaymentAction.queryMerUserInfoCB
+#转账-用户转商户
+*    /front/PaymentAction/transferUserToMer			                        	front.account.PaymentAction.transferUserToMer
+#转账-用户转商户回调
+POST    /front/PaymentAction/transferUserToMerCB			                     front.account.PaymentAction.transferUserToMerCB
+#转账-用户转商户异步回调
+POST    /front/PaymentAction/transferUserToMerCBSys			                    front.account.PaymentAction.transferUserToMerCBSys
+#转账-商户转用户
+*    /front/PaymentAction/transferMerToUser			                      		front.account.PaymentAction.transferMerToUser
+#转账-商户转用户回调
+POST    /front/PaymentAction/transferMerToUserCB			                    front.account.PaymentAction.transferMerToUserCB
+#转账-商户转用户异步回调
+POST    /front/PaymentAction/transferMerToUserCBSys			                    front.account.PaymentAction.transferMerToUserCBSys
+#解冻投资金额(WS)
+POST    /front/PaymentAction/unfreezeInvestAmountWS			                    front.account.PaymentAction.unfreezeInvestAmountWS
+#解冻投资金额
+POST    /front/PaymentAction/unfreezeInvestAmount			                    front.account.PaymentAction.unfreezeInvestAmount
+#解冻投资金额回调
+POST    /front/PaymentAction/unfreezeInvestAmountCB			                    front.account.PaymentAction.unfreezeInvestAmountCB
+#解冻投资金额异步回调
+POST    /front/PaymentAction/unfreezeInvestAmountCBSys			                front.account.PaymentAction.unfreezeInvestAmountCBSys
+#登记债权人(解冻投资金额)
+POST    /front/PaymentAction/unfreezeInvestAmountPost			                front.account.PaymentAction.unfreezeInvestAmountPost
+#用户绑卡(汇付)
+*      /front/PaymentAction/userBindCard			                            front.account.PaymentAction.userBindCard
+POST   /front/PaymentAction/userBindCardCB			                            front.account.PaymentAction.userBindCardCB
+POST   /front/PaymentAction/userBindCardCBSys			                        front.account.PaymentAction.userBindCardCBSys
+#异步回调
+POST    /front/PaymentAction/createAcctCBSys			                      	front.account.PaymentAction.createAcctCBSys
+POST    /front/PaymentAction/registerSubjectCBSys			                    front.account.PaymentAction.registerSubjectCBSys
+POST    /front/PaymentAction/registerCreditorCBSys			                    front.account.PaymentAction.registerCreditorCBSys
+POST    /front/PaymentAction/registerCretansferCBSys			                front.account.PaymentAction.registerCretansferCBSys
+POST    /front/PaymentAction/autoNewSigningCBSys			                    front.account.PaymentAction.autoNewSigningCBSys
+POST    /front/PaymentAction/repaymentSigningCBSys			                    front.account.PaymentAction.repaymentSigningCBSys
+POST    /front/PaymentAction/doDpTradeCBSys			                      		front.account.PaymentAction.doDpTradeCBSys
+POST    /front/PaymentAction/transferCBSys			                      		front.account.PaymentAction.transferCBSys
+POST    /front/PaymentAction/repaymentNewTradeCBSys			                    front.account.PaymentAction.repaymentNewTradeCBSys
+POST    /front/PaymentAction/guaranteeUnfreezeCBSys			                    front.account.PaymentAction.guaranteeUnfreezeCBSys
+POST    /front/PaymentAction/doDwTradeCBSys			                      		front.account.PaymentAction.doDwTradeCBSys
+POST    /front/PaymentAction/queryForAccBalanceCBSys			                front.account.PaymentAction.queryForAccBalanceCBSys
+POST    /front/PaymentAction/getBankListCBSys			                     	front.account.PaymentAction.getBankListCBSys
+POST    /front/PaymentAction/queryMerUserInfoCBSys			                   	front.account.PaymentAction.queryMerUserInfoCBSys
+POST    /front/PaymentAction/registerGuarantorCBSys			                  	front.account.PaymentAction.registerGuarantorCBSys
+POST    /front/PaymentAction/compensateCBSys			                      	front.account.PaymentAction.compensateCBSys
+POST    /front/PaymentAction/offlineRepaymentCBSys			                    front.account.PaymentAction.offlineRepaymentCBSys
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^基本信息^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+#1 account basicInformation
+GET    /front/account/basicInformation                      					front.account.BasicInformation.basicInformation
+#2 account changeHead
+GET    /front/account/changeHead                      							front.account.BasicInformation.changeHead
+#2 account getCity
+POST   /front/account/getCity                      								front.account.BasicInformation.getCity
+#3 account saveInformation
+POST   /front/account/saveInformation                      						front.account.BasicInformation.saveInformation
+#4 account applyVip
+GET    /front/account/applyVip                      							front.account.BasicInformation.applyVip
+#5 account renewVip
+GET    /front/account/renewVip                      							front.account.BasicInformation.renewVip
+#7 account modifyQuestion
+GET    /front/account/setSafeQuestionModify                      				front.account.BasicInformation.setSafeQuestionModify
+#6 account vipDetail
+POST   /front/account/vipDetail                      							front.account.BasicInformation.vipDetail
+#7 account setSafeQuestion
+GET    /front/account/setSafeQuestion                      						front.account.BasicInformation.setSafeQuestion
+#7 account verifySafeQuestion
+POST   /front/account/verifySafeQuestion                      					front.account.BasicInformation.verifySafeQuestion
+#8 account saveSafeQuestion
+POST   /front/account/saveSafeQuestion                      					front.account.BasicInformation.saveSafeQuestion
+#9 account getSafeQuestion
+GET    /front/account/getSafeQuestion                      						front.account.BasicInformation.getSafeQuestion
+#10 account activeEmail
+POST   /front/account/activeEmail                      							front.account.BasicInformation.activeEmail
+#11 account saveEmail
+POST   /front/account/saveEmail                      							front.account.BasicInformation.saveEmail
+#12 account modifyEmail
+GET    /front/account/modifyEmail                      							front.account.BasicInformation.modifyEmail
+#12 account bindEmail
+POST   /front/account/bindEmail                      							front.account.BasicInformation.bindEmail
+#13 account modifyPassword
+GET    /front/account/modifyPassword                      						front.account.BasicInformation.modifyPassword
+#13 account resetDelPassword
+GET    /front/account/resetDelPassword                      					front.account.BasicInformation.resetDelPassword
+#13 account savePayPasswordByEmail
+GET    /front/account/savePayPasswordByEmail                      				front.account.BasicInformation.savePayPasswordByEmail
+#14 account savePassword
+POST   /front/account/savePassword                      						front.account.BasicInformation.savePassword
+#14 account savePayPassword
+POST   /front/account/savePayPassword                      						front.account.BasicInformation.savePayPassword
+#14 account editPayPassword
+POST   /front/account/editPayPassword                      						front.account.BasicInformation.editPayPassword
+#14 account resetPayPassword
+POST   /front/account/resetPayPassword                      					front.account.BasicInformation.resetPayPassword
+#14 account resetPayPassword
+POST   /front/account/resetPayPasswordByEmail                      				front.account.BasicInformation.resetPayPasswordByEmail
+#15 account resetSafeQuestion
+POST   /front/account/resetSafeQuestion                      					front.account.BasicInformation.resetSafeQuestion
+#16 account modifyMobile
+GET   /front/account/modifyMobile                      							front.account.BasicInformation.modifyMobile
+#16 通过邮箱重置安全问题
+GET    /front/account/resetQuestion                     						front.account.BasicInformation.resetQuestion
+#16 通过邮件重置后，保存安全问题答案
+GET    /front/account/saveSafeQuestionByEmail                     				front.account.BasicInformation.saveSafeQuestionByEmail
+#17 account saveMobile
+POST   /front/account/saveMobile                      							front.account.BasicInformation.saveMobile
+#18 account bindMobile
+POST   /front/account/bindMobile                      							front.account.BasicInformation.bindMobile
+#19account verifyMobile
+GET    /front/account/verifyMobile                      						front.account.BasicInformation.verifyMobile
+#20 account forgetSafeQuestion
+GET    /front/account/forgetSafeQuestion                      					front.account.BasicInformation.forgetSafeQuestion
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^cps推广^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#20 account forgetSafeQuestion
+GET    /front/account/spreadLink                      							front.account.Spread.spreadLink
+#20 account forgetSafeQuestion
+GET    /front/account/spreadUser                      							front.account.Spread.spreadUser
+#21 cps推广会员明细
+POST   /front/account/incomeDetail                      						front.account.Spread.incomeDetail
+#20 account spreadUser
+GET    /front/account/spreadIncome                      						front.account.Spread.spreadIncome
+GET    /front/AccountHome/userDetail                                            Application.errorFront
+#20 account AccountHome(此功能暂时注释)
+#GET    /front/AccountHome/userDetail                      						front.account.AccountHome.userDetail
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^账户中心注册登录等功能^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+#会员登录
+GET    /login                          											front.account.LoginAndRegisterAction.login
+GET    /logout                          										front.account.LoginAndRegisterAction.logout
+#会员登录
+POST   /front/account/topLogin                          						front.account.LoginAndRegisterAction.topLogin
+#查询底部链接条目
+POST   /front/account/buttomLinks                          						front.account.LoginAndRegisterAction.buttomLinks
+
+#会员登录
+POST   /login                         											front.account.LoginAndRegisterAction.logining
+#获取验证码并返回页面
+POST   /front/account/codeReturn                         						front.account.LoginAndRegisterAction.codeReturn
+#会员注册
+GET    /register                       											front.account.LoginAndRegisterAction.register
+POST   /register_validation_phone												front.account.LoginAndRegisterAction.templateSMS_send
+#生成验证码
+POST   /front/account/setCode                       							front.account.LoginAndRegisterAction.setCode
+#校验验证码
+POST   /front/account/checkCode                       							front.account.LoginAndRegisterAction.checkCode
+#判断邮箱是否存在
+POST   /front/account/hasEmailExist                       						front.account.LoginAndRegisterAction.hasEmailExist
+#判断用户名是否存在
+POST   /front/account/hasNameExist                       						front.account.LoginAndRegisterAction.hasNameExist
+#判断手机号码是否存在
+POST   /front/account/hasMobileExist                       						front.account.LoginAndRegisterAction.hasMobileExist
+#获取验证码
+GET    /front/account/getImg                       								front.account.LoginAndRegisterAction.getImg
+#验证注册信息
+POST   /front/account/register                  								front.account.LoginAndRegisterAction.registering
+#手机注册信息
+POST   /front/account/register_tel												front.account.LoginAndRegisterAction.registering_tel
+#注册成功页面
+GET    /front/account/registerSuccess                       					front.account.LoginAndRegisterAction.registerSuccess
+#激活帐号
+GET    /front/account/accountActivation              							front.account.LoginAndRegisterAction.accountActivation
+#通过邮箱找回用户名
+GET    /front/account/findBackUsernameByEmail       							front.account.LoginAndRegisterAction.findBackUsernameByEmail
+#保存通过邮箱找回用户名的信息
+POST   /front/account/saveUsernameByEmail       								front.account.LoginAndRegisterAction.saveUsernameByEmail
+#通过邮箱找回用户名后跳转到成功页面
+GET    /front/account/emailSuccess       										front.account.LoginAndRegisterAction.emailSuccess
+
+#通过手机重置密码
+GET    /front/account/resetPasswordByMobile          							front.account.LoginAndRegisterAction.resetPasswordByMobile
+POST   /front/account/savePasswordByMobile           							front.account.LoginAndRegisterAction.savePasswordByMobile
+#通过邮箱重置密码
+GET    /front/account/resetPasswordByEmail           							front.account.LoginAndRegisterAction.resetPasswordByEmail
+#跳转到邮箱重置密码页面
+GET    /front/account/resetPassword                  							front.account.LoginAndRegisterAction.resetPassword
+#邮箱重置密码保存
+GET    /front/account/savePasswordByEmail                 						front.account.LoginAndRegisterAction.savePasswordByEmail
+#发送手机验证码 
+POST   /front/account/verifyMobile                 								front.account.LoginAndRegisterAction.verifyMobile
+POST   /front/account/verifyMobileIsExists                 								front.account.LoginAndRegisterAction.verifyMobileIsExists
+POST   /front/account/sendResetEmail           									front.account.LoginAndRegisterAction.sendResetEmail
+
+#通过手机找回用户名
+GET    /front/account/findBackUsernameBytele       								front.account.LoginAndRegisterAction.findBackUsernameBytele
+#保存通过手机找回用户名的信息
+POST   /front/account/saveUsernameByTele       									front.account.LoginAndRegisterAction.saveUsernameByTele
+#通过手机找回用户名后跳转到成功页面
+GET    /front/account/teleSuccess       										front.account.LoginAndRegisterAction.teleSuccess
+
+#通过手机重置密码
+GET    /front/account/resetPasswordByMobile          							front.account.LoginAndRegisterAction.resetPasswordByMobile
+#通过邮箱重置密码
+GET    /front/account/resetPasswordByEmail           							front.account.LoginAndRegisterAction.resetPasswordByEmail
+
+# Ignore favicon requests
+GET    /favicon.ico                             404
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^我要理财模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+
+#理财首页  
+GET    /front/invest/investHome                        							front.invest.investAction.investHome
+POST   /front/invest/homeBids                        							front.invest.investAction.homeBids
+POST   /front/invest/queryUserCollectBids                        				front.invest.investAction.queryUserCollectBids
+#标的详情  
+GET    /front/invest/bidDetails                         						front.invest.investAction.bidDetails
+#向借款者提问
+POST   /front/invest/questionToBorrower                							front.invest.investAction.questionToBorrower
+
+#检查用户状态
+POST   /front/invest/checkUserStatus                							front.invest.investAction.checkUserStatus
+#投标
+GET    /front/invest/invest                            							front.invest.investAction.invest
+#确认投标
+POST   /front/invest/confirmInvest                      						front.invest.investAction.confirmInvest
+
+#确认投标
+POST   /front/invest/confirmInvestBottom                      					front.invest.investAction.confirmInvestBottom
+#收藏借款标
+POST   /front/invest/collectBid                        							front.invest.investAction.collectBid
+#取消收藏借款标
+POST   /front/invest/cancleBidAttention                        					front.invest.investAction.cancleBidAttention
+POST   /front/invest/showitem                        							front.invest.investAction.showitem
+
+#查看资料图片
+POST   /front/invest/showitem                        							front.invest.investAction.showitem
+
+#发送站内信
+GET    /front/invest/sendLetters                       							front.invest.investAction.sendLetters
+#举报会员  
+GET    /front/invest/reportMember                      							front.invest.investAction.reportMember
+
+#查看投标记录ajax分页
+*     /front/invest/viewBidInvestRecords                        				front.invest.investAction.viewBidInvestRecords
+#查看借款标提问记录ajax分页
+*     /front/invest/viewBidAllQuestion                        					front.invest.investAction.viewBidAllQuestion
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台债权转让模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+
+#债权转让首页  
+GET    /front/debt/debtHome                        								front.debt.debtAction.debtHome   
+POST   /front/debt/debtHomeDebtList                        						front.debt.debtAction.debtHomeDebtList   
+#债权转让详情页面  
+GET    /front/debt/debtTransferDetails              							front.debt.debtAction.debtTransferDetails 
+#债权详情页面  
+GET    /front/debt/debtDetails                      							front.debt.debtAction.debtDetails
+#我要竞拍债权  
+POST   /front/debt/auction                         								front.debt.debtAction.auction
+#确认竞拍债权  
+POST   /front/debt/confirmTransfer                 								front.debt.debtAction.confirmTransfer
+#查看借款标提问记录ajax分页
+POST   /front/debt/viewDebtAllAuctionRecords           							front.debt.debtAction.viewDebtAllAuctionRecords
+#查看资料图片
+POST   /front/debt/showitem                        								front.debt.debtAction.showitem
+#举报债权用户
+POST   /front/debt/reportUser           										front.debt.debtAction.reportUser
+
+#收藏债权
+POST   /front/debt/collectDebt           										front.debt.debtAction.collectDebt
+
+#检验定向转让用户是否存在
+POST   /front/debt/judgeUserNameExist           								front.debt.debtAction.judgeUserNameExist
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台本金保障模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+
+#前台本金保障首页  
+GET    /front/principal/principalGuaranteeHome                            		front.principal.PrincipalGuaranteeAction.principalGuaranteeHome
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台财富资讯模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+#财富资讯首页
+GET    /front/wealthinfomation/home                            					front.wealthinfomation.WealthInfomationAction.home
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台帮助中心模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+
+#前台帮助中心首页  
+GET    /front/help/index                                          				front.help.HelpCenterAction.index
+# 合作伙伴
+GET    /front/help/partner                                          			front.help.HelpCenterAction.partner
+GET    /front/help/detail                                      					front.help.HelpCenterAction.detail
+POST   /front/help/support                                          			front.help.HelpCenterAction.support
+POST   /front/help/opposition                                          			front.help.HelpCenterAction.opposition 
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^前台财富资讯模块路由配置^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#前台财富资讯首页  
+GET    /front/wealthinfomation/wealthInfomationHome                     		front.wealthinfomation.WealthInfomationAction.wealthInfomationHome
+#前台财富资讯首页  
+GET    /front/wealthinfomation/newList                                  		front.wealthinfomation.WealthInfomationAction.newList
+GET    /front/wealthinfomation/newsList                                  		front.wealthinfomation.WealthInfomationAction.newsList
+#前台财富资讯首页  
+GET    /front/wealthinfomation/newDetails                                		front.wealthinfomation.WealthInfomationAction.newDetails 
+
+#财富工具箱
+GET    /front/wealthinfomation/wealthBox                                		front.wealthinfomation.WealthInfomationAction.wealthBox 
+
+#信用等级图标说明
+GET    /front/wealthinfomation/creditratingiconDescription               		front.wealthinfomation.WealthInfomationAction.creditratingiconDescription 
+
+#借款标图标说明
+GET    /front/wealthinfomation/borrowIconDescription                     		front.wealthinfomation.WealthInfomationAction.borrowIconDescription 
+
+
+#登记债权人回调ws
+POST    /front/PaymentAction/registerCreditorWS			                      	front.account.PaymentAction.registerCreditorWS
+#登记债权人回调ws后post
+POST    /front/PaymentAction/registerCreditorPost			                    front.account.PaymentAction.registerCreditorPost
+#充值回调ws
+POST    /front/PaymentAction/doDpTradeWS			                      	front.account.PaymentAction.doDpTradeWS
+#充值回调ws后post
+POST    /front/PaymentAction/doDpTradePost			                    front.account.PaymentAction.doDpTradePost
+#提现回调ws
+POST    /front/PaymentAction/doDwTradeWS			                      	front.account.PaymentAction.doDwTradeWS
+#提现回调ws后post
+POST    /front/PaymentAction/doDwTradePost			                    front.account.PaymentAction.doDwTradePost
+#还款回调ws
+POST    /front/PaymentAction/repaymentNewTradeWS			                      	front.account.PaymentAction.repaymentNewTradeWS
+#还款回调ws后post
+POST    /front/PaymentAction/repaymentNewTradePost			                    front.account.PaymentAction.repaymentNewTradePost
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^拦截器匹配^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^					  
+#GET 	/interceptor/tests                   									interceptor.SInterceptor.test2;
+#GET 	/interceptor/test                   									interceptor.FInterceptor.test2;
+#*  	/{<[\s\S]*>action}         												Application.error
+GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit

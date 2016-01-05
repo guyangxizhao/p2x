@@ -1,0 +1,346 @@
+#{extends 'common/supervisor.html' /}
+#{set title:'操作日志' /}
+<div class="xn_c_contentwarp">
+  <div class="xn_c_contentlist">
+    #{include "supervisor/systemSettings/common/leftBar.control"/}
+    <div class="xn_c_content">
+      <div class="xf_content_add">
+        <div class="xfht_t_j_y_2">
+          <div class="xfht_t__aqsz_sjcsh">
+            <div class="xfht_cshgl_top">
+              <span class="xf_ht_top_h1">欢迎您，${supervisor?.level == 1 ? "超级" : "普通"}管理员管理员</span><br />你的安全云盾编号为：
+              <span class="xf_ht_hs">${supervisor?.ukey}</span>，与软件注册码授权一致，可以进行数据库操作。<br />
+              <span class="xf_ht_red">提醒：数据库操作具有一定专业性，数据不可逆性，请谨慎操作！</span>
+            </div>
+            <div class="xf_ht_search_inon">
+              <div class="xf_ht_search_r">
+                <div class="xf_ht_search_xl">
+                  <select class="xf_membill_selectAge" name="keywordType" id="keywordType">
+                    <option value="0">全部</option>
+                    <option value="1">用户id</option>
+                    <option value="2">用户名</option>
+                    <option value="3">流水号</option>
+                    <option value="4">操作类型</option>
+                  </select>
+                </div>
+                <div class="xf_ht_search_xl">
+                  <span class="search_timesp">时间范围：</span>
+                  <input type="text" class="search_time" id="beginTime" value='${page.conditions.beginTime}' style="cursor:pointer"
+                    onclick="laydate()">
+                  <span class="search_timesp">--</span>
+                  <input type="text" class="search_time" id="endTime" value='${page.conditions.endTime}' style="cursor:pointer"
+                    onclick="laydate()">  
+                </div>
+                <div class="xf_ht_search_xl">
+                  <input type="text" class="search_w" id="keyword" value="${page?.conditions?.keyword}" placeholder="请输入关键字">
+                </div>
+                <div class="xf_ht_search_xl">
+                  <input type="button" class="search_button" onclick="search();" value="搜索">
+                </div>
+              </div>
+            </div>
+            <div class="xf_htgl_jgone xf_ht_aqsz_cshsj_box">
+              <h3 class="xf_htgl_jgtitle">数据库操作记录</h3>
+              <div class="xf_ht_aqsz_cshsj">
+              #{table class:"xf_con_mem_r_b_table", width:"100%", cellspacing:"0", cellpadding:"0", border:"0", tr_class_odd:"xn_tr_bj"}
+                #{tr}
+                  #{th}序号#{/th}
+                  #{th}用户id#{/th}
+                  #{th}用户名#{/th}
+                  #{th}操作类型#{/th}
+                  #{th}流水号#{/th}
+                  #{th}请求时间#{/th}
+                  #{th}回调时间#{/th}
+                  #{th}请求参数#{/th}
+                  #{th}回调参数#{/th}
+                #{/tr}
+                #{list page.page}      
+                #{tr tr_index:_index}
+                  #{td}${(page?.currPage - 1)*page?.pageSize + _index}#{/td}
+                  #{td}${_?.user_id}#{/td}
+                  #{td}${_?.user_name}#{/td}
+                  #{td}${_?.type}#{/td}
+                  #{td}${_?.mer_bill_no}#{/td}
+                  #{td}${_?.time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+                  #{td}${_?.res_time?.format("yyyy-MM-dd HH:mm:ss")}#{/td}
+                  #{td}
+                  	 <span class="xf_ta_onclick" onclick="req_details('${_?.request_detail}');">查看</span>
+                  #{/td}
+                  #{td}
+                     <span class="xf_ta_onclick" onclick="callback_details('${_?.callback_detail}');">查看</span>
+                  #{/td}
+                #{/tr}
+                #{/list}
+                #{/table}
+              </div>
+            </div>
+            <div class="xf_ht_shmx_button xf_ht_ssjt">
+              #{page currPage:page.currPage,pageSize:page.pageSize,totalCount:page.totalCount,theme:1,style:4}keywordType=${page.conditions.keywordType}&keyword=${page.conditions.keyword}&beginTime=${page.conditions.beginTime}&endTime=${page.conditions.endTime}
+              #{/page}
+              <div class="page_warp_l"> 统计：共记录<span class="xf_ht_czrz_list_font">${page.conditions.days}</span>天操作日志</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
+<!-- 请求参数弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc_req" style="overflow:auto; display:none; height:500px;">
+	<table id="req_info_tb" width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+	</table>
+</div>
+<!-- 回调参数弹窗 -->
+<div class="xn_c_ban_jox xn_c_ban_jox_hyxq" id="xf_ht_fkzh_ttc_callback" style="display: none; overflow: auto; height:500px;">
+	<table id="callback_info_tb" width="100%" cellspacing="0" cellpadding="0" border="0" class="xf_member_jbox">
+    </table>
+</div>
+<script type="text/javascript">
+  $(function() {
+    /* 高亮显示 */
+	showHighLight(10,10,19);
+    
+	$("#keywordType").val('${page.conditions.keywordType}')
+  });
+  
+  /**
+   * 搜索
+   */
+  function search() {
+    var keywordType = $("#keywordType option:selected").val();
+    var keyword = encodeURIComponent($("#keyword").val());
+    var beginTime = $("#beginTime").val();
+    var endTime = $("#endTime").val();
+    
+    window.location.href = "logs?keywordType=" + keywordType + "&keyword=" + keyword + "&beginTime=" + beginTime + "&endTime=" + endTime;
+  }
+  
+ /* 请求参数详情  */
+  function req_details(data){
+	  
+	 if(data == "undefine" || data == null || data == ""){
+		 alert("请求参数为空");
+		 return;
+     }
+	  
+	 var json = $.parseJSON(data);
+	 
+	 $("#req_info_tb").html(
+		'<tr><td style="text-align:left;" valign="middle" colspan=2><strong>原始请求参数:</strong></td></tr>'
+	 );
+	 $.each(json,function(name,value) {
+		 if("arg3DesJsonPara"===name || "argeXtraJsonPara"===name){
+			
+			return true;
+		 }
+		 
+		 if("object" === typeof value && value != null){ 
+			 $("#req_info_tb").append(
+				'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ $.toJSON(value) +'</td></tr>'
+			 );
+		 }else{			 
+			 $("#req_info_tb").append(
+				'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+			 );
+		 }
+		 
+	 });
+	 
+	 //环讯 
+	 var arg3DesJsonPara = json.arg3DesJsonPara;
+	 if("undefined"!=typeof(arg3DesJsonPara)){  
+		 
+		 $("#req_info_tb").append(
+			'<tr><td style="text-align:left;" valign="middle" colspan=2><strong>参数arg3DesXmlPara详情：</strong></td></tr>'	 
+	 	 );
+		 
+		 $.each(arg3DesJsonPara,function(name,value) { 
+			 if("object" === typeof value && value != null){ 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ $.toJSON(value) +'</td></tr>'
+				 );
+			 }else{			 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+				 );
+			 }	 
+			 
+			 //转账明细 pDetails
+			 if("pDetails" === name){
+				 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">pDetails解析begin</td><td valign="middle" style="text-align:left;">==========================================</td></tr>'
+				 );	 
+				 
+				 $.each(value,function(name,value) {
+					 
+					 //单笔转账pRow
+					 $("#req_info_tb").append(
+						'<tr><td style="text-align:right;" valign="middle">pRow[' + name + ']begin</td><td valign="middle" style="text-align:left;">---------------------</td></tr>'
+					 );	
+					 
+					 $.each(value,function(name,value) { 
+						 $("#req_info_tb").append(
+							'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+						 );	 
+					 });
+					 
+					 $("#req_info_tb").append(
+						'<tr><td style="text-align:right;" valign="middle">pRow[' + name + ']end</td><td valign="middle" style="text-align:left;">---------------------</td></tr>'
+					 );
+				 });
+				 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">pDetails解析end</td><td valign="middle" style="text-align:left;">==========================================</td></tr>'
+				 );	
+			 }
+		 }); 
+     } 
+	 
+	 var argeXtraJsonPara = json.argeXtraJsonPara;
+	 if("undefined"!=typeof(argeXtraJsonPara)){  
+		 
+		 $("#req_info_tb").append(
+			'<tr><td style="text-align:left;" valign="middle" colspan=2><strong>参数argeXtraPara详情：</strong></td></tr>'	 
+	 	 );
+		 
+		 $.each(argeXtraJsonPara,function(name,value) { 
+			 if("object" === typeof value && value != null){ 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ $.toJSON(value) +'</td></tr>'
+				 );
+			 }else{			 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+				 );
+			 }		 
+			 
+			 //转账明细 pDetails
+			 if("pDetails" === name){
+				 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">pDetails解析begin</td><td valign="middle" style="text-align:left;">==========================================</td></tr>'
+				 );	 
+				 
+				 $.each(value,function(name,value) {
+					 
+					 //单笔转账pRow
+					 $("#req_info_tb").append(
+						'<tr><td style="text-align:right;" valign="middle">pRow[' + name + ']begin</td><td valign="middle" style="text-align:left;">---------------------</td></tr>'
+					 );	
+					 
+					 $.each(value,function(name,value) { 
+						 $("#req_info_tb").append(
+							'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+						 );	 
+					 });
+					 
+					 $("#req_info_tb").append(
+						'<tr><td style="text-align:right;" valign="middle">pRow[' + name + ']end</td><td valign="middle" style="text-align:left;">---------------------</td></tr>'
+					 );
+				 });
+				 
+				 $("#req_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">pDetails解析end</td><td valign="middle" style="text-align:left;">==========================================</td></tr>'
+				 );	
+			 }
+		 }); 
+     } 	 
+	 
+     $.layer({
+       type: 1,
+       area: ['700px', 'auto'],
+       title: '请求参数详情',
+       page: {dom : '#xf_ht_fkzh_ttc_req'}
+     });
+  }
+  
+  /* 回调参数详情  */
+  function callback_details(data){
+	 
+	 if(data == "undefine" || data == null || data == ""){
+		 alert("回调参数为空");
+		 return;
+	 }
+	 
+	 var json = $.parseJSON(data);
+	 
+	 $("#callback_info_tb").html(
+		'<tr><td style="text-align:left;" valign="middle" colspan=2><strong>原始回调参数:</strong></td></tr>'
+	 );
+	 $.each(json,function(name,value) { 
+		 if("p3DesJsonPara"===name){
+			 return true;
+		 }
+		 
+		 if("object" === typeof value && value != null){ 
+			 $("#callback_info_tb").append(
+				'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ $.toJSON(value) +'</td></tr>'
+			 );
+		 }else{			 
+			 $("#callback_info_tb").append(
+				'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+			 );
+		 }	
+	 });
+	 
+	 var p3DesJsonPara = json.p3DesJsonPara;
+	 if("undefined"!=typeof(p3DesJsonPara)){  
+		 
+		 $("#callback_info_tb").append(
+			'<tr><td style="text-align:left;" valign="middle" colspan=2><strong>参数p3DesXmlPara详情：</strong></td></tr>'	 
+	 	 );
+		 
+		 $.each(p3DesJsonPara,function(name,value) { 
+			 
+			 if("object" === typeof value && value != null){ 
+				 $("#callback_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ $.toJSON(value) +'</td></tr>'
+				 );
+			 }else{			 
+				 $("#callback_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+				 );
+			 }	 
+			 
+			 //转账明细 pDetails
+			 if("pDetails" === name){
+				 
+				 $("#callback_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">pDetails解析begin</td><td valign="middle" style="text-align:left;">==========================================</td></tr>'
+				 );	 
+				 
+				 $.each(value,function(name,value) {
+					 
+					 //单笔转账pRow
+					 $("#callback_info_tb").append(
+						'<tr><td style="text-align:right;" valign="middle">pRow[' + name + ']begin</td><td valign="middle" style="text-align:left;">---------------------</td></tr>'
+					 );	
+					 
+					 $.each(value,function(name,value) { 
+						 $("#callback_info_tb").append(
+							'<tr><td style="text-align:right;" valign="middle">' + name + '：</td><td valign="middle" style="text-align:left;">'+ value +'</td></tr>'
+						 );	 
+					 });
+					 
+					 $("#callback_info_tb").append(
+						'<tr><td style="text-align:right;" valign="middle">pRow[' + name + ']end</td><td valign="middle" style="text-align:left;">---------------------</td></tr>'
+					 );
+				 });
+				 
+				 $("#callback_info_tb").append(
+					'<tr><td style="text-align:right;" valign="middle">pDetails解析end</td><td valign="middle" style="text-align:left;">==========================================</td></tr>'
+				 );	
+			 }
+		 }); 
+     } 	
+	 
+	 $.layer({
+       type: 1,
+       area: ['700px', 'auto'],
+       title: '回调参数详情',
+       page: {dom : '#xf_ht_fkzh_ttc_callback'}
+	 });
+	
+  }
+</script>

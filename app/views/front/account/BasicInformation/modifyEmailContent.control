@@ -1,0 +1,108 @@
+ <!--邮箱认证-->	
+#{if flash?.type=="Email"}
+	<div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>设置邮箱</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+          <p class="inputp">
+            <i>*</i>
+            <span>设置邮箱：</span>
+            #{if user?.email==null}
+            <input class="form-control" value="" placeholder="请输入您的邮箱" type="text" id="Email">
+            #{/if}
+            #{else}
+            <input class="form-control"  placeholder="" type="text" id="Email" value="${user?.email}">
+            #{/else}
+          </p>
+          <p>
+            <a class="submitbtn" id="submitbtn" onclick="saveEmail()">确&nbsp;&nbsp;&nbsp;&nbsp;认</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  #{/if}
+  #{if flash?.type=="Emailsuccess"}
+    <div class="content">
+    <input type="hidden" id="Email" value="${user?.email}"/>
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>设置邮箱</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+          <div class="success-pop">
+            <i class="result-ico"></i>
+            <p>设置邮箱成功！</p>
+          </div>
+          <div class="emailsuccess">
+            <p>邮件已发送成功，请在60分钟内激活！</p>
+          </div>
+        </div>
+      </div>
+    </div>
+ #{/if}
+  #{if flash?.type=="email"}
+    <div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>修改邮箱</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap updateEmail">
+          <table class="table">
+            <tr>
+              <td class="tdL"><i>*</i> 您的验证邮箱：</td>
+              <td>
+                <span class="markfont">${user?.email}</span>
+              </td>
+            </tr>
+           </table>
+           <a class="submitbtn updateEmailBtn" id="submit2" onclick="verificationEmail1()">发送验证邮件</a>
+        </div>
+      </div>
+    </div>
+  #{/if}
+<script type="text/javascript">
+   function saveEmail(){
+     	var Email=$("#Email").val();
+     	if(Email==""){
+     	  alert("邮箱不能为空");
+     	  return;
+     	}
+     	if(!Email.match(/^[a-z0-9_.+-]+@[a-z0-9]+(\.[a-z]+)+$/ig)){
+     	   alert("请填写正确的邮箱");
+     	   return;
+     	}
+     	
+     	var saveEmail = #{jsAction @saveEmail(':email')/}
+			$.post(saveEmail({email:Email}),function(data){
+					 var arr = eval(data);
+			        if(arr.error.code < 0){
+					     alert(arr.error.msg);
+					     return;
+					}
+                     if(arr.error.code>=0){
+                     alert(arr.error.msg);
+	                 window.location.href="@{front.account.basicInformation.modifyEmail()}?type=Emailsuccess";
+	                    }
+		 });
+}
+    function verificationEmail1(){
+   
+        var verificationEmail = #{jsAction @front.account.BasicInformation.verificationEmail()/}
+			$.post(verificationEmail(),function(data){
+					 var arr = eval(data);
+			          alert(arr.error.msg);
+					     return;
+			});
+	}
+</script>

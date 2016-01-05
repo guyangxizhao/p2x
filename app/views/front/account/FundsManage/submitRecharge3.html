@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="content-Type" content="text/html; charset=utf-8">
+<title>第三方支付-跳转，请稍候。。。</title>
+</head>
+<body>
+<form name="yeepay" action='${args.nodeAuthorizationURL}' method='POST' id="frm1" >
+			<input type='hidden' name='p0_Cmd'   value='${args.p0_Cmd}'>
+			<input type='hidden' name='p1_MerId' value='${args.p1_MerId}'>
+			<input type='hidden' name='p2_Order' value='${args.p2_Order}'>
+			<input type='hidden' name='p3_Amt'   value='${args.p3_Amt}'>
+			<input type='hidden' name='p4_Cur'   value='${args.p4_Cur}'>
+			<input type='hidden' name='p5_Pid'   value='${args.p5_Pid}'>
+			<input type='hidden' name='p6_Pcat'  value='${args.p6_Pcat}'>
+			<input type='hidden' name='p7_Pdesc' value='${args.p7_Pdesc}'>
+			<input type='hidden' name='p8_Url'   value='${args.p8_Url}'>
+			<input type='hidden' name='p9_SAF'   value='${args.p9_SAF}'>
+			<input type='hidden' name='pa_MP'    value='${args.pa_MP}'>
+			<input type='hidden' name='pd_FrpId' value='${args.pd_FrpId}'>
+			<input type="hidden" name="pr_NeedResponse"  value="${args.pr_NeedResponse}">
+			<input type='hidden' name='hmac'     value='${args.hmac}'>
+			<input type='submit' />
+		</form>
+<script language="javascript">
+document.getElementById("frm1").submit();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+%{ business.User currUser = business.User.currUser(); }%
+<div class="slideBanner">
+    <div class="bannerShow">
+      <div id="slideBox" class="bannerShow_image_box">
+        <div class="hd">
+          <ul>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+        <div class="bd">
+          <ul>
+            <li>
+              <div class="bannerShow_image_item" style="background:url(public/images/temp/banner-1.jpg) 50% 50% no-repeat;">
+                <a href="###" class="bannerShow_coverlink"></a>
+              </div>
+            </li>
+            <li>
+              <div class="bannerShow_image_item" style="background:url(public/images/temp/banner-2.jpg) 50% 50% no-repeat;">
+                <a href="###" class="bannerShow_coverlink"></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="bannerRight">
+      <div class="inner">
+        <span class="title">年化收益率高达</span>
+        <p class="percent">16%</p>
+        <p>借款人资料公开透明，资金去向一目了然</p>
+        #{if currUser == null}
+        <a class="btn btn-primary" href="@{front.account.LoginAndRegisterAction.register()}">立即注册</a>
+        <p class="immediatelylogin">
+          <a href="@{front.account.loginAndRegisterAction.login()}">立即登录</a>
+        </p>
+        #{/if}
+      </div>
+    </div>
+  </div>

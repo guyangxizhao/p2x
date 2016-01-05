@@ -1,0 +1,35 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 基本设置  | 基本资料'/}
+
+<!-- 内容区域 start -->
+
+<div class="cleafix"></div>
+<div class="account w998center">
+	<h3>
+		<a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>账户管理>个人信息
+	</h3>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<!-- 右侧内容区域 -->
+	<!-- 基本资料 -->
+	#{include "front/account/BasicInformation/basicInformationContent.control"/}
+</div>
+<div class="loan-cleafix"></div>
+<!-- vip续费弹出层  -->
+#{include "front/account/AccountHome/homeVipApply.control"/}
+#{include "front/account/AccountHome/homeVipContent.control"/}
+#{include "front/account/BasicInformation/basicInformationVipDetail.control"/}
+#{include "front/account/BasicInformation/basicInformationVipApply.control"/}
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(30);
+		showHighLightFront2(7, 6);
+	});
+//-->
+</script>

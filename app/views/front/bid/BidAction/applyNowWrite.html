@@ -1,0 +1,425 @@
+#{form @createBid(bid, product?.sign, uuid, status), method:'POST',id:"create_bid"}
+<div class="info">
+	<span class="title">借款信息</span>
+	<table class="table">
+		<tr>
+			<td class="text-right">借款用途：</td>
+			<td>
+				<select class="form-control" name="bid.purpose.id" id="purposeId">
+					<option value="0">请选择</option>
+					#{list purpose}
+						<option value="${_?.id}" 
+						#{if loanBid?.purpose?.id == _?.id}
+							selected="selected"
+						#{/if}>
+							${_?.name}
+						</option>
+					#{/list}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">借款金额：</td>
+			<td>
+				<input type="text" class="form-control " name="bid.amount" id="amount"
+						 value="${loanBid?.amount}" />
+				<span style="margin-left: 10px;">金额应为${product?.minAmount?.format('#,##0.00')}到${product?.maxAmount?.format('#,##0.00')}之间的数字</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">借款期限：</td>
+			<td>
+				<select class="form-control timeLimit" name="bid.periodUnit" id="periodUnit">
+					<option value="-99">请选择</option>
+					#{if product?.loanType == 3}
+						<option value="1"
+							#{if loanBid?.periodUnit == 1}
+							selected="selected"
+							#{/if}>日</option>
+					#{/if}
+					#{else}
+						<option value="-1"
+							#{if loanBid?.periodUnit == -1}
+							selected="selected"
+							#{/if}>年</option>
+						<option value="0"
+							#{if loanBid?.periodUnit == 0}
+							selected="selected"
+							#{/if}>月</option>
+						<option value="1"
+							#{if loanBid?.periodUnit == 1}
+							selected="selected"
+							#{/if}>日</option>
+					#{/else}
+				</select>
+				<select class="form-control timeLimit" name="bid.period" id="period" style="margin-left: 10px;"></select>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">年利率：</td>
+			<td>
+				<input type="text" class="form-control" id="apr" name="bid.apr" value="${loanBid?.apr}"
+						 style="width: 90px;" /> %
+				<span style="margin-left: 10px;">输入${product?.minInterestRate}%到${product?.maxInterestRate}%之间的数字</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">还款方式：</td>
+			<td>
+				<select class="form-control" name="bid.repayment.id" id="repaymentType">
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">满标期限：</td>
+			<td>
+				<select class="form-control" name="bid.investPeriod" id="investPeriod">
+					<option value="0">请选择 </option>
+					#{list product?.investPeriodArray}
+						<option value="${_}"
+							#{if loanBid?.investPeriod + '' == _}
+							selected="selected"
+							#{/if}
+						>${_}</option>
+					#{/list}
+				</select> 天
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">借款标题：</td>
+			<td>
+				<input type="text" class="form-control lg" id="title" name="bid.title"  value="${loanBid?.title}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">借款描述：</td>
+			<td>
+				<textarea class="form-control lg" rows="3" name="bid.description" id="description">${loanBid?.description}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right"><span class="zbfa">招标方案：</span></td>
+			<td>
+				<div class="biddingScheme">
+					<label>
+						<input type="radio" id="zbBlow" name="xf_c_wyjkfb_3_zbType" checked>
+						按最低金额招标
+					</label>
+					<p>
+						最低投标金额：
+						<input type="text" class="form-control bid-amount" name="bid.minInvestAmount" id="minInvestAmount" 
+								value="${loanBid?.minInvestAmount}">元
+					</p>
+					<p class="bz">[注]：最低投标金额${product?.minInvestAmount?.format('#,##0.00')}元</p>
+				</div>
+				<div class="biddingScheme" style="margin-right: 0px;">
+					<label>
+						<input type="radio" id="zbArange" name="xf_c_wyjkfb_3_zbType"
+								#{if loanBid?.averageInvestAmount > 0}
+								checked="checked"
+								#{/if} />
+						按平均金额招标
+					</label>
+					<p>
+						平均每份：
+						<input type="text" class="form-control bid-amount" name="bid.averageInvestAmount"
+								id="averageInvestAmount" onblur="showAverage(this);"
+								onkeyup="showAverage(this);"
+								value="${loanBid?.averageInvestAmount}" />元
+						<span id="sumCopies"></span>
+					</p>
+					<p class="bz">[注]：借款标最多拆分不超过:${product?.maxCopies}份</p>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right"><span>设置招标奖励：</span></td>
+			<td class="bidInvitation">
+				<p>
+					<label>
+						<input type="radio" name="bid.bonusType" value="0" id="noaward"  checked />
+						不设置奖励
+					</label>
+				</p>
+				<p>
+					<label>
+						<input type="radio" name="bid.bonusType" value="1" id="rbonus"
+							#{if loanBid?.bonusType == 1}
+							checked
+							#{/if} />
+						设置固定奖金
+					</label>
+					<input type="text" class="form-control bid-amount" name="bid.bonus" id="bonus" value="${loanBid?.bonus}"
+							>
+					<label>元 ，按投标比例分配</label>
+				</p>
+				<p>
+					<label>
+						<input type="radio"  name="bid.bonusType" value="2" id="rawardScale" 
+							#{if loanBid?.bonusType == 2}
+							checked="checked"
+							#{/if} />
+						按投标总额的
+					</label>
+					<input type="text" class="form-control bid-amount"  name="bid.awardScale" id="awardScale" value="${loanBid?.awardScale}"
+							 />
+					<label>%设置资金，按投标比例分配</label>
+				</p>
+			</td>
+		</tr>
+	</table>
+	<p class="btnp">
+		<button type="submit" class="btn btn-primary" >提交发布</button>
+	</p>
+</div>
+#{/form}
+
+<script type="text/javascript">
+	function planapr() {
+	    $("#showapr").val('');
+	    var amount = $("#amount").val() * 1;
+	    if(amount <= 0) return;
+		var period = $("#period").val() * 1;
+		if(period <= 0) return;
+		var unit = $("#periodUnit").val() * 1; 
+		if(unit < -1) return;
+		var apr = $("#apr").val() * 1;
+		if(apr <= 0) return;
+		var rType = $("#repaymentType").val() * 1;
+		if(rType <= 0) return;
+		
+		var plan = #{jsAction @front.bid.BidAction.planapr(':amount',':apr',':unit',':period',':repayment')/}
+        $.post(plan({amount : amount,apr : apr,unit: unit,period : period,repayment : rType}), function(data) {
+        	$("#showapr").val(data);
+        });
+		
+	}
+
+
+	function showAverage(po){
+		var amount = $("#amount").val();
+		var average = $(po).val();
+		if(amount % average != 0){
+			$("#sumCopies").html("份数不能为小数");
+		}else{
+			$("#sumCopies").html("合计" + amount/average + "份");
+		}
+	}
+
+	/* 动态期限 */
+	function unitChange(unit){
+		var period = $('#period');
+		period.removeAttr('disabled').empty();
+		period.append('<option value="0">请选择</option>');
+		switch(unit){
+		/* 年 */
+		case -1:
+			#{list product?.periodYearArray}
+				period.append('<option value="${_}" #{if loanBid?.period + "" == _} selected="selected" #{/if}>${_}</option>');
+			#{/list}
+			break;
+		/* 月 */
+		case 0:
+			#{list product?.periodMonthArray}
+				period.append('<option value="${_}" #{if loanBid?.period + "" == _} selected="selected" #{/if}>${_}</option>');
+			#{/list}
+			break;
+		/* 日 */
+		case 1:
+			#{list product?.periodDayArray}
+				period.append('<option value="${_}" #{if loanBid?.period + "" == _} selected="selected" #{/if}>${_}</option>');
+			#{/list}
+			break;
+		default:
+			period.attr('disabled','disabled');
+			break;
+		}
+	}
+
+	function rTypeChange(value){
+		var repaymentType = $("#repaymentType");
+		repaymentType.empty();
+		
+		/* 如果选择的是日，或者是秒还标，那么把还款方式都至为一次性还款 */
+		if(1 == value || ${product?.loanType} == 3){
+			repaymentType.append('<option value="3">一次性还款</option>');
+		}else{ 
+			/* 其它则全部填充 */
+			#{list product?.repaymentType}
+			repaymentType.append('<option value="${_?.id}" #{if _?.id == loanBid?.repayment?.id} selected="selected" #{/if}>${_?.name}</option>');
+			#{/list}
+		}
+	}
+			
+	$(function(){
+		unitChange($("#periodUnit").val() * 1); // 期限下拉绑定
+		planapr(); // 总利息
+
+		rTypeChange(${loanBid?.periodUnit}); // 动态还款方式
+		 
+		/* 借款期限动态下拉 */
+		$("#periodUnit").change(function(){
+			unitChange(this.value * 1);
+			rTypeChange(this.value);
+		});
+
+		/* 最低金额招标 */
+		$("#zbBlow").click(function(){
+			 $("#averageInvestAmount").val('');
+		});
+
+		/* 平均金额招标 */
+		$("#zbArange").click(function(){
+			$("#minInvestAmount").val('');
+		});
+		$.validator.addMethod("periodUnitCheck", function(value, element) { 
+			if(value=="-99")
+				return false;
+			else
+			    return this.optional(element)||value;       
+			 },""); 
+		$.validator.addMethod("periodCheck", function(value, element) { 
+			if(value==null || value=="" || value==0)
+				return false;
+			else
+			    return this.optional(element)||value;       
+			 },""); 
+		$.validator.addMethod("investPeriodCheck", function(value, element) { 
+			if(value==null || value=="" || value==0)
+				return false;
+			else
+			    return this.optional(element)||value;       
+			 },""); 
+		$.validator.addMethod("purposeidCheck", function(value, element) { 
+			if(value==null || value=="" || value==0)
+				return false;
+			else
+			    return this.optional(element)||value;       
+			 },""); 
+		$.validator.addMethod("minInvestAmountCheck", function(value, element) { 
+			var amount = $.trim($("#amount").val());
+			if($("#zbBlow").is(":checked")&&  (value<${product?.minInvestAmount} || value>amount*1))
+				return false;
+			else
+			    return this.optional(element)||value;       
+			 },""); 
+		$.validator.addMethod("averageInvestAmountCheck", function(value, element) {
+			var amount = $.trim($("#amount").val());
+			var averageInvestAmount = $.trim($("#averageInvestAmount").val());
+			if($("#zbArange").is(":checked")&&  ((amount % averageInvestAmount != 0) || amount/averageInvestAmount * 1 > ${product?.maxCopies}))
+				return false;
+			else
+			    return this.optional(element)||value;       
+			 },"");
+		$.validator.addMethod("amountCheck", function(value, element) {
+			var amount = $.trim($("#amount").val());
+			if(amount * 1 < ${product?.minAmount} || amount * 1 > ${product?.maxAmount}){
+				//alert("借款金额大于/小于产品限制的金额!");
+				return false;
+			} else{
+			    return this.optional(element)||value;       
+			}
+			 },"");
+		$.validator.addMethod("descriptionCheck", function(value, element) {
+			var content = $.trim($("#description").val().trim());
+			if(content.length>300 || content.length==0){
+				//alert("借款金额大于/小于产品限制的金额!");
+				return false;
+			} else{
+			    return this.optional(element)||value;       
+			}
+			 },"<font color='red'><b>内容不能为空或不多于300个字符</b></font>");
+		$.validator.addMethod("aprCheck", function(value, element) {
+			var apr = $.trim($("#apr").val());
+			if(apr == "" || apr * 1 < ${product?.minInterestRate} || apr * 1 > ${product?.maxInterestRate}){
+				//alert("借款年利率大于/小于产品年利率的限制!");
+				return false;
+			}  else{
+			    return this.optional(element)||value;       
+			}
+			 },"");
+		$.validator.addMethod("bonusTypeCheck", function(value, element) {
+			var amount = $.trim($("#amount").val());
+			var type=$('input[name="bid.bonusType"]:checked').val();
+			var averageInvestAmount = $.trim($("#averageInvestAmount").val());
+			if(type==0){
+				 return this.optional(element)||value;   
+			}else if(type==1){
+				var bonus = $("#bonus").val();
+				if(bonus == "" || bonus < 0 || bonus > amount * 1){
+					//alert("借款固定奖励有误(不能为空，不能小于0，不能大于借款金额)!");
+					return false;
+				}else{
+					return this.optional(element)||value;  
+				}
+			}else{
+				var awardScale = $("#awardScale").val();
+				if(awardScale == "" || awardScale > 100 || awardScale < 0){
+					//alert("借款比例奖励有误(不能为空，不能小于0，不能大于100)!");
+					return false;
+					}else{
+						return this.optional(element)||value;  
+					}
+				}
+			 },"");
+		$("#create_bid").validate({
+			rules:{
+				"bid.amount":{
+					required: true,
+					digits:true,
+					amountCheck:true
+				},
+				"bid.apr":{
+					required: true,
+					number:true,
+					aprCheck:true
+				},
+				"bid.title":{
+					required: true,
+					maxlength:24,
+				},
+				"bid.description":{
+					required: true,
+					descriptionCheck:true,
+				},
+				"bid.minInvestAmount":{
+					digits:true,
+				},
+				"bid.averageInvestAmount":{
+					digits:true,
+				},
+				"bid.periodUnit":{
+					required: true,
+					periodUnitCheck:true,
+				},
+				"bid.period":{
+					required: true,
+					periodCheck:true,
+				},
+				"bid.investPeriod":{
+					required: true,
+					investPeriodCheck:true,
+				},
+				"bid.purpose.id":{
+					required: true,
+					purposeidCheck:true,
+				},
+				"bid.minInvestAmount":{
+					minInvestAmountCheck:true,
+					digits:true
+				},
+				"bid.averageInvestAmount":{
+					averageInvestAmountCheck:true,
+					digits:true
+				},
+				"bid.bonusType":{
+					bonusTypeCheck:true,
+					digits:true
+				},
+			}
+	}
+	);
+		/* 表单submit事件 */
+		$("#createBid").submit();
+	});
+</script>

@@ -1,0 +1,292 @@
+#{if user.realityName == null || user.realityName == ""}
+<script type="text/javascript">
+	alert("您还没有进行实名认证。\n请先进行实名认证，再进行绑定银行卡操作。");
+	window.location.href = "@{front.account.CheckAction.checkRealName()}";
+</script>
+#{/if}
+#{if !user.isMobileVerified}
+<script type="text/javascript">
+	alert("您还没有绑定手机。\n请先绑定手机号码，再进行绑定银行卡操作。");
+	window.location.href = "@{front.account.basicInformation.modifyMobile()}?type=Mobile";
+</script>
+#{/if}
+#{else}
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户 | 帐户管理 | 银行卡管理' /}
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>账户管理>银行卡管理
+    </h3>
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<div class="content">
+		<div class="repayment repaymentLetter">
+			<div class="title">
+				<span class="on">银行卡信息</span>
+			</div>
+			<div class="bankCardInfo">
+				<table class="table" style="width: 500px;">
+					<tr>
+						<td width="30%"><i>*</i>开户人姓名：</td>
+						<td><span>${user?.realityName?.asterisk()}</span></td>
+					</tr>
+		
+					#{if type != "update"}
+					#{if edit}
+					#{form @front.account.FundsManage.bindBankCard(), id:'bindForm'}
+					<tr>
+						<td class="paddRL0"><i>*</i>开户银行：</td>
+						<td>
+							<select class="form-control" id="bank" name="bank">
+								<option value="">--请选择--</option>
+								#{list banks}
+								<option value="${_?.id}">${_?.name}</option>
+								#{/list}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>开户行所在地：</td>
+						<td>
+							<select class="form-control branch" id="province" name="province" >
+								<option value="">--请选择--</option>
+								#{list provinces}
+								<option value="${_?.id}">${_?.name}</option>
+								#{/list}
+							</select>
+							<select class="form-control branch" id="city" name="city" disabled="disabled" >
+								<option>--请选择--</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>支行名称：</td>
+						<td><input type="text" class="form-control" id="branch" name="branch" placeholder="">
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>银行卡号：</td>
+						<td><input type="text" class="form-control" id="account" name="account" placeholder="">
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>手机验证码：</td>
+						<td>
+							<input type="text" class="form-control" id="chkCode" name="chkCode"
+									placeholder="" style="width:134px;display:inline;float:left;">
+							<a class="getCode" style="width:150px;font-size:14px;line-height:34px;height:34px;">获取短信验证码</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<a class="saveBtn">保存</a>
+							*{<a class="cancelBtn">取消</a>}*
+						</td>
+					</tr>
+					#{/form}
+					#{/if}
+					#{else}
+					<tr>
+						<td><i>*</i>开户银行：</td>
+						<td><span>${openBank}</span></td>
+					</tr>
+					<tr>
+						<td><i>*</i>开户行所在地：</td>
+						<td><span>${openProvince} ${openCity}</span></td>
+					</tr>
+					<tr>
+						<td><i>*</i>支行名称：</td>
+						<td><span>${bankAccount?.bank_name}</span></td>
+					</tr>
+					<tr>
+						<td><i>*</i>银行账号：</td>
+						<td>
+							<span>
+							%{
+								String account = bankAccount.account;
+								account = account.substring(0, 4).concat("********")
+										.concat(account.substring(account.length() - 4));
+							}%
+							${account}
+							</span>
+						</td>
+					</tr>
+					
+					<tr>
+				</tr>
+					#{/else}
+					#{/if}
+					#{else}
+					#{form @front.account.FundsManage.upBankCard(), id:'bindForm'}
+					<tr>
+						<td class="paddRL0"><i>*</i>开户银行：</td>
+						<td>
+							<select class="form-control" id="bank" name="bank">
+							
+								<option value="${bankAccount?.open_bank_id}">${openBank}</option>
+								#{list items:banks,as:'bank'}
+								#{if bank.id != bankAccount?.open_bank_id}
+								<option value="${bank.id}">${bank.name}</option>
+								#{/if}
+								
+								#{/list}
+							</select>
+							<input type="hidden" value="${bankAccount?.id}" name="bankID" id="bankID">
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>开户行所在地：</td>
+						<td>
+							<select class="form-control branch" id="province" name="province" >
+								<option value="${bankAccount?.open_province}">${openProvince}</option>
+								#{list items:provinces,as:'province'}
+								#{if province.id==bankAccount?.open_province}
+								#{/if}
+								#{else}
+								<option value="${province.id}">${province.name}</option>
+								#{/else}
+								#{/list}
+							</select>
+							<select class="form-control branch" id="city" name="city" disabled="disabled" value="${bankAccount?.open_city}">
+							  <option value="${bankAccount?.open_city}" selected="selected" >${openCity}</option>
+							  
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>支行名称：</td>
+						<td><input type="text" class="form-control" id="branch" name="branch" placeholder="" value="${bankAccount?.bank_name}">
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>银行卡号：</td>
+						<td><input type="text" class="form-control" id="account" name="account" placeholder="" value="${bankAccount?.account}">
+						</td>
+					</tr>
+					<tr>
+						<td class="paddRL0"><i>*</i>手机验证码：</td>
+						<td>
+							<input type="text" class="form-control" id="chkCode" name="chkCode"
+									placeholder="" style="width:134px;display:inline;float:left;">
+							<a class="getCode" style="width:150px;font-size:14px;line-height:34px;height:34px;">获取短信验证码</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<a class="saveBtn">修改</a>
+							*{<a class="cancelBtn">取消</a>}*
+						</td>
+					</tr>
+					#{/form}
+				#{/else}
+				</table>
+				<div class="prompt">
+					<span>温馨提示</span>
+					<p>
+						<i>1</i>请认真填写分支行信息，信息不正确可能会造成您的提现无法及时到帐，例如：**银行**分行**支行/
+					</p>
+					<p class="tid">分理处（工商银行上海分行杨浦支行）。如果您无法确定，建议您致电您的开户银行进行询问。</p>
+					<p>
+						<i>2</i>上述银行卡号的开户人姓名必须为您实名认证的姓名，否则影响您的提现。
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="loan-cleafix"></div>
+<script type="text/javascript">
+$(function() {
+	#{if flash.get("errorMsg") != null}
+	alert("${flash?.errorMsg}");
+	#{/if}
+	$("#province").change(function() {
+		var selectVal = $(this).children('option:selected').val();
+		if (selectVal == "") {
+			$("#city").html("<option value=''>--请选择--</option>")
+					.attr("disabled", "disabled");
+		} else {
+			var jsAction = #{jsAction @Application.getCity(":provinceId")/}
+			$.post(jsAction({provinceId:selectVal}),function(data) {
+				var cityList = [];
+				for(var i = 0; i < data.length; i ++){
+					cityList.push("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+				}
+				$("#city").html(cityList).removeAttr("disabled");
+			});
+		}
+	});
+	$(".getCode").click(sendSMS);
+	$(".saveBtn").click(toSave);
+});
+
+function sendSMS() {
+	var smsBtn = $(".getCode");
+	if (smsBtn.hasClass("btnDisable"))
+		return;
+	
+	var count = ${currBackstageSet.smsLimit} / 1000; //间隔函数，1秒执行
+	curCount = count;
+	
+	// 设置button效果，开始计时  
+   	smsBtn.addClass("btnDisable"); 
+   	smsBtn.text(curCount + "秒内有效");
+	timer = window.setInterval(setSMSTime, 1000); // 启动计时器，1秒执行一次
+   
+	//向后台传递数据
+	$.ajax({     
+  	 	url:"@{front.account.loginAndRegisterAction.templateSMS_send()}",
+  	    type:'post',
+  	    dataType:'json',
+  	    data:{
+  	    	'phone':"${user?.mobile}"
+  	    },
+  	    error:function() {     
+  	       alert('短信验证码发送出现错误');
+  	    },
+  	  	success:function(data) {
+  	    	if (data.success) {
+  	    		alert("验证码已发送，请注意查收");
+  	    	} else {
+  	    		alert("短信验证码发送失败");
+  	    	}
+		}
+  	});
+}
+
+//时间控制  
+function setSMSTime() {
+    if (curCount == 0) {
+        window.clearInterval(timer); // 停止计时器
+		$(".getCode").removeClass("btnDisable"); // 启用按钮 
+        $(".getCode").text("重新发送验证码");
+       
+    } else {
+        curCount--;
+        $(".getCode").text(curCount + "秒内有效");
+   }
+}
+
+function toSave() {
+	var eles = ["bank", "province", "city", "branch", "account", "chkCode"];
+	var hints = ["请选择开户银行", "请选择开户省份", "请选择开户城市",
+	             "请输入开户支行名称", "请输入银行卡号", "请输入短信验证码"];
+	
+	var _el;
+	for (var i = 0; i < eles.length; i++) {
+		_el = $("#".concat(eles[i]));
+		if (_el.val() == "") {
+			alert(hints[i]);
+			_el.focus();
+			return;
+		}
+	}
+	
+	$(".saveBtn").unbind("click");
+	$("#bindForm").submit();
+}
+</script>
+#{/else}

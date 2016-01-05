@@ -1,0 +1,14 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'提现结果' /}
+<!-- <div class="xf_login_centent xf_login_fh"  style="margin-top:50px;">
+			<h3 class="xf_login_hh">${info}</h3>
+			<a href="@{front.home.HomeAction.home()}">返回首页</a>
+		</div> -->
+  <div class="fundManagement publishingSuccess w998center">
+  #{if error.code==0}
+  <h3 class="rechargeSucces"><i></i>提现成功！<!-- ${error.msg} --></h3>
+  #{/if}
+  #{else}
+  <h3 class="rechargeFailure"><i></i>提现失败！</h3>
+  #{/else}
+  </div>

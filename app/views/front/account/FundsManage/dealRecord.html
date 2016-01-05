@@ -1,0 +1,186 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 交易记录'/}
+<!-- 内容区域 start -->
+<div class="cleafix"></div>
+<div class="account w998center">
+   <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>资金管理 >交易记录
+    </h3>
+    #{include "front/account/AccountHome/homeLeft.control"/}
+    <div class="content">
+      <div class="overview-left records-left">
+        <div class="rank">
+          <div class="balance">
+            <i class="money"></i>
+            <span>净资产</span>
+            <p class="text-color-green records-available">${(warmPrompt?.user_account+warmPrompt?.receive_amount-warmPrompt?.repayment_amount).format('#,##0.00')}</p>
+            <i class="available"></i>
+          </div>
+          <p class="records-btn">
+         	<a href="@{front.account.FundsManage.recharge()}">充值</a>
+			<a href="@{front.account.FundsManage.withdrawal()}" class="bg-blue">提现</a>
+          </p>
+        </div>
+        <span class="dividingLine"></span>
+      </div>
+      <div class="overview-right records-right">
+        <div class="balance">
+          <span>冻结金额</span>
+          <p class="text-color-red">${warmPrompt?.freeze?.format('#,##0.00')}</p>
+          <i class="frozen"></i>
+        </div>
+        <div class="balance">
+          <span>可用金额</span>
+          <p class="text-color-green">${(warmPrompt?.user_account-warmPrompt?.freeze)?.format('#,##0.00')}</p>
+          <i class="available"></i>
+        </div>
+        <div class="balance">
+          <span>应收账款</span>
+          <p class="text-color-blue">${warmPrompt?.receive_amount?.format('#,##0.00')}</p>
+          <i class="collect"></i>
+        </div>
+        <div class="balance">
+          <span>应还账款</span>
+          <p class="text-color-yellow">${warmPrompt?.repayment_amount?.format('#,##0.00')}</p>
+			 <i></i>
+        </div>
+      </div>
+      <div class="records-bottom">
+        <div class="queryTerms">
+      #{form @dealRecord(), id:'queryDealForm'}
+          <span>交易类型</span>
+         #{select 'type',id:'payTypeStr',class:'form-control'}
+			<option value=0 
+			#{if page?.conditions?.type == 0}
+                selected="selected"
+               #{/if}
+             >全部</option>
+             
+             <option value=1  
+			#{if page?.conditions?.type == 1}
+                selected="selected"
+               #{/if}
+             >充值</option>
+             
+            <option value=2
+			#{if page?.conditions?.type == 2}
+                selected="selected"
+               #{/if}
+             >提现</option>
+             
+            <option value=3 
+			#{if page?.conditions?.type == 3}
+                selected="selected"
+               #{/if}
+             >服务费</option>
+             
+             <option value=4
+			#{if page?.conditions?.type == 4}
+                selected="selected"
+               #{/if}
+            >账单还款</option>
+             
+              <option value=5 
+			#{if page?.conditions?.type == 5}
+                selected="selected"
+               #{/if}
+            >账单收入</option>
+             <!-- <option value=6 
+            #{if page?.conditions?.type == 6}
+                selected="selected"
+               #{/if}
+            >其他</option> -->
+             
+		#{/select}
+          <span>交易查询时间</span>
+          <input name="currPage"  type="hidden" id="currPage" />
+           <input name="pageSize"  value="10" type="hidden" />
+			<input name="beginTime" value="${page.conditions?.dateBegin}" type="text" id="startDate"  class="form-control" onclick="laydate()" style="width: 110px; cursor:pointer" />
+			<span class="xf_jkzlshrz_searspantwo">——</span>
+			<input name="endTime" value="${page.conditions?.dateEnd}" type="text"  id="endDate"  class="form-control" onclick="laydate()" style="width: 110px;cursor:pointer"/>
+			
+          <!-- <input class="form-control" value="2015" type="number">
+          <span>年</span>
+          <input class="form-control" value="2" type="number">
+          <span>月 到</span>
+          <input class="form-control" value="10" type="number">--> 
+          <a class="querybtn" href="javascript:document.getElementById('queryDealForm').submit();">查询</a>
+          <p>
+            <a class="derivedbtn" href="@{front.account.FundsManage.exportDealRecords}"><i></i>导出查询结果</a>
+          </p>
+          #{/form}
+        </div>
+        <table class="table records-table">
+          <thead>
+            <tr>
+              <th>时间</th>
+              <th>交易类型</th>
+              <th>收入</th>
+              <th>支出</th>
+              <th>账户总额</th>
+              <th>可用余额</th>
+            </tr>
+          </thead>
+          <tbody>
+          #{list items:page.page,as:'dealRecord'}
+          <tr>
+              <th scope="row"> ${dealRecord?.time?.format('yyyy-MM-dd HH:mm:ss')}</th>
+				<td>${dealRecord?.name}</td>
+				#{if dealRecord?.type == 1}
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				<td align="center">0</td>
+				#{/if}
+				#{elseif dealRecord?.type == 2}
+				<td align="center">0</td>
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/elseif}
+				#{elseif dealRecord?.type == 3}
+				<td align="center">0</td>
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/elseif}
+				#{elseif dealRecord?.type == 4}
+				<td align="center">0</td>
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/elseif}
+				#{elseif dealRecord?.type == 5}
+				<td align="center">0</td>
+				<td align="center">${dealRecord?.amount?.format("###,##0.00")}</td>
+				#{/elseif}
+				#{else}
+				<td align="center">0</td>
+				<td align="center">0</td>
+				#{/else}
+              <td>${dealRecord?.user_balance?.format("###,##0.00")}</td>
+              <td>${dealRecord?.balance?.format("###,##0.00")}</td>
+            </tr>
+         
+          #{/list}
+          </tbody>
+        </table>
+        <div class="xf_wylc_page xf_membill_view_page1">
+		#{page pageTitle:"交易记录", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:5/}
+		</div>
+      </div>
+    </div>
+  </div>
+  <div class="loan-cleafix"></div>
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script>
+    function showPage(currPage,pageSize){
+         $("#currPage").val(currPage);
+         $("#queryDealForm").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(29);
+		showHighLightFront2(7, 5);
+	});
+//-->
+</script>

@@ -1,0 +1,73 @@
+<div class="content">
+	<div class="overview-left">
+		<p class="title">您好，${user?.name}</p>
+		#{if user?.photo != ''}
+		#{img src:"${constants.Constants.BASE_URL}${user?.photo}",id:"image",alt:"头像",width:"146",height:"136"}#{/img}
+		#{/if}
+		#{else}
+		<img src="@{'public/images/defaultAvatar.jpg'}" alt="" />
+		#{/else}
+		<div class="rank">
+			<p>信用等级：<i class="credit-ico">${user?.creditLevelId}</i></p>
+			<div class="safety">
+				<span>安全等级：</span>
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="${safeLevel}"
+							aria-valuemin="0" aria-valuemax="100" style="width: ${safeLevel}%;">${safeLevel}%</div>
+				</div>
+			</div>
+			<p>
+				<a href="@{front.account.FundsManage.recharge()}">充值</a>
+				<a href="@{front.account.FundsManage.withdrawal()}" class="bg-blue">提现</a>
+			</p>
+		</div>
+	</div>
+	<div class="overview-right">
+		<p class="title">账户信息</p>
+		<div class="balance">
+			<span>冻结金额</span>
+			<p class="text-color-red">${warmPrompt?.freeze?.format('#,##0.00')}</p>
+			<i class="frozen"></i>
+		</div>
+		<div class="balance">
+			<span>可用金额</span>
+			<p class="text-color-green">${(warmPrompt?.user_account-warmPrompt?.freeze)?.format('#,##0.00')}</p>
+			<i class="available"></i>
+		</div>
+		<div class="balance">
+			<span>应收账款</span>
+			<p class="text-color-blue">${warmPrompt?.receive_amount?.format('#,##0.00')}</p>
+			<i class="collect"></i>
+		</div>
+		<div class="balance">
+			<span>应还账款</span>
+			<p class="text-color-yellow">${warmPrompt?.repayment_amount?.format('#,##0.00')}</p>
+			<i></i>
+		</div>
+	</div>
+	<div class="overview-bottom">
+		<span>信息完整程度：</span>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="${infoCompletion}"
+					aria-valuemin="0" aria-valuemax="100" style="width: ${infoCompletion}%;">${infoCompletion}%</div>
+		</div>
+		<a href="@{front.account.BasicInformation.basicInformation()}">
+			#{if infoCompletion < 100}立即去完善#{/if}
+			#{else}修改个人信息#{/else}
+		</a>
+	</div>
+</div>
+<script language="javascript">
+	var _credits = {
+		#{list items:creditLevels, as:'creditL'}
+		c_${creditL?.id}: '${creditL?.name}',
+		#{/list}
+	};
+	$(function() {
+		$("i.credit-ico").each(function() {
+			var _e = $(this);
+			_e.text(_credits["c_" + _e.text()]);
+			_e.addClass(getCreditStyle(_e.text()));
+		});
+	});
+</script>

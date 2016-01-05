@@ -1,0 +1,37 @@
+			<div class="index_info_right">
+			<div style = "height:200px;">
+				<p class="title">
+					<span>${types?.get(0)?.name}</span>
+					<a href="@{front.wealthinfomation.WealthInfomationAction.newsList(7)}" target="_blank">更多</a>
+				</p>
+				
+				<ul style="width: 200px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+				#{list items:news,as:'news'}
+				   #{if news_index == 1}
+					<li><i></i> <a href="front/wealthinfomation/newDetails?id=${news?.id}">${news?.title.truncate(0,17)}</a></li>
+					
+					#{/if}
+					#{else loanSkills_index<4}
+					<li><i></i> <a href="front/wealthinfomation/newDetails?id=${news?.id}">${news.title}</a></li>
+					#{/else}
+				#{/list}
+				</ul>
+				
+				</div>
+				<div style = "height:200px;">
+				<p class="title">
+					<span>${types?.get(4)?.name}</span> 
+					<a href="@{front.wealthinfomation.WealthInfomationAction.newsList(11)}" target="_blank">更多</a>
+				</p>
+	
+				<ul  style="width: 200px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+				#{list items:loanSkills,as:'loanSkills'}
+				  #{if loanSkills_index<5}
+					<li><i></i> <a href="front/wealthinfomation/newDetails?id=${loanSkills?.id}">${loanSkills?.title}</a></li>
+					#{/if}
+					#{/list}
+				</ul>
+				
+			</div>
+			</div>
+

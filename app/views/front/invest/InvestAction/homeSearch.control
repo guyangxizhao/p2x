@@ -1,0 +1,204 @@
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script>
+	var _credits = {
+		#{list items:creditLevels, as:'creditL'}
+		c_${creditL?.id}: '${creditL?.name}',
+		#{/list}
+	};
+	
+	function checkLoginOther() {
+		var listAction = #{jsAction @front.bid.BidAction.checkUserStatus() /};
+		$.post(listAction(), function(data) {
+			switch(data.status * 1){
+			    case 1:
+			    	showCollect();  
+					break;
+				/* 未登录 */
+				case -1: 
+					showDiv($("#xf_logintcc_box"));
+					return;
+				/* 未激活 */
+				case -2: 
+					$("#userName1").html(data.userName);
+					$("#userName2").html(data.userName);
+					$("#email").html(data.email);
+					showDiv($("#active"));
+					return;
+				case -3: 
+					showCollect();  
+					break;
+			}
+		});	
+	}
+	
+    var loanType, loanLmt, intr, loanSchedule, repayType;
+	$(function() {
+		var queryStr = "${request.querystring}";
+		if (queryStr !== "") {
+			var qs = queryStr.split("&");
+			var params = new Object();
+			var kv;
+			for (var i = 0; i < qs.length; i++) {
+				kv = qs[i].split("=");
+				if (kv[1] === "")
+					kv[1] = 0;
+				eval("params.".concat(kv[0]).concat(" = ").concat(kv[1]));
+			}
+			$(".typ a").each(function() {
+				if ($(this).attr("value") == params.c1)
+					$(this).removeClass("tn").addClass("btn btn-primary");
+				else
+					$(this).removeClass("btn btn-primary").addClass("tn")
+			});
+			$(".lmt a").each(function() {
+				if ($(this).attr("value") == params.c2)
+					$(this).removeClass("tn").addClass("btn btn-primary");
+				else
+					$(this).removeClass("btn btn-primary").addClass("tn")
+			});
+			$(".int a").each(function() {
+				if ($(this).attr("value") == params.c3)
+					$(this).removeClass("tn").addClass("btn btn-primary");
+				else
+					$(this).removeClass("btn btn-primary").addClass("tn")
+			});
+			$(".sch a").each(function() {
+				if ($(this).attr("value") == params.c4)
+					$(this).removeClass("tn").addClass("btn btn-primary");
+				else
+					$(this).removeClass("btn btn-primary").addClass("tn")
+			});
+			$(".rpy a").each(function() {
+				if ($(this).attr("value") == params.c5)
+					$(this).removeClass("tn").addClass("btn btn-primary");
+				else
+					$(this).removeClass("btn btn-primary").addClass("tn")
+			});
+		}
+		
+		$(".typ a").click(function() {
+			var el = $(this);
+			$(".typ a").removeClass("btn btn-primary").addClass("tn");
+			el.removeClass("tn").addClass("btn btn-primary");
+		    loanType = el.attr("value");
+		    $("#loanType").val(loanType);
+		    showHomeBids();
+		});
+		$(".lmt a").click(function() {
+			var el = $(this);
+			$(".lmt a").removeClass("btn btn-primary").addClass("tn");
+			el.removeClass("tn").addClass("btn btn-primary");
+		    loanLmt = el.attr("value");
+		    $("#loanLmt").val(loanLmt);
+		    showHomeBids();
+		});
+		$(".int a").click(function() {
+			var el = $(this);
+			$(".int a").removeClass("btn btn-primary").addClass("tn");
+			el.removeClass("tn").addClass("btn btn-primary");
+		    intr = el.attr("value"); 
+		    $("#loanInt").val(intr);
+		    showHomeBids();
+		});
+		$(".sch a").click(function() {
+			var el = $(this);
+			$(".sch a").removeClass("btn btn-primary").addClass("tn");
+			el.removeClass("tn").addClass("btn btn-primary");
+		    loanSchedule = el.attr("value");
+		    $("#loanSchedule").val(loanSchedule);
+		    showHomeBids();
+		});
+		$(".rpy a").click(function() {
+			var el = $(this);
+			$(".rpy a").removeClass("btn btn-primary").addClass("tn");
+			el.removeClass("tn").addClass("btn btn-primary");
+		    repayType = el.attr("value");
+		    $("#repayType").val(repayType);
+		    showHomeBids();
+		});
+		
+		$("i.credit-ico").each(function() {
+			var _e = $(this);
+			_e.text(_credits["c_" + _e.text()]);
+			_e.addClass(getCreditStyle(_e.text()));
+		});
+	
+	    //条件查询控制样式
+		/*
+		var num= '${pageBean?.conditions?.o}';
+		if(num == 0) {
+			$("#div_0").addClass("xf_wylc_orderdesc_nocheck");
+		    return;
+		}
+
+		var sum = num / 2;
+		if(sum.toString().indexOf('.') == -1) {
+			var sum2 = num - 1;
+			$("#div_" + sum2).removeClass("xf_wylc_orderdesc_ishot");
+			$("#div_" + sum2).addClass("xf_wylc_orderdesc_up");
+			return;
+		} else {
+			$("#div_" + num).addClass("xf_wylc_orderdesc_ishot");
+		}
+		*/
+	});
+
+	function conditonSearch(num) {
+		var order= '${pageBean?.conditions?.o}';
+		if(order == 0) {
+			$("#orderType").val(num);
+			$("#bidsSearch").submit();
+			return;
+		}
+  
+		if(order == num) {
+			$("#orderType").val(num + 1);
+			$("#bidsSearch").submit();
+			return;
+		} else {
+			$("#orderType").val(num);
+			$("#bidsSearch").submit();
+			return;
+		}
+	}
+
+	function showHomeBids(){
+		$("#bidsSearch").submit();
+	}	
+    
+    function showCollect() {
+    	var pageNum = 1;
+    	var pageSize = 10;
+		showCollectBids(pageNum, pageSize);
+    }
+    
+	function showCollectBids(pageNum, pageSize) {
+		$.ajax({
+			url:"@{queryUserCollectBids()}",
+			type:"POST",
+			data:{"pageNum" : pageNum,"pageSize" : pageSize},
+			success:function(data){$("#bidList").html(data);},
+			error:function(){alert("对不起，出现错误!");}
+		});
+	}
+	
+	function showPage(currPage, pageSize) {
+        $("#currPage").val(currPage);
+        $("#pageSize").val(pageSize);
+        
+        if ($("#loanType").val() == "")
+        	$("#loanType").val("0");
+        if ($("#loanLmt").val() == "")
+        	$("#loanLmt").val("0");
+        if ($("#loanInt").val() == "")
+        	$("#loanInt").val("0");
+        if ($("#loanSchedule").val() == "")
+        	$("#loanSchedule").val("0");
+        if ($("#repayType").val() == "")
+        	$("#repayType").val("0");
+        if ($("#orderType").val() == "")
+        	$("#orderType").val("0");
+
+        $("#bidsSearch").submit();
+    }
+</script>

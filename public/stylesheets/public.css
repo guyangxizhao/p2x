@@ -1,0 +1,837 @@
+body{ background-color: #fafafa; font-family: microsoft yahei;}
+div{display: block;}
+input.error{border: 1.5px solid red;}
+select.error{border: 1.5px solid red;}
+radio.error{border: 1.5px solid red;}
+textarea.error{border: 1.5px solid red;}
+.must {margin: 0 2px;color: #ff3c00 !important;font-family: tahoma;vertical-align: middle;}
+.top{ height: 38px; background-color: #eeeeee; line-height: 38px;}
+.top_inner{ width: 998px; margin: 0 auto;}
+.top_inner_left{ float: left;}
+.top_inner_left span{ float: left; font-size: 14px; margin-right: 14px;}
+.top_inner_left span i{ font-size: 18px; font-style: inherit;}
+.threePartyLogin{ width: 27px; height: 27px; margin-top: 5px; display: block; background: url(../images/icons/png/public.png) no-repeat; float: left;}
+.wx{ background-position: -34px 0; margin-left: 8px;}
+.top_inner_right{ float: right;}
+.top_inner_right a{ font-size: 14px; color: #666; font-family: '宋体'; padding: 0 4px;}
+.top_inner_right .login{ color: #3498db; font-weight: bold;}
+
+.mainNav{ background-color: #fff; height: 94px; position: relative;}
+.mainNav_inner{ width: 998px; margin: 0 auto; clear: left;}
+.mainNav_inner .logo{ float: left; height: 94px; width: 250px; position: relative; padding-left: 100px;}
+
+.slideBanner{ height: 400px; position: relative; overflow: hidden; clear: both;}
+.tabIcon{ float: right; margin: 46px 0 0 0; position: relative; right: -24px;}
+.tabIcon li{ float: left;}
+.tabIcon li a{ height: 28px; display: inline-block; margin: 0 48px; font-size: 18px; color: #000;}
+.tabIcon li a.on,.tabIcon li a:hover{ color: #18b7e6; border-bottom: 2px solid #18b7e6;}
+
+.bannerShow{ background: url(../images/loading.gif) center center no-repeat; height: 400px; width: 100%; overflow: hidden;}
+.bannerShow *{ margin: 0; padding: 0;}
+.bannerShow .bannerShow_image_box{width: 100%; height: 400px; position: relative; z-index: 1;}
+.bannerShow .bannerShow_image_box .hd { margin: 0 auto; z-index: 1; position: relative;width: 116px; bottom: -372px; text-align: center;}
+.bannerShow .bannerShow_image_box .hd li{ float: left; width: 16px; border-radius: 8px; height: 16px; margin-right: 8px; cursor: pointer; background: #cccaca; line-height: 14px; text-align: center;}
+.bannerShow .bannerShow_image_box .hd li.on{ background: #c00;}
+.bannerShow .bannerShow_image_box .bannerShow_image_item{width: 100%; height: 400px; position: absolute; overflow: hidden;}
+.bannerShow .bannerShow_image_box .bannerShow_image_item a.bannerShow_coverlink{width: 100%; height: 400px; display: block; text-decoration: none; padding: 0; margin: 0; background: transparent; text-indent: 0; outline: none;}
+.bannerRight{width: 998px; margin: 0 auto; position: absolute; left: 50%; margin-left: -518px; top: 46px; height: 0; z-index: 1;}
+.bannerRight .inner{width: 290px; height: 252px; color: #666; text-align: center; background: url(../images/bannerRight.png) no-repeat 0 0; position: absolute; top: 0; right: 0;}
+.bannerRight .inner .title{ display: inline-block; width: 256px; margin-top: 6px; color: #666; font-size: 16px; border-bottom: 1px solid #bdcfd2; text-align: center; line-height: 42px;}
+.bannerRight .inner .percent{ font-size: 72px; color: #ff9900;}
+.bannerRight .inner .btn-primary{ margin: 6px 0; width: 244px; height: 38px; font-size: 16px;}
+.bannerRight .inner .immediatelylogin{ text-align: right; padding-right: 20px;}
+
+.index_propaganda{ margin-top: 20px; clear: both;}
+.propaganda_item{ width: 230px; height: 250px; text-align: center; background: #fff; float: left; padding: 18px 0 30px 0; margin-right: 26px;}
+.propaganda_item.last{ margin-right: 0; padding-top: 6px;}
+.propaganda_item i{ background: url(../images/icons/png/propaganda.png) no-repeat; -webkit-backface-visibility: hidden; -moz-backface-visibility: hidden; 
+backface-visibility: hidden; cursor: pointer; width: 100px; height: 100px; display: inline-block;}
+..propaganda_item .front_box{ z-index: 2; }
+..propaganda_item .back_box{ z-index: 1; -webkit-transform: rotateY(180deg); -moz-transform: rotateY(180deg);transform: rotateY(180deg);} 
+.propaganda_item i:hover .propaganda_item{ -webkit-transform: rotateY(180deg); -moz-transform: rotateY(180deg); transform: rotateY(180deg);} 
+.container ul li:hover .back_box{ z-index: 3;}
+
+.propaganda_item .mkd{ background-position: 0 0;}
+.propaganda_item .syg{ background-position: 0 -104px;}
+.propaganda_item .bxbz{ background-position: 0 -208px;}
+.propaganda_item .dataimg{ width: 212px; height: 41px; margin-bottom: 4px; background: url(../images/icons/png/public.png) no-repeat 0 -219px;}
+.propaganda_item .data-wrap{ text-align: left; color: #2d83bc; font-size: 18px; font-weight: bold;}
+.propaganda_item .data-bg{ width: 90px; height: 22px; margin: 12px 14px 0 4px; background: url(../images/icons/png/public.png) no-repeat 0 -190px; font-style: inherit; font-size: 18px; color: #fff; line-height: 22px; padding-left: 20px; text-align: left;}
+.propaganda_item .data{ width: 214px; height: 188px; background: #f2f7fb; margin: 0 auto; }
+.propaganda_item .data p{ text-align: left; line-height: 34px;}
+.propaganda_item .data span{ color: #3399cc; font-weight: bold; font-size: 28px; font-family: Arial; width: 70px; margin-right: 20px; display: inline-block; text-align: right;}
+.propaganda_item h3{ font-size: 24px; margin: 12px 0 16px 0;}
+.propaganda_item p{ font-size: 16px; line-height: 26px;}
+.index_propaganda .wrap, .index_info .wrap{width: 998px; margin: 0 auto; background-color: #ccc;}
+
+.index_info{ padding: 20px 0; clear: both;}
+.index_info_left{ float: left; width: 742px; height: 436px; background-color: #fff;  margin-bottom: 24px;}
+.index_info_left .title{ line-height: 50px; border-bottom: 2px solid #ededed; position: relative;}
+.index_info_left .title i{ font-style: inherit; position: relative; top: 2px; margin-right: 20px; padding: 0 12px; text-align: center; cursor: pointer; font-size: 22px; display: inline-block; height: 53px;}
+.index_info_left .title i:hover,i.on{ font-weight: bold; color: #3399cc; border-bottom: 2px solid #18b7e6;}
+.index_info_left .title span b{ font-weight: 400; color: #ff6700; margin-left: 30px;}
+.index_info_right{ float: right; height: 436px; width: 230px; background-color: #fff;}
+.index_info_right .title{ line-height: 42px;margin-top: 8px;}
+.index_info_right .title span{ display: inline-block; border-bottom: 2px solid #3399cc; font-size: 18px; margin: 0 92px 0 6px;}
+.index_info_right .title a{ color: #3399cc; font-size: 18px;}
+.index_info_right ul{ margin-top: 8px;}
+.index_info_right ul a:hover{ color: #3399cc;}
+.index_info_right ul li{ line-height: 34px; position: relative; padding-left: 12px;}
+.index_info_right ul i{ width: 15px; height: 15px; position: relative; top: 2px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat 0 -32px;}
+.loadmore{ text-align: center;}
+.index_info_left .table{ margin-bottom: 2px;}
+.title-ico{ font-style: inherit; width: 20px; height: 20px; background: #3399cc; color: #fff; line-height: 20px; font-size: 14px; text-align: center; display: inline-block; border-radius: 3px;}
+.index_info_left .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th{ padding: 12px 8px; text-align: center;  vertical-align: middle;}
+.table>thead>tr>td, .table>thead>tr>th{ border-top: 0; text-align: center;}
+.btn-primary{ background: #3399cc}
+.index_info_left .schedule,.cft .schedule{ margin: 0 auto;}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{border-top: 0; border-bottom: 1px solid #ebebeb;}
+.table>thead>tr>th{border-bottom: 0;}
+.btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open>.dropdown-toggle.btn-primary{background-color: #337ab7;}
+.btn{ padding: 6px 13px; border: 0;}
+.credit-ico{ font-style: inherit; width: 30px; height: 30px; background: #ff6700; color: #fff; line-height: 30px; text-align: center; display: inline-block; border-radius: 15px;}
+.index_info_left .credit-ico.a{background: #ff6700;}
+.index_info_left .credit-ico.b{background: #eb6877;}
+.index_info_left .credit-ico.d{background: #b3d465;}
+.index_info_left .interestRate{ color: #ff6700}
+.circliful { position: relative;}
+.circle-text, .circle-info, .circle-text-half, .circle-info-half { width: 100%; position: absolute; text-align: center; display: inline-block;}
+.circle-info, .circle-info-half {color: #999;}
+.circliful .fa {margin: -10px 3px 0 3px;position: relative;	bottom: 4px;}
+
+.w998center{ width: 998px; margin: 0 auto;}
+.w1146center{ width: 1146px; margin: 0 auto;}
+.index_flow{ margin-bottom: 55px; background: #fff; clear: both;}
+.index_flow .borrowingProcess{ height: 278px;}
+.index_flow .borrowingProcess .title{ display: inline-block; text-align: center; font-size: 24px; color: #fff; line-height: 46px; left: 426px; background: #3399cc; position: relative; width: 150px; height: 46px;}
+.index_flow .borrowingProcess .title.financial{ background: #ff6700}
+.index_flow .borrowingProcess .title i{ display: inline-block; position: absolute; left: -3px; top: -4px; width: 155px; height: 4px; background: url(../images/icons/png/public.png) no-repeat 0 -176px;}
+.index_flow .borrowingProcess .title.financial i{background-position: 0 -183px;}
+.index_flow .borrowingProcess .borrowingico{ display: inline-block; width: 100px; height: 100px; background: url(../images/icons/png/propaganda.png) no-repeat -104px 0;}
+.index_flow .borrowingProcess .fbjk{ background-position: -104px -104px}
+.index_flow .borrowingProcess .yqhy{ background-position: -104px -208px}
+.index_flow .borrowingProcess .zxjk{ background-position: -104px -312px}
+.index_flow .borrowingProcess .mbsh{ background-position: 0 -312px}
+.index_flow .borrowingProcess .shtg{ background-position: 0 -416px}
+.index_flow .borrowingProcess .fqhk{ background-position: -104px -416px}
+.index_flow .borrowingProcess .mfzc{ background-position: -208px 0}
+.index_flow .borrowingProcess .xzjkb{ background-position: -208px -104px}
+.index_flow .borrowingProcess .kstz{ background-position: -208px -208px}
+.index_flow .borrowingProcess .mbjx{ background-position: -208px -312px}
+.index_flow .borrowingProcess .fqshcb{ background-position: -208px -416px}
+.index_flow .borrowingProcess .gsylc{ background-position: 0 -520px}
+.index_flow .borrowingProcess ul{ margin: 38px 0 0 0; width: 1100px;}
+.index_flow .borrowingProcess ul.financial{ margin: 28px 0 0 0;}
+.index_flow .borrowingProcess li{ padding: 0 21px; float: left;}
+.index_flow .borrowingProcess.financial li{ padding: 0 31px;}
+.index_flow .borrowingProcess li a p{ color: #666; font-size: 18px; text-align: center; margin: 26px 0 0 0;}
+
+.loan{ margin-bottom: 30px;}
+
+.footer{ background: #909090; height: 192px; border-top: 3px solid #18b7e6;}
+.footer_inner{ width: 998px; margin: 0 auto; padding-top: 26px;color: #fff; text-align: center;}
+.footer_inner a{ color: #fff; font-size: 18px; margin: 0 24px;}
+.footer_inner span{margin-top: 20px; display: inline-block;line-height: 24px;}
+.footer_inner .threeparty{ margin-top: 12px;}
+.footer_inner .threeparty .ico{ width: 109px; height: 37px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat 0 -50px;}
+.footer_inner .threeparty .cxwz{ background-position: 0 -93px;}
+.footer_inner .threeparty .nor{background-position: 0 -134px;}
+
+.wrap .item { height: 100px; width: 100px; display: inline-block; -webkit-perspective: 1000px; -moz-perspective: 1000px; } 
+.out_box{ position: relative; height: 100px; width: 100px; -webkit-transform-style: preserve-3d; -moz-transform-style: preserve-3d; -ms-transform-style: preserve-3d; transform-style: preserve-3d; -webkit-transition: 0.5s; -moz-transition: 0.5s; -o-transition: 0.5s; -ms-transition: 0.5s; transition: 0.5s; -webkit-backface-visibility: hidden; -moz-backface-visibility: hidden; backface-visibility: hidden; }
+.out_box i{ display: block; height: 100px; width: 100px; position: absolute; left: 0; top: 0; background: url(../images/icons/png/propaganda.png) no-repeat; text-align: center; -webkit-backface-visibility: hidden; -moz-backface-visibility: hidden; backface-visibility: hidden; color:#FFF; line-height:100px; font-size:16px; }
+.out_box .front_box{ z-index: 2; }
+.out_box .back_box{/*display: none;*/ z-index: 1; -webkit-transform: rotateY(180deg); -moz-transform: rotateY(180deg); transform: rotateY(180deg); }
+.wrap .item:hover .out_box{ -webkit-transform: rotateY(180deg); -moz-transform: rotateY(180deg); transform: rotateY(180deg); }
+.wrap .item:hover .back_box{ z-index: 3; }
+
+.login-wrap{ height: 488px; background: #fff; margin-top: 82px; margin-bottom: 98px; position: relative;}
+.login-left{ background: url(../images/login-left.jpg) no-repeat; position: relative; top: 80px; left: 73px; width: 436px; height: 314px;}
+.login-left a{ width: 88px; height: 20px; display: inline-block; position: absolute; bottom: 16px; left: 110px;}
+.login-right{ width: 420px; background: #f6f6f6; padding: 26px 48px; float: right; top: 76px; right: 50px; position: absolute;}
+.retrievePassword{ top: 29px; background: none;}
+.register{ right: 50px;}
+.login-right .input-group{ width: 322px; margin-bottom: 18px; position: relative;}
+.login-right .input-group input{ padding: 0 20px 0 50px; border-radius: 0; height: 46px; line-height:46px\0 ;}
+.login-right .input-group .w166{ padding: 0 18px; width: 128px; margin-right: 10px;}
+.login-right .input-group span{ float: left; display: inline-block; width: 20px; height: 20px; z-index: 3; position: absolute; top: 13px; left: 22px; background: url(../images/icons/png/public.png) no-repeat -74px 0;}
+.login-right .input-group .pw{ width: 16px; height: 20px; background-position: -102px 0;}
+.login-right .input-group .btn{ border-radius: 0; font-size: 18px; background: #3399cc; height: 46px; width: 100%; line-height:46px; padding:0;}
+.login-right .input-group .btn:hover{ background: #337ab7}
+.login-right .input-groups a{ display:inline-block; line-height:46px; width:45px; text-align: center;}
+.login-right p{ padding: 0 15px;}
+.login-right p a{ color: #797979;}
+.login-right p .forgetPassword{ float: right;}
+.login-right p .registered{ float: left;}
+.login-right .input-group .code{ padding: 0 18px; width: 190px;}
+.login-right .getCode{ width: 108px; height: 46px; color: #fff; float: right; display: inline-block; background: #ff9900; line-height: 50px; text-align: center;}
+.login-right .userProtocol{ margin: 30px 0 18px 0; text-align: center; font-size: 16px;}
+.login-right .userProtocol a{ font-size: 16px; color: #18b7e6;}
+.login-right .userProtocol span{ display: inline-block; width: 20px; position: relative; top: 4px; cursor: pointer; height: 20px; border-radius: 2px; background: #ededed;}
+.login-right .userProtocol span i{ width: 16px; height: 16px; position: relative; top: 2px; left: 1px; display: block; background: url(../images/icons/png/public.png) no-repeat -127px 0;}
+.login-right .userProtocol b{ font-weight: 400; cursor: pointer;}
+.login-right .input-group img{ float: left; height:46px; width:138px;}
+.login-right .input-group .changeCode,.authentication .table .verifyCode .changeCode{ position: absolute; top: 2px; right: -92px; color: #909090; font-size: 12px; font-style: italic;}
+.login-right .input-group .changeCode i,.authentication .table .verifyCode .changeCode i{ width: 22px; margin-bottom: 6px; height: 22px; display: block; background: url(../images/icons/png/public.png) no-repeat -149px 0;}
+
+.authentication{ height: 640px; background: #fff; margin-top: 82px; margin-bottom: 88px; position: relative; padding: 0 46px;}
+.authentication .title{ line-height: 78px; margin-top: 8px; width: 100%; font-size: 24px; color: #909090; display: inline-block; border-bottom: 1px solid #c7c7c7;}
+.authentication .table{ margin: 60px auto 0 auto; width: 590px;}
+.authentication .table td{ vertical-align: middle; border:none; position: relative;}
+.authentication .table td i{ color: #f00; font-style: normal;}
+.text-right{ text-align: right; position: relative;}
+.authentication .table select,.authentication .table input[type=text]{ background: none}
+.authentication .table select,.authentication .table input{ width: 362px; height: 46px; background: url(../images/btn-bj.jpg);}
+.authentication .table .typefile a{ background: url(../images/btn-bj.jpg); height: 46px; width: 210px; border:1px solid #c7c7c7; display: inline-block; line-height: 46px; text-align: center;}
+.authentication .table .typefile input{ width: 296px; position: absolute; top: 8px; left: 8px; filter:alpha(opacity=0); -moz-opacity:0; opacity:0;}
+.authentication .table .typefile span{ color: #909090; margin-left: 10px; margin-top: 15px; display: inline-block;}
+.authentication .table .verifyCode input{ width: 210px;}
+.authentication .table .verifyCode img{ margin: 0 8px;}
+.authentication .table .verifyCode .changeCode{ top: 7px; right: -82px;}
+.authentication .subimtbtn{text-align: center;}
+.authentication .subimtbtn .btn{ width: 366px; height: 48px; border-radius: 0; font-size: 18px; margin: 60px 0 0 108px;}
+
+.loan{ margin-top: 102px; margin-bottom: 130px; position: relative;}
+.loan .loanType{ display: block; margin-right: 52px; float: left; background: #fff; overflow: hidden; position: relative; width: 298px; height: 380px; border:1px solid #e2e2e2; border-radius: 24px;}
+.loan .last{ margin-right: 0}
+.loan .loanType h3{ width: 300px; height: 58px; background: #67c9a2; line-height: 58px; color: #fff; font-size: 22px; text-align: center;}
+.loan .loanType .hbg-2{ background: #febabb}
+.loan .loanType .hbg-3{ background: #ccc0e6}
+.loan .loanType .title{ border-bottom: 1px dashed #ccc; color: #666; font-size: 18px; display: block; line-height: 54px; width: 286px; margin: 14px auto 0 auto;}
+.loan .loanType i{ width: 13px; height: 13px; margin: 0 8px 0 13px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -20px -34px;}
+.loan .loanType i.tp2{ background-position: -56px -34px;}
+.loan .loanType i.tp3{ background-position: -100px -34px;}
+.loan .loanType .point{ width: 6px; height: 6px; background-position: -43px -38px; margin: 0 4px 0 0; position: relative; top: -2px;}
+.loan .loanType .point.tj2{background-position: -74px -38px;}
+.loan .loanType .point.tj3{background-position: -88px -38px;}
+.loan .loanType p{ padding-left: 20px; line-height: 30px;}
+.loan .loanType p span{ font-size: 18px; margin-top: 18px; display: inline-block;}
+.loan .loanType .info{ display: block; width: 286px; border-top: 1px dashed #ccc; margin: 5px auto 0; padding: 6px 0 10px 20px;}
+.loan .loanType .info a{ color: #3399cc;}
+.loan .loanType .btn{ width: 166px; height: 40px; margin: 0 auto; display: block; line-height: 30px; background: #57b0f5;}
+.loan-cleafix{ clear: both; margin-bottom: 130px;}
+
+.loanInfo{ margin: 34px auto 76px auto; position: relative;}
+.loanInfo h3 span{ color: #3399cc;}
+.loanInfo .info{ padding: 18px 48px; background: #fff; margin: 24px 0 0 0;}
+.loanInfo .info .title{ font-size: 24px; color: #999;}
+.loanInfo .info table{ width: 902px; color: #666; margin-top: 12px;}
+.loanInfo .info select,.info input{ width: 190px;}
+.loanInfo .info table td{ vertical-align: middle; border:0;}
+.loanInfo .info table .text-right{ width: 114px;}
+.loanInfo .info .timeLimit{width: 88px; float: left;}
+.loanInfo .info .ts{ float: left; line-height: 34px; margin: 0 8px 0 4px; }
+.loanInfo .info .lg{ width: 380px;}
+.loanInfo .info .biddingScheme{ margin-right: 134px; float: left; margin-top: 12px;}
+.loanInfo .info .biddingScheme p{ padding-left: 20px; line-height: 34px;}
+.loanInfo .info .biddingScheme input[type=text]{ width: 56px; display: inline; margin-right: 8px;}
+.loanInfo .info .biddingScheme input[type=radio]{ width: 16px; display: inline; position: relative; top: 2px;}
+.loanInfo .info .biddingScheme .bz{ color: #ff3333;}
+.loanInfo .info .bidInvitation p{ line-height: 34px;}
+.loanInfo .info .bidInvitation input[type=radio]{ width: 16px; display: inline; position: relative; top: 2px;}
+.loanInfo .info .bidInvitation input[type=text]{ width: 56px; display: inline;}
+.loanInfo .info .bidInvitation span{ color: #999; font-size: 12px; margin-left: 20px;}
+.text-right span{ position: relative; top: -41px;}
+.text-right .zbfa{ top: -29px;}
+.loanInfo .info label{ font-weight: 400;}
+.btnp .btn{ width: 194px; height: 30px; border-radius: 0;}
+.loanInfo .info .btnp{ padding-left: 123px; margin-bottom: 24px;}
+
+.publishingSuccess{ margin: 92px auto 162px auto; color: #666; height: 392px; background: #fff; position: relative; padding: 36px 350px 0 350px;}
+.publishingSuccess h3{ font-size: 24px; color: #5cbd57; margin-bottom: 24px;}
+.publishingSuccess h3 i{ width: 37px; position: relative; top: 8px; margin: 0 18px 0 27px; height: 37px; display: inline-block; background:url(../images/icons/png/public.png) no-repeat -162px -27px;}
+.publishingSuccess p{ line-height: 34px}
+.publishingSuccess span{ width: 286px; margin-top: 14px; height: 40px; line-height: 52px; display: inline-block; border-top: 1px dashed #ccc; color: #ff6666;}
+.pubsbtn{ margin-top: 18px;}
+.pubsbtn .btn{ width: 132px; border-radius: 0; font-size: 16px; height: 36px;}
+.pubsbtn .later{ background: #ccc; color: #666; margin-left: 18px;}
+
+.fundManagement{ margin: 92px auto 100px auto; color: #666; height: 392px; background: #fff; position: relative; padding: 166px 395px 0 395px;}
+.fundManagement .rechargeSucces{ color: #5cbd56}
+.fundManagement .rechargeSucces i{ background-position: -162px -27px}
+.fundManagement .rechargeFailure{ color: #eb6876}
+.fundManagement .rechargeFailure i{ background-position: -121px -26px;}
+
+.bidSuccess{ margin: 94px auto 100px auto; color: #666; background: #fff; position: relative; padding: 32px 0 30px 340px;}
+.bidSuccess span{ width: 340px; display: inline-block; border-bottom: 1px dashed #ccc; height: 72px; font-size: 24px; color: #5cbd57; text-align: center;}
+.bidSuccess span i{ width: 37px; position: relative; top: 9px; height: 37px; margin-right: 24px;  display: inline-block; background:url(../images/icons/png/public.png) no-repeat -162px -27px;}
+.bidSuccess table{ margin: 14px 0 0 62px;}
+.bidSuccess table tr td{ height: 30px; line-height: 30px;}
+.bidSuccess p{ margin-top: 22px; color: #5cbd57; font-size: 12px;}
+.progress{ margin: 0; border-radius: 5px; width: 88px; float: left;}
+.progress-bar{ background: #ff9900;}
+.bidSuccess .failure i{ background-position: -121px -69px;}
+.bidSuccess .failure{ color: #eb6877;}
+.bidSuccess .failp{ color: #eb6877;}
+
+.cft{ margin: 28px auto 66px auto; background: #fff; position: relative; padding: 0 25px 14px 25px;}
+.cft .search{ height: 64px; width: 998px; padding: 16px 0; position: relative; left: -25px; top: 0; border-bottom: 1px solid #eee;}
+.cft .search span{ font-size: 18px; color: #3399cc; float: left; margin: 4px 24px 16px 24px;}
+.cft .search .searchinput{ width: 220px; height: 28px; position: absolute; top: 2px; left: 14px; border: none;}
+.cft .search .textstr{ width: 273px; height: 33px; position: relative; float: left; background: url(../images/icons/png/public.png) no-repeat 0 -266px;}
+.cft .search .textstr a{ width: 37px; height: 33px; display: inline-block; position: absolute; top: 0px; right: 0px;}
+.cft .searchType{ height: 46px; border-bottom: 1px solid #eee; line-height: 46px;}
+.cft .searchType.last{ border:0;}
+.cft .category{ color: #3399cc; font-size: 12px; float:left;}
+.cft .searchType .btn{height: 24px; font-size: 14px; padding: 2px 13px; margin: 13px 15px 0;}
+.cft .searchType a{ float:left; margin-right:25px; }
+.cft .searchType .tn{ margin: 0 25px 0;}
+.cft .table{ border:1px solid #eee; margin: 14px 0 0 ;}
+.cft .table>tbody{ font-size: 14px;}
+.cft .table thead{ background: #eeeeee; height: 48px;}
+.cft .table thead th{ padding: 12px;}
+.cft .table thead th i{ font-style: normal; color: #ff9900;}
+.cft .table td{ vertical-align: middle; text-align: center;}
+.cft .table>tbody>tr>td, .table>tbody>tr>th{ padding: 18px 8px;}
+.cft .pagination>li>a, .pagination>li>span{ margin: 0 7px;}
+.cft .none{ border:0; cursor: auto;background: none;margin: 0 0px;}
+.cft .none:hover{ background: none;}
+.cft nav{ text-align: center; margin: 8px 0 0 0;}
+.bg-green{ background: #64c672}
+.bg-blue{ background: #3399cc}
+.bg-violet{background: #ba5ba7}
+.bg-pink{background: #eb6877}
+.bg-lightGreen{background: #b3d465}
+.bg-orange{background: #ff6700}
+.btn-red{ background: #ff6666;}
+.btn-red:hover,.btn-red:focus,.btn-red:active{ background: #e45656}
+
+.bid{ margin: 34px auto 74px auto; position: relative;}
+.btn-link{ padding: 0; color: #3399cc;}
+.bid .info-top{ border-bottom: 1px solid #ccc; height: 310px; background: #fff; margin-top: 24px;}
+.bid .box-left{ width: 740px; border-right: 1px solid #ccc; height: 100%; float: left;}
+.bid .box-left .title{ height: 46px; background: #3399cc; font-size: 18px; line-height: 46px; color: #fff; padding: 0 64px 0 38px;}
+.bid .box-left .title i{ color: #f8b551; font-style: normal;}
+.bid .box-right{ width: 258px; height: 100%; float: left; position: relative;}
+.bid .box-left .box{ width: 670px; height: 70px; text-align: center; border: 1px solid #eee; margin: 14px auto;}
+.bid .box-left .box span{ color: #ff9900}
+.bid .box-left .box .fs{ background: #eee;}
+.bid .box-left .box2{ width: 656px; margin: 0 0 0 82px;}
+.bid .box-left .box2 span{ font-weight: bold; float: left;}
+.progress .progress-bar{ color:#333;}
+.bid .box-left .box2 td{ line-height: 36px;}
+.bid .box-left .box2 .progress{ position: relative;top: 8px;}
+.bid .box-right .title{ position: relative; text-align: center; height: 46px; background: #3399cc; font-size: 18px; line-height: 46px; color: #fff;}
+.bid .box-right .title i{ display: inline-block; width: 1px; height: 46px; overflow: hidden; background: #fff; position: absolute; top: 0; left: -1px;}
+.bid .box-right .balance{ width: 220px; height: 72px; border-bottom: 1px solid #eee; position: relative; margin: 10px auto; padding: 8px 4px 0 12px;}
+.bid .box-right .balance span{ color: #ff9900; font-size: 24px;}
+.bid .box-right .balance a{ width: 70px; height: 30px; display: inline-block; color: #fff; line-height: 30px; text-align: center; background: #ff9900; position: absolute; top: 20px; right: 4px;}
+.bid .box-right .box{ text-align: center; font-size: 12px; margin-left: 28px;}
+.bid .box-right .box td{ line-height: 30px;}
+.bid .box-right .box input{ height: 22px; line-height: 22px}
+.bid .box-right .box .smi{ width: 104px;}
+.bid .box-right .box span{ font-weight: bold;}
+.bid .box-right .box .btn{ width: 200px; height: 30px; border-radius: 0;}
+.bid .box-right .repayment{ background: url(../images/repayment.png) no-repeat; z-index: 3; height: 182px; width: 258px; position: absolute; top: 127px; left: 0px;}
+.bid .box-right .settled{ background: url(../images/settled.png) no-repeat; z-index: 3; height: 182px; width: 258px; position: absolute; top: 127px; left: 0px;}
+.text-left{ text-align: left;}
+.bid .info-wrap{ width: 922px; border:1px solid #cecece; margin: 0 auto;}
+.bid .info-bottom{ padding: 38px 0; background: #fff;}
+.bid .info-tab{ width: 920px; margin: 0 auto;}
+.bid .info-tab .title{ height: 40px; background: #eee; line-height: 40px; border-bottom: 1px solid #cecece;}
+.bid .info-tab .title a{padding: 0 40px; display: inline-block;height: 41px; float: left;}
+.bid .info-tab .title .on{ color: #3399cc; background: #fff; position: relative; top: -1px; height: 41px; font-weight: bold; border-top: 3px solid #3399cc;}
+.bid .tab-content{ width: 888px; margin: 30px auto;}
+a:focus, a:hover{ text-decoration: none;}
+.bid .tab-content .table{ text-align: center; height: 500px;}
+.bid .tab-content .table td{ vertical-align: middle; border-bottom: 1px solid #d4d4d4;}
+.bid .tab-content .lefttd{ width: 160px; background: #f2f1f1;}
+.bid .tab-content .table table{ font-size: 12px; width: 672px; margin: 0 auto;}
+.bid .tab-content .table table td{ line-height: 44px; text-align: left; padding-left: 14px;}
+.bid .tab-content .table .last td{ border: 0;}
+.bid .tab-content .table .padding-0{padding: 0; height: 136px;}
+.bid .tab-content .table p{ text-align: left; padding-left: 30px; line-height: 30px; font-size: 12px;}
+.bid .tab-content .dataAudit{  font-size: 12px; width: 886px; margin: 0 auto;}
+.bid .tab-content .dataAudit th{ background: #f7f6f6; height: 34px; text-align: center;}
+.bid .tab-content .dataAudit tr td{ text-align: center; padding-left: 0; border-top: 1px solid #d4d4d4;}
+.bid .tab-content .dataAudit .borderLeft{ border-left: 1px solid #d4d4d4;}
+.bid .tab-content .dataAudit .borderRight{ border-right: 1px solid #d4d4d4;}
+
+.account{ margin: 36px auto 100px auto; position: relative;}
+.account h3{ margin-bottom: 20px;}
+.nav{ width: 244px; float: left;}
+.account .content{ width: 734px; float: right;}
+.nav dt{ width: 244px; height: 57px; cursor: pointer; position: relative; display: inline-block; border-bottom: 1px solid #65a4cf; background: #3893d1; text-align: center; line-height: 54px;}
+.nav dt i{ width: 21px; height: 21px; position: absolute; top: 16px; left: 37px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -118px -115px;}
+.nav dt .ico-loan{ background-position: -144px -115px;}
+.nav dt .ico-account{ background-position: -169px -115px;}
+.nav dt .ico-investment{width: 24px; background-position: -195px -115px;}
+.nav dt .ico-capital{ width: 23px; background-position: -223px -115px;}
+.nav dt .ico-news{ background-position: -251px -115px;}
+.nav dt .ico-loan{ background-position: -144px -115px;}
+.nav dt span{ width: 6px; position: absolute; top: 23px; right: 22px; height: 10px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -132px -147px;}
+.nav .active{ background: #307eb5; border-bottom: 1px solid #307eb5;}
+.nav .active span{ width: 10px; height: 6px; top: 24px; background-position: -118px -147px;}
+.nav dd{display: none}
+.nav dd a{ height: 36px; padding-left: 86px; font-size: 14px; color: #84abcd; width: 244px; display: inline-block; background: #307eb5; line-height: 36px; }
+.nav dd a:hover{ color: #fff}
+.nav dd .on{ color: #fff}
+.nav a{ color: #fff; font-size: 18px; font-weight: 400;}
+.account .overview-left{ float: left; width: 358px; height: 256px; background: #fff; padding-left: 12px;}
+.account .records-left{ width: 304px; height: 158px; padding-top: 28px; padding-left: 28px; position: relative;}
+.account .overview-left img{float: left; width: 118px; height: 118px; border: 1px solid #ccc; margin-left: 12px;}
+.account .overview-left .rank{ float: left; padding-left: 26px;}
+.account .overview-left .rank p{ line-height: 40px;}
+.account .overview-left .rank a{width: 82px; height: 30px; display: inline-block; text-align: center; line-height: 30px; background: #ff6600; color: #fff;}
+.account .overview-left .rank .bg-blue{ background: #3399cc}
+.account .overview-right{ float: right; width: 358px; height: 256px; background: #fff; margin-bottom: 14px; padding-left: 12px;}
+.account .records-right{ width: 430px; height: 158px; padding-top: 28px; padding-left: 60px;}
+.account .overview-bottom{ width: 734px; padding-left: 57px; height: 72px; background: #fff; clear: both; line-height: 72px;}
+.account .overview-bottom span{ float: left;}
+.account .overview-bottom .progress{ width: 380px; margin: 26px 32px 0 8px;}
+.account .overview-bottom a{ width: 128px; height: 30px; color: #fff; display: inline-block; text-align: center; line-height: 30px; background: #3399cc; margin-top:20px;}
+.account .overview-bottom a:hover{ background: #298bbc}
+.account .overview-left .title,.overview-right .title{ padding-left: 10px; font-size: 16px; color: #3399cc; margin: 28px 0 48px 0;}
+.account .overview-left .safety span{ float: left}
+.account .overview-left .safety{ margin: 10px 0 42px 0;}
+.account .overview-right .balance{ width: 160px; padding: 2px 0 0 12px; position: relative; margin: 0 12px 10px 0; height: 56px; background: #fafafa; border-radius: 6px; float: left;}
+.account .overview-right .balance i{ position: absolute; top: 6px; right: 4px; width: 43px; height: 43px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat 0 -304px;}
+.account .overview-right .balance .available{ background-position: -94px -304px;}
+.account .overview-right .balance .collect{ background-position: -140px -304px;}
+.account .overview-right .balance .frozen{ background-position: -47px -304px;}
+.account .records-left .money{ width: 43px; height: 43px; margin-right: 18px; float: left; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -186px -304px;}
+.account .records-left .rank .records-available{ line-height: 24px; font-size: 24px;}
+.account .records-left .records-btn{ margin-top: 22px;}
+.account .records-left .records-btn a{ margin-right: 20px;}
+.account .records-left .dividingLine{ width: 1px; height: 128px; overflow: hidden; display: inline-block; background: #f4f4f4; position: absolute; top: 18px; right: 0px;}
+.account .overview-right .balance span{ font-size: 12px;}
+.account .overview-right .balance p{ font-size:16px;text-align:right;margin-right:60px;font-weight:600;}
+.account .records-bottom{ width: 734px; padding-left: 57px; overflow: hidden; padding: 20px 0 0 0; background: #fff; clear: both;}
+.account .records-bottom .queryTerms{ line-height: 34px; padding: 0 30px;}
+.account .records-bottom .queryTerms select,.queryTerms input{ width: 112px; float: left; margin: 0 4px;}
+.account .records-bottom .queryTerms select{ margin-right: 14px;}
+.account .records-bottom .queryTerms input{ width: 74px;}
+.account .records-bottom .queryTerms span{ float: left;}
+.account .records-bottom .queryTerms p{ text-align: right;}
+.account .records-bottom .queryTerms .querybtn{ width: 90px; font-size: 12px; height: 34px; display: inline-block; background: #3399cc; margin-left: 20px; color: #fff; text-align: center; line-height: 34px;}
+.account .records-bottom .queryTerms .derivedbtn{ color: #3399cc; margin-top: 16px; display: inline-block;}
+.account .records-bottom .queryTerms .derivedbtn i{ width: 17px; height: 14px; margin-right: 4px; position: relative; top: 2px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -218px 0;}
+.account .records-bottom .records-table{ width: 704px; margin: 20px auto 0 auto; text-align: center; border-right: 1px solid #ebebeb; border-left: 1px solid #ebebeb;}
+.account .records-bottom .records-table thead{ background: #f7f6f6; border-right: 1px solid #f7f6f6; border-left: 1px solid #f7f6f6; border-bottom: 1px solid #ebebeb}
+.account .records-bottom .records-table td{ vertical-align: middle;}
+.account .records-bottom .table>tbody>tr>td, .table>tbody>tr>th{ padding: 9px 8px 9px 20px;}
+.account .records-bottom nav{ text-align: center; margin-top: 20px;}
+
+.text-color-red{ color: #fb8564}
+.text-color-green{ color: #afc785}
+.text-color-blue{ color: #3399cc}
+.text-color-yellow{ color: #ffc100}
+.account .repayment{ height: 450px; background: #fff;}
+.account .repayment .title{ height: 40px; background: #eeeeee; line-height: 40px; border:1px solid #cecece;}
+.account .repayment .title span{ height: 40px; cursor: pointer; margin: -1px 0 0 -1px; float: left; display: inline-block; padding: 0 38px; text-align: center;}
+.account .repayment .title .on{ color: #3399cc; background: #fff; border-top: 3px solid #3399cc; font-weight: bold;}
+.account .repayment .repaymentTable{ width: 702px;  margin: 34px auto 0 auto;}
+.account .repayment .repaymentTable td,.repaymentTable th{ border-right: 0;}
+.account .repayment .repaymentTable td{ vertical-align: middle; text-align: center;}
+.account .repayment .repaymentTable thead tr{ border-bottom: 1px solid #e2e2e2; border-right: 1px solid #f7f6f6; border-left: 1px solid #f7f6f6;}
+.account .repayment .repaymentTable thead{ background: #f7f6f6;}
+.account .repayment .repaymentTable tbody tr{ border-right: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2;}
+.account .repayment .repaymentTable .repaymentTable>tbody>tr>td, .repaymentTable>tbody>tr>th{ padding: 10px 8px;}
+.account .paymentDetails .info{ width: 422px; padding: 0 10px; height: 266px; background:#fff; float: left; overflow: hidden;}
+.account .repayment .loanApplicationQuery{ padding-top: 16px;}
+.account .repayment .loanApplicationQuery .table{ margin: 0 auto;}
+.account .repayment .loanApplicationQuery .glyphicon{ position: relative; top: 2px; font-size: 12px;}
+.account .repayment .auditType{ line-height: 52px; margin-top: 24px; padding-left: 26px; display: inline-block;}
+.account .repayment .au itType span{ float: left; margin-right: 10px;}
+.account .repayment .JMauditType select{ width: 194px; position: relative; top: 8px;}
+.account .repayment .explaintext{ color: #3399cc; font-weight: bold; line-height: 44px; width: 702px; margin: 24px auto 12px auto; border-bottom: 2px solid #ededed;}
+.account .repayment .auditInfo{ background: #fff; padding-bottom: 14px; margin-bottom: 10px;}
+.account .repayment .infobotm{ padding: 22px 0 4px 26px;}
+.account .repayment .infobotm span{ color: #3399cc; font-weight: bold;}
+.account .repayment .auditInfo .progress-bar{ background: #ffcc66; color: #3399cc;}
+.account .repayment .auditInfo .jdt{ padding: 20px 26px;}
+.account .repayment .auditInfo .jdt span{ float: left; color: #3399cc; font-weight: bold;}
+.account .repayment .auditInfo .jdt .progress{ width: 380px;}
+.account .repayment .margin-t-0{ margin-top: 0;}
+.account .bg-none{ background: none}
+.account .repayment .auditInfoTitle{ margin: 0 auto 12px auto; width: 100%; padding-left: 22px; }
+.account .repayment .insideLetter p{ line-height: 58px; padding-left: 40px;}
+.account .repayment .insideLetter p a{ color: #3399cc; font-weight: bold; margin-right: 30px;}
+.account .repayment .insideLetter .table{ width: 702px; margin: 0 auto;}
+.account .repayment .insideLetter .table td{ vertical-align: middle; text-align: center; border-bottom: 0;}
+.account .repayment .insideLetter .table tr{ background: #f7f6f6;}
+.account .repayment .insideLetter .table thead{ background: #f7f6f6;}
+.account .repayment .insideLetter .table tbody th,tbody td{ padding: 8px 8px; border-bottom: 0;}
+.account .repayment .insideLetter .table-striped>tbody>tr:nth-of-type(odd){ background: #fff;}
+.account .repayment .insideLetter .letterState{ background: url(../images/icons/png/public.png) no-repeat -178px 0; width: 15px; height: 11px; display: inline-block;}
+.account .repayment .insideLetter .read{ background-position: -198px 0}
+.account .repaymentLetter{ height: auto;}
+.account .repayment .insideLetter .pagination>li>a, .pagination>li>span{ margin: 0 7px;}
+.account .repayment .insideLetter nav{ text-align: center;}
+.account .repayment .insideLetter nav ul{ margin: 36px 0 6px 0;}
+
+.account .safetyWrap{ padding: 12px 48px;}
+.account .safetyWrap .title{ color: #666; font-size: 14px; background: none; border:0; margin: 8px 0; font-weight: bold; height: 52px; line-height: 52px; display: inline-block; border-bottom: 1px solid #f5f5f5; width: 100%;}
+.account .safetyWrap .safety-item{ line-height: 50px; padding-left: 74px;}
+.account .safetyWrap .safety-ico{ width: 22px; height: 15px; position: relative; top: 2px; margin-right: 12px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -206px -25px;}
+.account .safetyWrap .phone{ width: 14px; height: 22px; background-position: -233px -25px; top: 5px; left: 3px; margin-right: 18px;}
+.account .safetyWrap .email{ height: 14px; background-position: -251px -25px;}
+.account .safetyWrap .realName{ font-weight: bold; color: #333; margin-right: 94px;}
+.account .safetyWrap .loginPW{ width: 22px; height: 20px; background-position: -205px -51px; top: 5px; margin-right: 12px;}
+.account .safetyWrap .payPW{ width: 17px; height: 20px; background-position: -234px -51px; top: 3px; left: 3px; margin-right: 16px;}
+.account .safetyWrap .unauthorized{ color: #666}
+.account .safetyWrap .slink{ color: #3399cc; float: right; margin: 0 46px;}
+.account .safetyWrap .sbtn{ display: inline-block; width: 112px; height: 30px; background: #3399cc; font-size: 16px; color: #fff; text-align: center; line-height: 30px; float: right; margin-top: 10px;}
+.account .repayment .safety-title{ height: 58px; line-height: 58px; color: #333; background: #ededed; padding: 0 18px 0 26px;}
+.account .repayment .safety-title span{ font-size: 18px; font-weight: bold;}
+.account .repayment .safety-title .close{ display: inline-block; border-radius: 13px; margin-top: 16px; width: 26px; opacity: 1; height: 26px; text-align: center; background: #cbcbcb;}
+.account .repayment .safety-title .close span{ color: #ededed;}
+.account .repayment .safety-wrap{ height: 390px; background: #fff;}
+.account .repayment .safety-wrap .inputp{ line-height: 34px; padding-top: 94px; padding-left: 182px;}
+.account .repayment .safety-wrap .inputp i{ float: left; font-style: normal; color: #ff6904; margin-right: 4px;}
+.account .repayment .safety-wrap .inputp span{ float: left;}
+.account .repayment .safety-wrap .inputp input{ width: 234px;}
+.account .repayment .safety-wrap .inputp .phone{ float: none; font-size: 18px; font-weight: bold;}
+.account .repayment .safety-wrap .submitbtn,.updatebtn{ background: #3399cc; clear: both; font-size: 16px; color: #fff; line-height: 40px; height: 40px; width: 332px; text-align: center; display: inline-block; margin: 24px 0 24px 202px;}
+.account .repayment .safety-wrap .updatebtn{ background: #ff6700; width: 234px; margin-left: 305px; margin-bottom: 40px;}
+.account .repayment .safety-wrap .nextBtn{ width: 322px;}
+.account .repayment .safety-wrap .updateEmailBtn{ width: 298px; margin-left: 0;}
+.account .repayment .safety-wrap .submitbtn{ background: #3399cc; clear: both; font-size: 16px; color: #fff; line-height: 40px; height: 40px; width: 332px; text-align: center; display: inline-block; margin: 24px 0 24px 202px;}
+.account .repayment .safety-wrap .prompt{ padding: 4px 116px; margin: 70px 0 0 0;}
+.account .repayment .safety-wrap .gmt0{ margin-top: 0;}
+.account .repayment .safety-wrap .result-ico{ width: 37px; margin-left: -18px; height: 37px; display: inline-block; background:url(../images/icons/png/public.png) no-repeat -162px -27px;}
+.account .repayment .safety-wrap .success-pop{ text-align: center; color: #5cbd57; padding-top: 86px;}
+.account .repayment .safety-wrap .success-pop p{ font-size: 26px; padding-top: 34px;}
+.account .repayment .safety-wrap .inputp .verifycode{ width: 124px; float: left;}
+.account .repayment .safety-wrap .pbott{ padding-top: 18px;padding-left: 196px;}
+.account .repayment .safety-wrap .pbottb{ padding-top: 18px;}
+.account .repayment .safety-wrap .fl-4{ margin-left: 28px;}
+.account .repayment .safety-wrap .getCode{ width: 104px; height: 34px; margin-left: 6px; display: inline-block; text-align: center; line-height: 38px; background: #ff9900; color: #fff; float: left;}
+.account .repayment .safety-wrap .mg-12{ margin-top: 36px;}
+.account .repayment .safety-wrap .emailsuccess{ width: 340px; border-top: 1px dashed #ccc; margin: 12px auto; text-align: center;}
+.account .repayment .safety-wrap .emailsuccess p{ margin: 20px 0 14px 0; color: #666;}
+.account .repayment .safety-wrap .emailsuccess a{ width: 142px; height: 38px; font-size: 15px; color: #fff; display: inline-block; text-align: center; line-height: 38px; background: #3399cc;}
+.account .repayment .safety-wrap .emailsuccess .grey{ background: #cacaca;}
+.account .repayment .safety-wrap .table{ margin: 0 0 0 60px; text-align: left;}
+.account .repayment .safety-wrap .table td{ border:0; vertical-align: middle;}
+.account .repayment .safety-wrap .markfont{ font-size: 18px;}
+.account .repayment .safety-wrap .table input{ width: 296px;}
+.account .repayment .safety-wrap .table .verifycode{ width: 188px; float: left;}
+.account .repayment .safety-wrap .table .tdL{ text-align: right; color: #666;}
+.account .repayment .safety-wrap .table .tdL i{ color: #ff6904; font-style: normal;}
+.account .repayment .updateEmail{ padding-top: 34px;}
+
+.account .repayment .bankCardInfo .table{ text-align: right; color: #000; width: 442px; margin: 30px auto;}
+.account .repayment .bankCardInfo .table span{ float: left; font-size: 18px;}
+.account .repayment .bankCardInfo .table td{ border-bottom: 0; vertical-align: middle;}
+.account .repayment .bankCardInfo .table i{ font-style: normal; color: #ff6904; position: relative; top: 3px; margin-right: 3px;}
+.account .repayment .bankCardInfo .table a{ width: 332px; height: 40px; background: #ff9900; margin-left: 16px; text-align: center; line-height: 40px; color: #fff; font-size: 18px;}
+.account .repayment .prompt{ color: #666; border-top: 1px solid #f5f5f5; padding: 0 38px 30px 38px;}
+.account .repayment .prompt i{ background: #60bb5e; display: inline-block; width: 13px; height: 13px; font-style: normal; margin-right: 8px; border-radius: 6px; font-size: 10px; color: #fff; line-height: 13px; text-align: center;}
+.account .repayment .prompt span{ color: #60bb5e; font-weight: bold; font-size: 16px; line-height: 44px;}
+.account .repayment .prompt p{ line-height: 22px;}
+.account .repayment .prompt .tid{padding-left: 21px;}
+.account .repayment .bankCardInfo input{ width: 300px;}
+.account .repayment .bankCardInfo .paddRL0{ padding-right: 0; padding-left: 0;}
+.account .repayment .bankCardInfo .branch{ float: left; margin-right: 12px; width: 145px;}
+.account .repayment .bankCardInfo .table .saveBtn{ width: 142px; font-size: 15px; margin-left: 112px; background: #3399cc;}
+.account .repayment .bankCardInfo .table .cancelBtn{ width: 142px; background: #cacaca; font-size: 15px;}
+
+.account .repayment .personalInformation{ padding: 48px 38px 4px 38px; background: #fff; overflow: hidden;}
+.account .repayment .personalInformation .headPortrait{ width: 138px; height: 212px; float: left;}
+.account .repayment .personalInformation .table{ width: 460px; float: right; text-align: right;}
+.account .repayment .personalInformation .table td{ vertical-align: middle;}
+.account .repayment .personalInformation .table span,.table a{ float: left;line-height: 24px; margin-left: 22px;}
+.account .repayment .personalInformation .table td{ border-bottom: 0;}
+.account .repayment .personalInformation .table input,.table select{ width: 218px;}
+.account .repayment .personalInformation .table input[type=radio]{ width: 14px; margin-left: -17px; float: left;}
+.account .repayment .personalInformation .table i{ color: #ff0000; font-style: normal; position: relative; top: 3px;}
+.account .repayment .personalInformation .updateBtn{ width: 220px; height: 38px; display: inline-block; margin: 14px 0 0 110px; background: #62bd56; font-size: 15px; text-align: center; line-height: 38px; color: #fff;}
+.account .repayment .personalInformation .hasCertified{ float: right;}
+.account .repayment .personalInformation .hasCertified{ color: #bbbcbb;}
+.account .repayment .personalInformation .headPortrait img{ border:1px solid #bfbfbf; width: 129px; height: 159px; display: block; margin: 0 auto;}
+.account .repayment .personalInformation .headPortrait input{ font-size: 12px; width: 148px; margin-top: 14px; color: #909090;}
+.account .repayment .personalInformation .hasCertified i{ width: 19px; height: 19px; top: 5px; display: inline-block; background: url(../images/icons/png/public.png) no-repeat -237px 0;}
+.account .repayment .personalInformation .birth select{ width: 84px; float: left;}
+.account .repayment .personalInformation .birth .sm{ width: 67px;}
+.account .repayment .personalInformation .birth span{ float: left; margin: 4px;}
+.account .repayment .personalInformation .saveBtn,.personalInformation .cancelBtn{ width: 104px; height: 38px; margin-right: 14px; display: inline-block; color: #fff; font-size: 15px; text-align: center; line-height: 38px; background: #cacaca;}
+.account .repayment .personalInformation .saveBtn{ background: #3399cc; margin-left: 110px;}
+
+.account .repayment .withdrawals{ padding-bottom: 46px;}
+.account .repayment .withdrawals .table{ width: 552px; margin: 30px 0 0 130px;}
+.account .repayment .withdrawals .table td{ border-bottom: 0; vertical-align: middle;}
+.account .repayment .withdrawals .table .ps{ color: #ff6700; font-size: 12px;}
+.account .repayment .withdrawals .rawalsL{ width: 128px; padding: 20px 0; text-align: right;}
+.account .repayment .withdrawals .withdrawalsBtn{ width: 214px; height: 48px; margin-left: 128px; color: #fff; font-size: 18px; background: #5ebc5e; display: inline-block; text-align: center; line-height: 48px;}
+.account .repayment .withdrawals .withdrawalsBtn:hover{ background: #6ec66e}
+.account .repayment .recharge{ padding-bottom: 28px;}
+.account .repayment .recharge .tableWrap{ background: #fafafa; width: 668px; padding: 10px 0; margin: 14px auto 4px auto;}
+.account .repayment .recharge .table{ background: #fafafa; font-weight: bold; margin-bottom: 0;}
+.account .repayment .recharge .table input{ width: 168px; float: left;}
+.account .repayment .recharge .table td{ border:0; vertical-align: middle;}
+.account .repayment .recharge .table span{ line-height: 34px; margin-left: 4px;}
+.account .repayment .recharge .ttd{ width: 286px; text-align: right;}
+.account .repayment .recharge .smTitle{ color: #3399cc; font-weight: bold; padding-left: 34px; line-height: 40px;}
+.account .repayment .recharge .smTitle a{}
+.account .repayment .recharge .smTitle img{ width: 114px; height: 30px; border: 1px solid #e1e0e0;}
+.account .repayment .recharge .smTitle img:hover{ border: 2px solid #3399cc}
+.account .repayment .recharge .smTitle .on{ border: 2px solid #3399cc}
+.account .repayment .recharge .bankWrap{ padding: 0 34px; zoom: 1; overflow: hidden; margin-top: 10px;}
+.account .repayment .recharge ul{width: 676px;}
+.account .repayment .recharge ul li{ float: left; width: 125px; height: 30px; border: 1px solid #e1e0e0; cursor: pointer; background: #fff; margin-bottom: 10px; margin-right: 10px;}
+.account .repayment .recharge ul li:hover{ border: 2px solid #3399cc}
+.account .repayment .recharge ul .on{ border: 2px solid #3399cc}
+.account .repayment .recharge .rechargeBtn{ width: 366px; height: 48px; margin: 20px 0 0 150px; display: inline-block; background: #ff6700; font-size: 18px; color: #fff; text-align: center; line-height: 48px;}
+
+.account .viewDetails{ height: auto; padding-bottom: 1px;}
+.account .viewDetails .title2{ padding-left: 30px; line-height: 56px; background: #ededed; font-size: 18px; font-weight: bold; position: relative;}
+.account .viewDetails .title2 .close{ width: 26px; opacity:1; background: #cbcbcb; text-align: center; height: 26px; display: inline-block; border-radius: 13px; position: absolute; top: 15px; right: 18px;}
+.account .viewDetails .title2 .glyphicon{ font-size: 14px; color: #fff;}
+.account .viewDetails .table td{border:0; vertical-align: middle; text-align: center;}
+.account .viewDetails .tablewrap{ padding: 0 49px; margin-top: 20px;}
+.account .viewDetails .table input{ width: 198px; float: left}
+.account .viewDetails .table span{ float: left; padding-top: 7px; margin: 0 4px;}
+.account .viewDetails .table textarea{ width: 498px;}
+.account .paymentDetails .info .ctop{ line-height: 56px; padding: 0 26px;}
+.account .paymentDetails .info .amount i{ color: #ff6600; font-size: 18px; font-style: normal;}
+.account .paymentDetails .info .name{ font-size: 18px; color: #3399cc;}
+.account .paymentDetails .smtable{ text-align: center; margin-bottom: 8px;}
+.account .paymentDetails .smtable thead{ background: #f7f6f6;}
+.account .paymentDetails .smtable>tbody>tr>td, .smtable>tbody>tr>th{ padding: 10px 8px;}
+.account .paymentDetails .smtable tbody td{vertical-align: middle; }
+.account .paymentDetails .smtable tbody tr{border-left: 1px solid #eee; border-right: 1px solid #eee;}
+.account .paymentDetails .smtable thead tr{border-bottom: 1px solid #eee;border-left: 1px solid #f7f6f6; border-right: 1px solid #f7f6f6;}
+.account .paymentDetails .info .repay{ line-height: 26px; padding-left: 26px;}
+.account .paymentDetails .info .cbottom{ width: 500px; margin-top: 10px; line-height: 60px; padding-left: 36px;  margin-left: -10px; height: 60px; display: inline-block; border-top: 1px solid #f4f4f4;}
+.account .paymentDetails .info .cbottom span{ margin-right: 50px;}
+.account .paymentDetails .info .cbottom i{ color: #3399cc; font-style: normal;}
+.account .paymentDetails .info .cbottom .last{ margin: 0;}
+.account .paymentDetails .pdbalance{ float: right; margin-bottom: 20px; width: 272px; height: 266px; background: #fff; position: relative;}
+.account .paymentDetails .pdbalance .paidoff{ background: url(../images/paidoff.png) no-repeat; z-index: 3; width: 272px; height: 266px; position: absolute; top: 0; left: 0;}
+.account .paymentDetails .pdbalance .pdbalance-top{ width: 220px; padding: 0 10px; margin: 0 auto 20px auto; height: 98px; position: relative; padding-top: 30px; border-bottom: 1px solid #eee;}
+.account .paymentDetails .pdbalance .pdbalance-top p span{ color: #ff9900; font-size: 18px;}
+.account .paymentDetails .pdbalance .pdbalance-top .btn{ position: absolute; top: 46px; border-radius: 0; right: 10px; background: #ff9900;}
+.account .paymentDetails .pdbalance .pdbalance-top .btn:hover{background: #ffa318}
+.account .paymentDetails .pdbalance .inputp{ padding-left: 26px; line-height: 36px;}
+.account .paymentDetails .pdbalance .inputp input{ padding: 0 4px; height: 24px; width: 130px; line-height: 24px;}
+.account .paymentDetails .pdbalance .infop{ padding-left: 26px; line-height: 30px; margin-top: 10px; display: inline-block;}
+.account .paymentDetails .pdbalance .btn-info{ width: 210px; height: 30px; margin: 20px auto 0 auto; display: block; background: #3399cc; border-radius: 0;}
+.account .paymentDetails .pdbalance .btn-info:hover{ background: #3ba1d4}
+.account .paymentDetails .pdbalance .long{ width: 70px;}
+.account .paymentDetails .auditData{ width: 100%; background: #fff; margin-top: 20px; clear: both;}
+.account .paymentDetails .auditData .title{ border-bottom: 2px solid #ededed; line-height: 44px; color: #3399cc; padding-left: 22px;}
+.account .paymentDetails .auditData .title2{ color: #333; font-weight: bold;}
+.account .paymentDetails .audit-width{ width: 702px; margin: 22px auto;}
+.account .paymentDetails .border-L{ border-left: 1px solid #eee; height: 78px;}
+.account .paymentDetails .border-R{ border-right: 1px solid #eee;}
+.account .paymentDetails nav{text-align: center;margin: 10px 0;}
+.account .paymentDetails nav i{ font-style: normal; float: left; color: #666; font-size: 12px; line-height: 30px;}
+.account .paymentDetails nav li input{ width: 30px; margin: 0 4px; height: 28px; float: left; line-height: 28px; border:1px solid #ddd; text-align: center;}
+.account .paymentDetails nav li a{ margin: 0 6px; display: inline-block; color: #3399cc;}
+
+.flowchart{ margin: 63px auto 92px auto; padding: 82px 0 48px 0; background: #fff; position: relative;}
+.flowchart .content{ width: 800px; height: 1003px; background: url(../images/flowchart.jpg) no-repeat; margin: 0 auto;}
+.flowchart .loanflow{background: url(../images/loanProcessChart.jpg) no-repeat;}
+
+.loanIntroduction{ margin: 36px auto 100px auto; position: relative;}
+.loanIntroduction .loanNav{ margin-top: 20px; float: left;}
+.loanIntroduction .loanNav li{ width: 244px; height: 54px; border-bottom: 1px solid #65a4cf; background: #3893d1;}
+.loanIntroduction .loanNav .on{ background: #307eb5;}
+.loanIntroduction .loanNav a{ color: #fff; display: inline-block; padding-left: 66px; width: 244px; height: 54px; font-size: 18px; line-height: 54px;}
+.loanIntroduction .loanNav a:hover{ background: #307eb5;}
+.loanIntroduction .content{ color: #666; width: 734px; padding-bottom: 30px; background: #fff; float: right; margin-top: 20px;}
+.loanIntroduction .content .title{ height: 42px; line-height: 42px; background: #eee; border: 1px solid #cecece; border-left: 0;}
+.loanIntroduction .content .title span{ display: inline-block; background: #fff; text-align: center; color: #3399cc; width: 162px; height: 42px; border-top: 3px solid #307eb5; position: relative; top: -1px;}
+.loanIntroduction .content p{ padding-left: 60px; line-height: 36px;}
+.loanIntroduction .content p a{ margin: 32px 0 16px 0; width: 220px; height: 38px; display: inline-block; background: #62bd56; text-align: center; line-height: 38px; color: #fff;}
+.loanIntroduction .info-wrap{ width: 690px; border:1px solid #cecece; margin: 0 auto;}
+.loanIntroduction .info-bottom{ padding: 38px 0; background: #fff;}
+.loanIntroduction .info-tab{ width: 688px; margin: 0 auto;}
+.loanIntroduction .info-tab .title2{ height: 40px; padding: 0; margin: 0; background: #eee; line-height: 40px; border-bottom: 1px solid #cecece;}
+.loanIntroduction .info-tab .title2 a{padding: 0 40px; color: #666; background: none; width: 164px; margin: 0; display: inline-block;height: 41px; float: left;}
+.loanIntroduction .info-tab .title2 .on{ color: #3399cc; background: #fff; position: relative; top: -1px; height: 41px; font-weight: bold; border-top: 3px solid #3399cc;}
+.loanIntroduction .tab-content{ width: 688px; margin: 30px auto;}
+.loanIntroduction .tab-content .bd{ margin: 30px 0 40px 0;}
+.loanIntroduction .tab-content .table{ text-align: center; height: 500px; width: 654px; margin: 0 auto;}
+.loanIntroduction .tab-content .table td{ vertical-align: middle; border-bottom: 1px solid #d4d4d4;}
+.loanIntroduction .tab-content .lefttd{ width: 110px; background: #f2f1f1;}
+.loanIntroduction .tab-content .table table{ font-size: 12px; width: 672px; margin: 0 auto;}
+.loanIntroduction .tab-content .table table td{ line-height: 44px; text-align: left; padding-left: 14px;}
+.loanIntroduction .tab-content .table .last td{ border: 0;}
+.loanIntroduction .tab-content .table span{ float: left;}
+.loanIntroduction .tab-content .table .mntb{ width: 108px; float: left; text-align: center; background: #f2f1f1; border-left: 1px solid #d4d4d4; border-right: 1px solid #d4d4d4;}
+.loanIntroduction .tab-content .table .padding-0{padding: 0; padding-left: 34px; text-align: left;}
+.loanIntroduction .tab-content .table p{ text-align: left; padding-left: 0; font-size: 12px; float: left;}
+.loanIntroduction .tab-content .table .width-110{ width: 110px;background: #f2f1f1;}
+.loanIntroduction .tab-content .dataAudit{ text-align: center;}
+.loanIntroduction .tab-content .dataAudit th{ background: #f7f6f6; height: 34px; text-align: center;}
+.loanIntroduction .tab-content .dataAudit tr td{ text-align: center; padding-left: 0; border-top: 1px solid #d4d4d4;}
+.loanIntroduction .tab-content .dataAudit .borderLeft{ border-left: 1px solid #d4d4d4;}
+.loanIntroduction .tab-content .dataAudit .borderRight{ border-right: 1px solid #d4d4d4;}
+
+.viewAudit{ margin: 92px auto 122px auto; padding: 34px 48px; background: #fff; position: relative;}
+.viewAudit .title{ width: 902px; font-size: 24px; color: #909090; border-bottom: 1px solid #c7c7c7; display: inline-block; height: 46px;}
+.viewAudit .noborder td{ border-bottom: 0;}
+.viewAudit .noborder{ margin-top: 20px;}
+.viewAudit{ color: #999999;}
+.viewAudit .t{color: #999999; font-weight: bold; width: 86px;}
+.viewAudit .smtitle{ font-size: 18px;}
+.viewAudit .datatable{ margin-top: 18px; border-left: 1px solid #eee;}
+.viewAudit .datatable thead{ background: #eee; border-bottom: 1px solid #ebebeb;}
+.viewAudit .datatable td,.datatable th{ vertical-align: middle; text-align: center; border-right: 1px solid #eee;}
+.paymentBill{ padding: 38px 48px;}
+.paymentBill .table{ margin: 0;}
+.paymentBill .table span{ color:#ff7111;}
+
+.tt{ background: #f5f5f5;}
+.tt-top{ height: 94px; background: #fff;}
+.tt-top .inner{}
+.tt-content { margin-top: 118px;}
+.tt-content .banklist{ height: 300px; border: 1px solid #dcdcdc; background: #fff;}
+.tt-content .title{ width: 1064px; margin: 0 auto; border-bottom: 1px solid #dcdcdc; height: 68px; line-height: 68px; font-size: 18px; display: block;}
+.tt-content .title span{ padding: 0 4px; cursor: pointer; position: relative; top: -1px; display: inline-block; height: 68px;}
+.tt-content .title .on{ border-bottom: 2px solid #f48430;}
+.tt-content ul{ width: 1010px; margin: 20px 0 0 94px;}
+.tt-content ul li{ float: left; height: 38px; margin: 0 30px 24px 0;}
+.tt-content ul li img{ cursor: pointer;}
+.tt-content ul li input{ top: -12px; position: relative;cursor: pointer;}
+.tt-content .info{ height: 100px; width: 1114px; margin-top: 20px; background: #e6ecf2; line-height: 100px; padding-left: 32px;}
+.tt-content .info span{ margin-right: 46px;}
+.tt-content .info i{ font-style: inherit; color: #ff1e1e;}
+.tt-submit{ margin-bottom: 218px; margin-top: 30px;}
+.tt-submit a{ width: 334px; float: right; height: 40px; color: #fff; display: inline-block; text-align: center; line-height: 40px; border-radius: 4px; background: #f0ad4e;}
+.tt-fonter{ height: 64px; background: #4d4d4d; color: #fff; line-height: 64px;}
+.tt-fonter span{ float: left;}
+.tt-fonter span a{ color: #40b7f7;}
+.tt-fonter p a{ color: #fff; margin: 0px 14px;}
+.tt-fonter p{ float: right;}
+
+.bank-logo{ display:block; overflow:hidden; width:125px; height:28px; background-image:url(../images/icons/png/bank-logo.png); text-indent:-9999px}
+/*北京农商银行*/
+#bank-bjrcb{background-position:0 0}
+/*北京银行*/
+#bank-bob{background-position:0 -28px}
+/*渤海银行*/
+#bank-cbhb{background-position:0 -56px}
+/*成都银行*/
+#bank-bocd{background-position:0 -84px}
+/*富滇银行*/
+#bank-fudian{background-position:0 -112px}
+/*中国工商银行*/
+#bank-icbc{background-position:0 -140px}
+/*中国光大银行*/
+#bank-ceb{background-position:0 -168px}
+/*广发银行*/
+#bank-gdb{background-position:0 -196px}
+/*汉口银行*/
+#bank-hkb{background-position:0 -224px}
+/*杭州银行*/
+#bank-hzb{background-position:0 -252px}
+/*恒丰银行*/
+#bank-hengfeng{background-position:0 -280px}
+/*华夏银行*/
+#bank-hxb{background-position:0 -308px}
+/*中国建设银行*/
+#bank-ccb{background-position:0 -336px}
+/*江苏银行*/
+#bank-jsb{background-position:0 -364px}
+/*交通银行*/
+#bank-bcom{background-position:0 -392px}
+/*金华银行*/
+#bank-jinghua{background-position:0 -420px}
+/*中国民生银行*/
+#bank-cmbc{background-position:0 -448px}
+/*南京银行*/
+#bank-njcb{background-position:0 -476px}
+/*宁波银行*/
+#bank-nbcb{background-position:0 -504px}
+/*中国农业银行*/
+#bank-abc{background-position:0 -532px}
+/*平安银行*/
+#bank-pab{background-position:0 -560px}
+/*浦发银行*/
+#bank-spdb{background-position:0 -588px}
+/*青岛银行*/
+#bank-qdccb{background-position:0 -616px}
+/*上海农商银行*/
+#bank-srcb{background-position:0 -644px}
+/*上海银行*/
+#bank-shb{background-position:0 -672px}
+/*深圳发展银行*/
+#bank-sdb{background-position:0 -700px}
+/*温州银行*/
+#bank-wzcb{background-position:0 -728px}
+/*兴业银行*/
+#bank-cib{background-position:0 -756px}
+/*招商银行*/
+#bank-cmb{background-position:0 -784px}
+/*泰隆银行*/
+#bank-zjtl{background-position:0 -812px}
+/*中国银行*/
+#bank-boc{background-position:0 -840px}
+/*中国邮政储蓄银行*/
+#bank-post{background-position:0 -868px}
+/*中信银行*/
+#bank-citic{background-position:0 -896px}
+/*重庆农村商业银行*/
+#bank-cqrcb{background-position:0 -924px}
+/*重庆银行*/
+#bank-cqcb{background-position:0 -952px}
+/*广州农村商业银行*/
+#bank-gzrcc{background-position:0 -980px}
+/*广州银行*/
+#bank-gzcb{background-position:0 -1008px}
+/*徽商银行*/
+#bank-hsb{background-position:0 -1036px}
+/*浙商银行*/
+#bank-czb{background-position:0 -1064px}
+/*南昌银行*/
+#bank-bonc{background-position:0 -1092px}
+/*广东南粤银行*/
+#bank-gdnyb{background-position:0 -1120px}
+/*长安银行*/
+#bank-chab{background-position:0 -1148px}
+/*东营莱商村银行*/
+#bank-dylscz{background-position:0 -1177px}
+/*德州银行*/
+#bank-dzb{background-position:0 -1205px}
+/*莱商银行*/
+#bank-lwb{background-position:0 -1233px}
+/*奇商银行*/
+#bank-qsb{background-position:0 -1260px}
+/*日照银行*/
+#bank-rzb{background-position:0 -1289px}
+/*泰安市商业银行*/
+#bank-tab{background-position:0 -1317px}
+/*临商银行*/
+#bank-lsb{background-position:0 -1345px}
+/*潍坊银行*/
+#bank-wfccb{background-position:0 -1373px}
+/*鄂尔多斯银行*/
+#bank-ordos{background-position:0 -1401px}
+/*厦门银行*/
+#bank-boxm{background-position:0 -1430px}
+/*龙江银行*/
+#bank-bolj{background-position:0 -1456px}
+/*晋中银行*/
+#bank-jzcb{background-position:0 -1484px}
+/*九江银行*/
+#bank-jjccb{background-position:0 -1512px}
+/*江苏长江商业银行*/
+#bank-cjccb{background-position:0 -1568px}
+/*洛阳银行*/
+#bank-boly{background-position:0 -1596px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+%{
+	business.User user = business.User.currUser();
+}%
+#{if user != null}
+	#{if user.needCompleteBasicInfo() == false}
+	<script type="text/javascript">
+		function acitveEmail() {
+			if (confirm("您尚未完善个人基本信息。\n现在去完善？")) {
+				window.location.href = "@{front.account.basicInformation.basicInformation()}";
+			}
+		}
+	</script>
+	#{/if}
+	#{elseif user.needCompleteSafeInfo() == false}
+	<script type="text/javascript">
+		function acitveEmail() {
+			alert("您尚未完成安全认证。\n请先进行安全认证");
+			window.location.href = "@{front.account.basicInformation.safetyInformation()}";
+		}
+	</script>
+	#{/elseif}
+#{/if}

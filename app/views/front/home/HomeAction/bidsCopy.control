@@ -1,0 +1,81 @@
+
+			<div class="index_info_left">
+				<div class="title">
+				    
+					<i class="title" onclick="showbids();">借款中的标</i>
+					<i class="title title_ishow" onclick="showagencybids();" >机构合作标</i>
+					#{list bids}
+					<span> 
+					<marquee align=right direction = up height = 20 hspace = 10 loop = infinite scrollamount = 5 scolldelay = 20 >
+					<a style="width:100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" href="@{front.invest.investAction.invest(_?.id)}">
+					<b>最新理财资讯：</b>会员${_?.userName?.asterisk()},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}
+						发布了借款金额${_?.userName?.asterisk()},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}筹款中...</a>
+					</marquee>
+					</span>
+					#{/list}
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th style="width:330px;">借款标题</th>
+							<th style="width:100px;">信用等级</th>
+							<th style="width:80px;">年利率</th>
+							<th style="width:130px;">借款金额</th>
+							<th style="width:100px;">投标期限</th>
+							<th style="width:100px;">认购进度</th>
+						</tr>
+					</thead>
+					<tbody class="items">
+					#{list items:agencyBids , as:'agencybid'}
+						<tr>
+							<th scope="row">
+							
+							<i class="title-ico">净</i>
+							<a href="@{front.invest.InvestAction.invest(agencybid?.id)}">${agencybid?.title}</a>
+							</th>
+							<td><i class="credit-ico">A</i></td>
+							<td>${agencybid?.apr}%</td>
+							<td>￥${agencybid?.amount?.format('###,##0.00')}</td>
+							<td>
+							#{if agencybid?.period_unit ==-1}
+												${agencybid?.period}年
+												#{/if}
+												#{if agencybid?.period_unit ==0}
+												${agencybid?.period}个月
+												#{/if}
+												#{if agencybid?.period_unit ==1}
+												${agencybid?.period}天
+												#{/if}
+							</td>
+							<td>
+								<div class="js-schedule schedule" data-dimension="46" id="myCanvas"
+									data-text="${agencybid?.loan_schedule}%" data-info="New Clients" data-width="4"
+									data-fontsize="14" data-percent="78" data-fgcolor="#ff6700"
+									data-bgcolor="#ccc"></div>
+							</td>
+							<td><a href="@{front.invest.InvestAction.invest(agencybid?.id)}" class="btn btn-primary">投标</a></td>
+						</tr>
+					#{/list}
+						
+					</tbody>
+				</table>
+				<p class="loadmore">
+					<a href="@{front.invest.InvestAction.investHome()}" class="btn btn-link">加载更多</a>
+				</p>
+			</div>
+			
+<script>
+$(function(){
+	var  par="${agencybid?.loan_schedule}";
+	var result=par*1/100;
+	result=result*Math.PI;
+	var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+    var imgData=ctx.createImageData(100,100);
+
+    ctx.arc(100, 100, 50, 1.5*Math.PI,1.5*Math.PI+result, false);    
+    ctx.stroke();
+
+
+})
+</script>

@@ -1,0 +1,152 @@
+%{
+	java.util.List<business.CreditLevel> creditLevels = business.CreditLevel.queryAllCreditLevels(new utils.ErrorInfo());
+}%
+<script type="text/javascript">
+	var _credits = {
+		#{list items:creditLevels, as:'creditL'}
+		c_${creditL?.id}: '${creditL?.name}',
+		#{/list}
+	};
+	$(function() {
+		$("i.credit-ico").each(function() {
+			var _e = $(this);
+			_e.text(_credits["c_" + _e.text()]);
+			_e.addClass(getCreditStyle(_e.text()));
+		});
+		$(".bidI").click(function() {
+			$(this).addClass("on");
+			$(".agencyI").removeClass("on");
+			$(".agencyTB").hide();
+			$(".bidsTB").show();
+		});
+		$(".agencyI").click(function() {
+			$(this).addClass("on");
+			$(".bidI").removeClass("on");
+			$(".agencyTB").show();
+			$(".bidsTB").hide();
+		});
+	});
+</script>
+<div class="index_info_left">
+	<div class="title">
+	    <i class="on bidI">借款中的标</i>
+		<i class="agencyI">机构合作标</i>
+		<span style="float:right;width:400px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+			<marquee align="right" direction="up" height="50" hspace="10" loop="infinite" scrollamount="2" scolldelay="20">
+				#{list bids}
+				<a href="@{front.invest.investAction.invest(_?.id)}" target="_blank">
+					<b>最新理财资讯：</b>
+					会员${_?.userName?.asterisk()}发布了新借款标，借款金额${_?.userName?.asterisk()},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}
+				</a>
+				#{/list}
+			</marquee>
+		</span>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th style="width:330px;">借款标题</th>
+				<th style="width:100px;">信用等级</th>
+				<th style="width:80px;">年利率</th>
+				<th style="width:130px;">借款金额</th>
+				<th style="width:100px;">投标期限</th>
+				<th style="width:100px;">认购进度</th>
+			</tr>
+		</thead>
+		<tbody class="bidsTB">
+		#{list items:bidList, as:'bid'}
+			<tr>
+				<th scope="row" style="text-align: left;">
+					<i class="title-ico">${bid?.product_name?.substring(0, 1)}</i>
+					${bid?.title}
+				</th>
+				<td><i class="credit-ico">${bid?.credit_level_id}</i></td>
+				<td>${bid?.apr?.format('#.00')}%</td>
+				<td style="text-align:right;">￥${bid?.amount?.format('#,##0.00')}</td>
+				<td>
+					#{if bid?.period_unit ==-1}
+						${bid?.period}年
+					#{/if}
+					#{if bid?.period_unit ==0}
+						${bid?.period}个月
+					#{/if}
+					#{if bid?.period_unit ==1}
+						${bid?.period}天
+					#{/if}
+				</td>
+				<td>
+					<div class="js-schedule schedule" data-dimension="46"
+						data-text="${bid?.loan_schedule}%" data-info="New Clients" data-width="4"
+						data-fontsize="14" data-percent="${bid?.loan_schedule}" data-fgcolor="#ff6700"
+						data-bgcolor="#ccc"></div>
+				</td>
+				<td><a onclick="checkLogin(${bid?.id})" class="btn btn-primary">投标</a></td>
+			</tr>
+		#{/list}
+		</tbody>
+		<tbody class="agencyTB" style="display:none;">
+		#{list items:agencyBids, as:'bid'}
+			<tr>
+				<th scope="row" style="text-align: left;">
+					<i class="title-ico">${bid?.product_name?.substring(0, 1)}</i>
+					<a href="@{front.invest.InvestAction.invest(bid?.id)}">${bid?.title}</a>
+				</th>
+				<td><i class="credit-ico">${bid?.credit_level_id}</i></td>
+				<td>${bid?.apr?.format('#.00')}%</td>
+				<td style="text-align:right;">￥${bid?.amount?.format('#,##0.00')}</td>
+				<td>
+					#{if bid?.period_unit ==-1}
+						${bid?.period}年
+					#{/if}
+					#{if bid?.period_unit ==0}
+						${bid?.period}个月
+					#{/if}
+					#{if bid?.period_unit ==1}
+						${bid?.period}天
+					#{/if}
+				</td>
+				<td>
+					<div class="js-schedule schedule" data-dimension="46"
+						data-text="${bid?.loan_schedule}%" data-info="New Clients" data-width="4"
+						data-fontsize="14" data-percent="${bid?.loan_schedule}" data-fgcolor="#ff6700"
+						data-bgcolor="#ccc"></div>
+				</td>
+				<td><a onclick="checkLogin(${bid?.id})" class="btn btn-primary">投标</a></td>
+			</tr>
+		#{/list}
+		</tbody>
+	</table>
+	<p class="loadmore">
+		<a href="@{front.invest.InvestAction.investHome()}" class="btn btn-link">加载更多</a>
+	</p>
+</div>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>
+<script>
+	function checkLogin(bidId) {
+  		var listAction = #{jsAction @front.bid.BidAction.checkUserStatus() /};
+		$.post(listAction(), function(data) {
+			switch(data.status * 1) {
+	    	case 1:
+	    		window.location.href="@{front.invest.InvestAction.invest()}?bidId=" + bidId;
+	    			//collectCurrentBid(bidId);  
+				break;
+			/* 未登录 */
+			case -1: 
+				alert("您没有登录 ,请您先去登录 ");
+				window.location.href="@{front.account.LoginAndRegisterAction.login()}";
+				return;
+			/* 未激活 */
+			case -2: 
+		        alert("请您先去完善安全信息 ");
+		        window.location.href="@{front.account.basicInformation.safetyInformation()}";
+				return;
+		 	case -3: 
+		 		alert("请您先去 完善个人信息 ");
+		 		window.location.href="@{front.account.BasicInformation.basicInformation()}";
+				//collectCurrentBid(bidId);  
+				break;
+			}
+		});
+	}
+  
+</script>

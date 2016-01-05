@@ -1,0 +1,208 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 借款管理  | 借款资料审核认证'/}
+<!-- 内容区域 start -->
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a> > 借款管理  > 审核资料提交
+    </h3>
+	<!-- 左边导航区域 -->
+	#{include "front/account/AccountHome/homeLeft.control"/}
+	<div class="content">
+		<div class="repayment js-slideBox">
+			<div class="title hd">
+				<span class="on">借款资料审核认证</span>
+			</div>
+			#{form @auditMaterialsIPS(), id: 'auditMaterialsIPS'}
+			<input type="hidden" name="productId" value="${productId}" />
+			<p class="auditType">
+				<span>状态</span>
+				<select class="form-control" name="status" id="status">
+					<option value="10" id="type110">全部</option>
+					<option value="0" id="type10">未提交</option>
+					<option value="1" id="type11">审核中</option>
+					<option value="2" id="type12">通过审核</option>
+					<option value="3" id="type13">过期失效</option>
+					<option value="4" id="type14">上传未付款</option>
+					<option value="-1" id="type-11">未通过</option>
+				</select>
+			</p>
+			#{/form}
+			<p class="explaintext">＊必选项</p>
+			<div class="bd">
+				<table class="table repaymentTable">
+					<thead>
+						<tr>
+							<th style="width:220px;">资料名称</th>
+							<th style="width:160px;">格 式</th>
+							<th style="width:160px;">审核状态</th>
+							<th>操作项</th>
+						</tr>
+					</thead>
+					<tbody>
+						#{list pageBean?.page}
+						<tr>
+							<th scope="row">${_?.name}</th>
+							<td>
+								#{if _?.type == 1}
+								图片文件
+								#{/if}
+								#{elseif _?.type == 2}
+								文本文件
+								#{/elseif}
+								#{elseif  _?.type == 3}
+								视频文件
+								#{/elseif}
+								#{elseif  _?.type == 4}
+								音频文件
+								#{/elseif}
+								#{else}
+								表格文件
+								#{/else}
+							</td>
+							<td>${_?.strStatus}</td>
+							<td>
+								#{if _?.status == 1 || _?.status == 2}
+								#{/if}
+								#{else}
+								<a class="btn btn-link" target="_blank" href="@{front.account.AccountHome.auditMaterialsUpload(_?.sign, _?.signItemId, _?.name, _?.description, _?.type)}&productId=${productId}">上传</a>
+								#{/else}
+								<a class="btn btn-link" target="_blank" href="@{front.account.AccountHome.auditMaterialsSameItem(_?.mark)}">查看</a>
+							</td>
+						</tr>
+						#{/list}
+					</tbody>
+				</table>
+			</div>
+			<p class="explaintext">可选项</p>
+			<div class="bd">
+				<table class="table repaymentTable">
+					<thead>
+						<tr>
+							<th style="width:220px;">资料名称</th>
+							<th style="width:160px;">格 式</th>
+							<th style="width:160px;">审核状态</th>
+							<th>操作项</th>
+						</tr>
+					</thead>
+					<tbody>
+						#{list nonNessaryBean?.page}
+						<tr>
+							<th scope="row">${_?.name}</th>
+							<td>
+								#{if _?.type == 1}
+								图片文件
+								#{/if}
+								#{elseif _?.type == 2}
+								文本文件
+								#{/elseif}
+								#{elseif  _?.type == 3}
+								视频文件
+								#{/elseif}
+								#{elseif  _?.type == 4}
+								音频文件
+								#{/elseif}
+								#{else}
+								表格文件
+								#{/else}
+							</td>
+							<td>${_?.strStatus}</td>
+							<td>
+								#{if _?.status == 1 || _?.status == 2}
+								#{/if}
+								#{else}
+								<a class="btn btn-link" target="_blank" href="@{front.account.AccountHome.auditMaterialsUpload(_?.sign, _?.signItemId, _?.name, _?.description, _?.type)}&productId=${productId}">上传</a>
+								#{/else}
+								<a class="btn btn-link" target="_blank" href="@{front.account.AccountHome.auditMaterialsSameItem(_?.mark)}">查看</a>
+							</td>
+						</tr>
+						#{/list}
+					</tbody>
+				</table>
+			</div>
+			<div class="oper-area">
+				<a class="btn btn-primary" onclick="submitUploadedItems();">提交</a>
+				<a class="btn btn-primary" href="@{front.account.AccountHome.clearUploadedItems()}">取消</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="loan-cleafix"></div>
+<!-- 内容区域 end -->
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>	
+<script type="text/javascript">
+$(function() {
+	#{if flash.get("error") != null}
+	alert("${flash.get('error')}");
+	#{/if}
+	$("#status").change(function() {
+		$("#auditMaterialsIPS").submit();
+	});
+	
+	var status = "${pageBean?.conditions?.status}";
+	switch(parseInt(status)){
+		case 10:$("#type110").attr("selected","selected");break;
+		case 0:$("#type10").attr("selected","selected");break;
+		case 1:$("#type11").attr("selected","selected");break;
+		case 2:$("#type12").attr("selected","selected");break;
+		case 3:$("#type13").attr("selected","selected");break;
+		case -1:$("#type-11").attr("selected","selected");break;
+	}
+
+	%{int payTypeItem = constants.Constants.PAY_TYPE_ITEM;}%  // 资料费支付方式
+	var code = "${flash.code}";
+	if (code == "-999") { // 费用不足
+		#{if payTypeItem == 2} // 独立普通
+			showRechargeWin();
+			 
+		    return ;
+		#{/if}
+		#{elseif payTypeItem == 3 || payTypeItem == 4} // 共享资金托管
+			alert("${flash.msg}");
+			window.open("@{front.account.FundsManage.recharge()}");
+
+			return ;
+		#{/elseif}
+		#{elseif payTypeItem == 1} //普通网关内部转账
+			alert("${flash.msg}");
+			window.open("@{front.account.FundsManage.rechargePay()}");
+
+			return ;
+		#{/elseif}
+	} else if(code == "-998"){ // 费用足够
+		#{if payTypeItem == 3} // 共享资金托管
+			if(confirm("请您点击去支付!"))
+				window.open("@{front.account.FundsManage.rechargePay()}");
+ 		#{/if} 
+	 	#{elseif payTypeItem == 4} // 完全资金托管
+			alert("${flash.msg}");
+ 			window.open("@{front.account.PaymentAction.transferUserToMer()}"); 
+ 		#{/elseif} 
+	}
+});
+
+function submitUploadedItems() {
+	var action = #{jsAction @front.account.AccountHome.queryUploadedItems() /};
+	$.post(action(), function(data) {
+		if(data.code < 0){
+			alert(data.msg);
+			return;
+		}
+		
+		var count = data.count;
+		var fees = data.fees;
+		
+		var str = '您上传了'+count+'项资料，需支付审核费'+fees+'元。\n如果有暴力、色情、国家机密将会追究相关法律责任\n确定提交?';
+	
+		if(!confirm(str)){
+			return;
+		}
+		
+		window.location.href = "@{front.account.AccountHome.submitUploadedItems()}";
+	});
+}
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

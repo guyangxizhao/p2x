@@ -1,0 +1,220 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 理财子账户  | 我的理财账单'/}
+<style>
+#tabs {
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#tabs li {
+	float: left;
+	margin: 0 .5em 0 0;
+}
+#tabs a {
+	position: relative;
+	background: #ddd;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+	background-image: -webkit-linear-gradient(top, #fff, #ddd);
+	background-image: -moz-linear-gradient(top, #fff, #ddd);
+	background-image: -ms-linear-gradient(top, #fff, #ddd);
+	background-image: -o-linear-gradient(top, #fff, #ddd);
+	background-image: linear-gradient(to bottom, #fff, #ddd);
+	padding: .7em 3.5em;
+	float: left;
+	text-decoration: none;
+	color: #444;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+	border-radius: 5px 0 0 0;
+	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+	-webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+}
+ #tabs a:hover, #tabs a:hover::after, #tabs a:focus, #tabs a:focus::after {
+ background: #fff;
+}
+#tabs a:focus {
+	outline: 0;
+}
+ #tabs a::after {
+ content:'';
+ position:absolute;
+ z-index: 1;
+ top: 0;
+ right: -.5em;
+ bottom: 0;
+ width: 1em;
+ background: #ddd;
+ background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+ background-image: -webkit-linear-gradient(top, #fff, #ddd);
+ background-image: -moz-linear-gradient(top, #fff, #ddd);
+ background-image: -ms-linear-gradient(top, #fff, #ddd);
+ background-image: -o-linear-gradient(top, #fff, #ddd);
+ background-image: linear-gradient(to bottom, #fff, #ddd);
+ -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+ -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+ box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+ -webkit-transform: skew(10deg);
+ -moz-transform: skew(10deg);
+ -ms-transform: skew(10deg);
+ -o-transform: skew(10deg);
+ transform: skew(10deg);
+ -webkit-border-radius: 0 5px 0 0;
+ -moz-border-radius: 0 5px 0 0;
+ border-radius: 0 5px 0 0;
+}
+ #tabs #current a, #tabs #current a::after {
+ background: #fff;
+ z-index: 3;
+}
+/* ------------------------------------------------- */
+
+#content {
+	background: #fff;
+	padding: 2em;
+	height: 220px;
+	position: relative;
+	z-index: 2;
+	-moz-border-radius: 0 5px 5px 5px;
+	-webkit-border-radius: 0 5px 5px 5px;
+	border-radius: 0 5px 5px 5px;
+	-moz-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+	-webkit-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+	box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+}
+#content h2, #content h3, #content p {
+	margin: 0 0 15px 0;
+}
+</style>
+<!-- 内容区域 start -->
+			<div class="cleafix"></div>
+             <div class="account w998center">
+				<div class="xf_con_mem_nav"></div>
+				<!-- 左边导航区域 -->
+				#{include "front/account/AccountHome/homeLeft.control"/}
+				<!-- 右侧内容区域 我的借款账单 -->
+				
+			    <input type="hidden" name="type" id="type" value="${type}"/>
+				<div id="content" class="content" style="padding-top: 0px; padding-left: 0px; padding-right: 0px;">
+				<div class="repayment js-slideBox">
+				<div class="title hd" style="display:block">
+              <span id="Payment" class="on">回款中的项目</span>
+               <span id="Bid">投标中的项目</span>
+               <span id="Settle">已结清的项目</span>
+                 </div>
+                 <div class="bd" id="bd">
+		
+				  </div>
+                </div>
+				</div>
+			<!-- 清除浮动 -->
+				<div class="clear"></div>
+			</div>
+
+		<!-- 内容区域 end -->
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<<script type="text/javascript">
+<!--
+
+//-->
+$(function(${type}){
+    var type=$("#type").val();
+	var com=$("#bd");
+	$.ajax({     
+  	 	url:"@{front.account.InvestAccount.investBillsTable1()}",
+  	    type:'post',
+  	    data:{
+  	    	'type':"Payment"
+  	    },
+  	    error:function() {     
+  	       alert('error');
+  	    },
+  	  	success:function(data) {
+  	  	$("#type").val("Payment")
+  	    com.html(data);	
+		}
+  	});	
+   
+	$("#Payment").click(function(){
+		var pageSize=3;
+		var currPage=1
+		tab1(pageSize,currPage)});
+	$("#Bid").click(function(){
+		var pageSize=3;
+	    var currPage=1
+	    tab2(pageSize,currPage)});
+	$("#Settle").click(function(){	
+		var pageSize=3;
+	    var currPage=1
+	    tab3(pageSize,currPage)});
+     });
+
+function tab1(pageSize,currPage){
+
+	var type=$("#type").val();
+	var com=$("#bd");
+	$.ajax({     
+  	 	url:"@{front.account.InvestAccount.investBillsTable1()}",
+  	    type:'post',
+  	    data:{
+  	    	'type':"Payment",'pageSize':pageSize,'currPage':currPage
+  	    },
+  	    error:function() {     
+  	       alert('error');
+  	    },
+  	  	success:function(data) {
+  	  	$("#type").val("Payment");
+  	    com.html("");	
+  	    com.html(data);	
+		}
+  	});	
+}
+function tab2(pageSize,currPage){
+	
+	var type=$("#type").val();
+	var com=$("#bd");
+	$.ajax({     
+  	 	url:"@{front.account.InvestAccount.investBillsTable2()}",
+  	    type:'post',
+  	    data:{
+  	    	'type':"Bid",'pageSize':pageSize,'currPage':currPage
+  	    },
+  	    error:function() {     
+  	       alert('error');
+  	    },
+  	  	success:function(data) {
+  	  	$("#type").val("Bid");
+  	    com.html("");
+  	    com.html(data);	
+		}
+  	});	
+}
+function tab3(pageSize,currPage){
+
+	var type=$("#type").val();
+	var com=$("#bd");
+	$.ajax({     
+  	 	url:"@{front.account.InvestAccount.investBillsTable3()}",
+  	    type:'post',
+  	    data:{
+  	    	'type':"Settle",'pageSize':pageSize,'currPage':currPage
+  	    },
+  	    error:function() {     
+  	       alert('error');
+  	    },
+  	  	success:function(data) {
+  	  	$("#type").val("Settle");
+  	    com.html("");
+  	  	com.html(data);
+  	  	}
+  	    	
+
+  	});	
+}
+</script>

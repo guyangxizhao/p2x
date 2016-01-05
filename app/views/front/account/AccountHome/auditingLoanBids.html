@@ -1,0 +1,82 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 借款子账户  | 借款申请查询'/}
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>借款管理>借款申请查询
+    </h3>
+    #{include "front/account/AccountHome/homeLeft.control"/}
+   <div class="content">
+       #{form @auditingLoanBids(), id:'auditingLoanBids'}
+      <input name="currPage"  type="hidden" id="currPage"/>
+      <input name="pageSize"   type="hidden" id="pageSize"/>
+    	#{/form}
+      <div class="repayment">
+        <div class="loanApplicationQuery">
+          <table class="table repaymentTable">
+            <thead>
+              <tr>
+                <th>借款标题</th>
+                <th>借款金额</th>
+                <th>年利率</th>
+                <th>本息合算</th>
+                <th>借款期限</th>
+                <th> 状态
+                  <a href="###">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                  </a>
+                </th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+            #{list pageBean?.page}
+            <tr>
+                <th scope="row">${_?.title}</th>
+                <td>￥${_?.amount?.format('###,##0.00')}</td>
+                <td>${_?.apr}%</td>
+                <td>￥${_?.capital_interest_sum?.format('###,##0.00')}</td>
+                <td>${_?.period}
+                #{if _?.period_unit == -1} 
+						[年] 
+					#{/if} 
+					#{elseif _?.period_unit == 1}
+						[日] 
+					#{/elseif} 
+					#{else} 
+						[月] 
+					#{/else}
+                </td>
+                <td>审核中</td>
+                <td>
+                  <a class="btn btn-link" href="@{front.account.AccountHome.auditMaterialsIPS()}?productId=${_?.product_id}">提交资料</a>
+                 <!--  <a class="btn btn-link" href="###">撤销</a> -->
+                  <a class="btn btn-link" href="@{bidDetail(_?.sign)}">详情</a>
+                </td>
+              </tr>
+            #{/list}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <div class="xf_wylc_page xf_membill_view_page1">
+			#{page currPage:pageBean.currPage,totalCount:pageBean.totalCount,pageSize:pageBean.pageSize,theme:2,style:5 /}
+	</div>
+    </div>
+</div>
+<!-- 清除浮动 -->
+	<div class="clear"></div>
+</div>
+<!-- 内容区域 end -->
+<script type="text/javascript">
+	/* 条件搜素查询 */
+	function showPage(currPage, pageSize){
+         $("#currPage").val(currPage);
+         $("#pageSize").val(pageSize);
+         $("#auditingLoanBids").submit();
+    }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

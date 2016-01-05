@@ -1,0 +1,59 @@
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + '|' + product?.name/}
+<div class="cleafix"></div>
+<div class="loanIntroduction w998center">
+<!-- <div class="xf_con_box"> -->
+	<!--  <div class="xf_con_wyjk_nav">-->
+	  <h3>
+      <a href="/p2x/front/bidAction/index" class="btn btn-link">我要借款</a> > ${product?.name}
+      </h3>
+	 <div class="loanNav">
+		#{include 'front/bid/BidAction/detailLeft.control'/}
+	</div>
+
+	<div class="content">
+		#{include 'front/bid/BidAction/detailData.control'/}
+	</div>
+	<div class="clear"></div>
+</div>
+<input type="hidden" id="code" value="${flash?.code}">
+#{form @applyNow(productId, 0, status), method:'POST', id:'applyNow'}#{/form}
+
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_bid.js'}"></script>
+<script type="text/javascript">
+$(function(){
+	var code=$("#code").val();
+	if(code!=null||value!=""){
+	  if(code==-1){
+		alert("请您先去登录");
+		window.location.href="@{front.account.LoginAndRegisterAction.login()}";	
+	}
+	if(code==-2){
+		alert("请您先去完善安全信息 ");
+		window.location.href="@{front.account.basicInformation.safetyInformation()}";
+	}
+	if(code==-3){
+		alert("请您先去完善个人基本信息 ")
+		window.location.href="@{front.account.BasicInformation.basicInformation()}";
+	}
+	}
+	$("#a1").mouseenter(function(){
+	$("#content").height(500);
+	});
+	$("#a2").mouseenter(function(){
+	$("#content").height(50);
+	});
+	$("#a3").mouseenter(function(){
+	$("#content").height(120);
+	});
+});
+
+
+
+
+
+
+</script>

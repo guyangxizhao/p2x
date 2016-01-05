@@ -1,0 +1,310 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 资金管理  | 提现'/}
+
+
+<!-- 内容区域 start -->
+<div class="cleafix"></div>
+<div class="account w998center">
+    <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>资金管理>提现
+    </h3>
+     #{include "front/account/AccountHome/homeLeft.control"/}
+     <div class="content">
+      <div class="repayment repaymentLetter" id="xf_mem_sqtx_window">
+        <div class="title">
+          <span class="on">提 现</span>
+        </div>
+        #{form @submitWithdrawal(), id:'mountSubmit'}
+        <input type="hidden" name="uuidRepeat" value="${flash?.success}">
+        <div class="withdrawals">
+          <table class="table">
+            <tr>
+              <td class="rawalsL">提现金额：</td>
+              <td width="212">
+                <input type="text"  name="amount" id="amount" class="form-control">
+                <input type="hidden" name="bankId" id="bankId">
+				<input type="hidden" name="type" value="1"> 
+              </td>
+              <td class="ps">
+              #{if ipsEnable}
+   	         	可提现金额为：${(withdrawalAmount+user?.balanceDetail?.user_amount2)?.format('###,##0.00')}" 元<br> 
+              #{/if}
+              #{else}
+	                     可提现金额为：${withdrawalAmount?.format('###,##0.00')}元<br> 
+              #{/else}
+	                     单次最多可提现：${maxWithDrawalAmount?.format("###,##0.00")}元
+              </td>
+            </tr>
+            <tr>
+              <td class="rawalsL">银行卡：</td>
+              <td>
+                #{if banks == null || banks.size() == 0}
+					<a href="@{front.account.FundsManage.bankCardItem()}?type=add">请先添加银行卡</a>
+				#{/if}
+				#{else}
+              <select name="bankList" id="bankList">
+             #{list items:banks, as:'bank'}  
+			       <option value="${bank?.id}" data-class="bank-img-${bank?.openBankId}">
+			       %{
+								String account = bank.account;
+								account = account.substring(0, 4).concat("********")
+										.concat(account.substring(account.length() - 4));
+							}%
+			       
+			       ${account}</option>
+				 #{/list}
+              </select>
+                #{/else}
+              
+              </td>
+            </tr>
+            <tr>
+              <td class="rawalsL">银行卡信息：</td>
+              <td>
+                <textarea readonly="value" class="form-control" rows="3" id="infoBank"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="rawalsL">交易密码：</td>
+              <td>
+                <input type="text" name="payPassword" id="payPassword" onfocus="this.type='password'" class="form-control">
+                #{if user.payPassword == '' || user.payPassword == null}
+					<a href="@{front.account.BasicInformation.modifyPassword()}">请设置交易密码</a>
+				#{/if}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+              <!--  <a class="withdrawalsBtn" href="">提 现</a> -->
+                <a class="withdrawalsBtn" href="javascript:withDrawSubmits();">提 现</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        #{/form}
+      </div>
+    </div>
+</div>
+<div class="loan-cleafix"></div>
+<link href="@{'/public/stylesheets/jqueryui/jquery-ui.css'}"  type="text/css" rel="stylesheet">
+
+<script src="@{'/public/javascripts/laydate/laydate.js'}"></script>
+<script src="@{'/public/javascripts/bank/jquery-ui.min.js'}"></script>
+<script type="text/javascript">
+$(function() {
+    $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+      _renderItem: function( ul, item ) {
+        var li = $( "<li>", { text: item.label } );
+ 
+        if ( item.disabled ) {
+          li.addClass( "ui-state-disabled" );
+        }
+ 
+        $( "<span>", {
+          style: item.element.attr( "data-style" ),
+          "class": "ui-icon " + item.element.attr( "data-class" )
+        })
+          .appendTo( li );
+          
+        return li.appendTo( ul );
+      }
+    });
+    
+    $( "#bankList" )
+      .iconselectmenu()
+      .iconselectmenu( "menuWidget" )
+        .addClass( "ui-menu-icons customicons" );
+});
+//$("#bankList").selectmenu();
+function bankItem(){
+	   $("#bankList").each(
+				  function()
+				  {
+					 var a=$(this).val();
+					 $("#bankList").val(a);
+					 bankInfo();
+				});
+}
+ function bankInfo(){
+	if($("#bankList").val()=="no"){
+		  var cssHtml = "请选择银行卡  ";
+		  $("#infoBank").html(cssHtml);
+		  
+	}else{
+	 var QueryBankInfo = #{jsAction @QueryBankInfo(':id')/}
+		  $.post(QueryBankInfo({id:$("#bankList").val()}),function(data){
+			  var arr = eval(data);
+			  if(arr.bank.account == ''){
+			      return;
+			  }
+			  
+			  var cssHtml = "开户银行："+arr.bank.bankName +"\n账号："+
+			     arr.bank.account+"\n收款人："+arr.bank.accountName;
+			 $("#infoBank").html(cssHtml);
+		  });
+	}
+  }
+      
+function withDrawSubmits(){
+	 if($("#amount").val() == ''){
+          alert("提现金额不能为空！");
+          return;
+      }
+      
+      if($("#amount").val() > 50000000){
+    	  alert("提现金额不能大于50000000");
+    	  return;
+      }
+      
+ /*     
+		var ipsEnable = ${ipsEnable};
+		if (ipsEnable) {
+			$("#mountSubmit").submit();
+			return;
+		}
+  */    
+      if($("#bankList").val() == "no"){
+          alert("未选择要提现的银行！");
+          return;
+      }
+      
+      if($("#payPassword").val() == ''){
+          alert("交易密码不能为空！");
+          return;
+      }
+      
+      $("#bankId").val($("#bankList").val());
+      $("#mountSubmit").submit();
+  }
+</script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		/* 高亮显示 */
+		showHighLightFront(28);
+		showHighLightFront2(7, 5);
+	});
+//-->
+</script>
+
+
+<style>
+   .demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+		
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+	select {
+		width: 200px;
+	}
+	    .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item {
+      padding: 0.5em 0 0.5em 3em;
+      padding-left: 160px;
+    }
+    .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
+      height: 24px;
+      width: 160px;
+      top: 0.1em;
+    }
+    .ui-icon.video {
+      background: url("images/24-video-square.png") 0 0 no-repeat;
+    }
+    .ui-icon.podcast {
+      background: url("images/24-podcast-square.png") 0 0 no-repeat;
+    }
+    .ui-icon.rss {
+      background: url("images/24-rss-square.png") 0 0 no-repeat;
+    }
+ 
+    /* select with CSS avatar icons */
+    option.avatar {
+      background-repeat: no-repeat !important;
+      padding-left: 20px;
+    }
+    .avatar .ui-icon {
+      background-position: left top;
+    }
+     .ui-icon.bank-img-1{ background: url(../../public/images/banks/bank_03.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-2{ background: url(../../public/images/banks/bank_01.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-3{ background: url(../../public/images/banks/bank_04.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-4{ background: url(../../public/images/banks/bank_02.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-5{ background: url(../../public/images/banks/bank_05.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-6{ background: url(../../public/images/banks/bank_11.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-7{ background: url(../../public/images/banks/bank_16.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-8{ background: url(../../public/images/banks/bank_10.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-9{ background: url(../../public/images/banks/bank_12.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-10{ background: url(../../public/images/banks/bank_08.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-11{ background: url(../../public/images/banks/bank_13.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-12{ background: url(../../public/images/banks/bank_06.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-13{ background: url(../../public/images/banks/bank_15.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-14{ background: url(../../public/images/banks/bank_14.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-15{ background: url(../../public/images/banks/bank_20.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-16{ background: url(../../public/images/banks/bank_31.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-17{ background: url(../../public/images/banks/bank_32.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-18{ background: url(../../public/images/banks/bank_25.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-19{ background: url(../../public/images/banks/bank_33.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-20{ background: url(../../public/images/banks/bank_18.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-21{ background: url(../../public/images/banks/bank_27.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-22{ background: url(../../public/images/banks/bank_34.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-23{ background: url(../../public/images/banks/bank_35.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-24{ background: url(../../public/images/banks/bank_35.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-25{ background: url(../../public/images/banks/bank_35.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-26{ background: url(../../public/images/banks/bank_35.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-27{ background: url(../../public/images/banks/bank_36.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-28{ background: url(../../public/images/banks/bank_21.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-29{ background: url(../../public/images/banks/bank_37.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-30{ background: url(../../public/images/banks/bank_38.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-31{ background: url(../../public/images/banks/bank_39.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-32{ background: url(../../public/images/banks/bank_40.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-33{ background: url(../../public/images/banks/bank_41.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-34{ background: url(../../public/images/banks/bank_42.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-35{ background: url(../../public/images/banks/bank_43.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-36{ background: url(../../public/images/banks/bank_44.png) 0 0 no-repeat;}
+     .ui-icon.bank-img-no{ background: url(../../public/images/banks/bank_45.png) 0 0 no-repeat;}
+	</style>
+
+
+
+
+
+
+
+
+
+
+
+

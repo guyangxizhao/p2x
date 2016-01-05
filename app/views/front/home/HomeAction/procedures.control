@@ -1,0 +1,59 @@
+<div class="index_flow w998center loan">
+		<div class="borrowingProcess">
+			<span class="title"><i></i>借款流程</span>
+			<ul>
+				<li><a href="###"> <i class="borrowingico"></i>
+						<p>免费注册</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico fbjk"></i>
+						<p>发布借款标</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico yqhy"></i>
+						<p>邀请好友</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico zxjk"></i>
+						<p>开始在线借款</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico mbsh"></i>
+						<p>满标审核</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico shtg"></i>
+						<p>审核通过</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico fqhk"></i>
+						<p>分期还款</p>
+				</a></li>
+			</ul>
+		</div>
+	</div>
+<div class="index_flow w998center">
+		<div class="borrowingProcess financial">
+			<span class="title financial"><i></i>理财流程</span>
+			<ul class="financial">
+				<li><a href="###"> <i class="borrowingico mfzc"></i>
+						<p>免费注册</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico xzjkb"></i>
+						<p>选择借款标</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico kstz"></i>
+						<p>
+							开始投资<br>50元开始理财
+						</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico mbjx"></i>
+						<p>
+							满标计息<br>超10%
+						</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico fqshcb"></i>
+						<p>分期收回成本</p>
+				</a></li>
+				<li><a href="###"> <i class="borrowingico gsylc"></i>
+						<p>
+							高收益理财<br>超10%年收益
+						</p>
+				</a></li>
+			</ul>
+		</div>
+	</div>

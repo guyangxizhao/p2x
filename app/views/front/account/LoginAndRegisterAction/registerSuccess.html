@@ -1,0 +1,13 @@
+#{extends 'common/frontMain.html' /}
+%{
+  business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{set title:currBackstageSet.seoTitle + '--注册成功' /}
+<div class="bidSuccess w998center">
+	<span><i></i>注册成功！</span>
+	<div class="eml-tz">
+	#{if flash?.regType == "mail"}
+   		<a id="eml-cs">激活邮件已发送至您邮箱，请注意查收。</a>
+   	#{/if}
+	</div>
+</div>

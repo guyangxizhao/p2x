@@ -1,0 +1,50 @@
+<table  class="table repaymentTable" id="table2">
+							<thead>
+								<tr>
+									<th>序号</th>
+								  	<th>借款项目</th>
+								  	<th>借款金额</th>
+								  	<th>年利率</th>
+								  	<th>借款期限</th>
+								  	<th>已投总额</th>
+								  	<th>投标进度</th>
+								  	<th>操作</th>
+								</tr>
+								</thead>
+				            <tbody>
+				            #{if page?.page?.size()!=0}
+						        #{list items:page?.page,as:'invest'}
+								<tr>
+									<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+									<td align="left">${invest?.title}</td>
+									<td align="center">${invest?.amount?.format("###,##0.00")}元</td>
+									<td align="center">${invest?.apr}</td>
+									<td align="center">
+									${invest?.period}
+									#{if invest?.period_unit==-1}年#{/if}
+									#{if invest?.period_unit==0}月#{/if}
+									#{if invest?.period_unit==1}日#{/if}
+									</td>
+									<td align="center"><span class="membill_list_whk">
+									${invest?.has_invested_amount?.format("###,##0.00")}元
+									</span></td>
+									<td align="center">${invest?.loan_schedule}</td>
+								
+									
+									<td align="center"> #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails()}?bidId=${invest?.id}" class="btn btn-link" target="_blank">详情</a>
+									 #{/if}
+									</td>
+								 
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>
+						 	 <div class="xf_wylc_page xf_membill_view_page1" style="border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
+		#{page funMethod:"tab2",pageTitle:"交易记录", currPage:page.currPage,totalCount:page.totalCount,pageSize:page.pageSize,theme:2,style:5/}
+		</div>
+		<script>
+		  function showPage(currPage,pageSize){
+		         tab2(pageSize,currPage);
+		    }
+	   </script>

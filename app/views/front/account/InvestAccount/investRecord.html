@@ -1,0 +1,379 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 理财子账户  | 我的投标记录'/}
+<style>
+#tabs {
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#tabs li {
+	float: left;
+	margin: 0 .5em 0 0;
+}
+#tabs a {
+	position: relative;
+	background: #ddd;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+	background-image: -webkit-linear-gradient(top, #fff, #ddd);
+	background-image: -moz-linear-gradient(top, #fff, #ddd);
+	background-image: -ms-linear-gradient(top, #fff, #ddd);
+	background-image: -o-linear-gradient(top, #fff, #ddd);
+	background-image: linear-gradient(to bottom, #fff, #ddd);
+	padding: .7em 3.5em;
+	float: left;
+	text-decoration: none;
+	color: #444;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+	border-radius: 5px 0 0 0;
+	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+	-webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+}
+ #tabs a:hover, #tabs a:hover::after, #tabs a:focus, #tabs a:focus::after {
+ background: #fff;
+}
+#tabs a:focus {
+	outline: 0;
+}
+ #tabs a::after {
+ content:'';
+ position:absolute;
+ z-index: 1;
+ top: 0;
+ right: -.5em;
+ bottom: 0;
+ width: 1em;
+ background: #ddd;
+ background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+ background-image: -webkit-linear-gradient(top, #fff, #ddd);
+ background-image: -moz-linear-gradient(top, #fff, #ddd);
+ background-image: -ms-linear-gradient(top, #fff, #ddd);
+ background-image: -o-linear-gradient(top, #fff, #ddd);
+ background-image: linear-gradient(to bottom, #fff, #ddd);
+ -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+ -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+ box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+ -webkit-transform: skew(10deg);
+ -moz-transform: skew(10deg);
+ -ms-transform: skew(10deg);
+ -o-transform: skew(10deg);
+ transform: skew(10deg);
+ -webkit-border-radius: 0 5px 0 0;
+ -moz-border-radius: 0 5px 0 0;
+ border-radius: 0 5px 0 0;
+}
+ #tabs #current a, #tabs #current a::after {
+ background: #fff;
+ z-index: 3;
+}
+/* ------------------------------------------------- */
+
+#content {
+	background: #fff;
+	padding: 2em;
+	height: 220px;
+	position: relative;
+	z-index: 2;
+	-moz-border-radius: 0 5px 5px 5px;
+	-webkit-border-radius: 0 5px 5px 5px;
+	border-radius: 0 5px 5px 5px;
+	-moz-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+	-webkit-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+	box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+}
+#content h2, #content h3, #content p {
+	margin: 0 0 15px 0;
+}
+</style>
+<!-- 内容区域 start -->
+	<div class="xf_con_box">
+		<div class="xf_con_mem_nav"></div>
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<!-- 右侧内容区域 -->
+		<div class="xf_mem_Account" >
+					<ul id="tabs">
+				  <li><a href="#" title="tab1">转让中债权</a></li>
+				  <li><a href="#" title="tab2">可转出债权</a></li>
+				  <li><a href="#" title="tab3">已转出债权</a></li>
+				  <li><a href="#" title="tab4">已转入债权</a></li>
+				</ul>
+				<div id="content">
+				  <div id="tab1">
+					<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+							<tbody>
+								<tr>
+									<th align="center" width="36">序号</th>
+								  	<th width="162">剩余期数</th>
+								  	<th width="63">年利率</th>
+								  	<th align="left" width="66">转让本金</th>
+								  	<th width="64">债权价值</th>
+								  	<th width="96">转让价格</th>
+								  	<th width="124">转让截止日期</th>
+								  	<th width="91">操作</th>
+								</tr>
+				
+				            #{if page?.page?.size()!=0}
+						        #{list items:page?.page,as:'invest'}
+								<tr>
+									<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+									<td align="left">${invest?.title}</td>
+									<td align="center">0元</td>
+									<td align="center">
+									#{if invest.status == 0 || invest.status == -1 || invest.status == -5}
+									未逾期
+									#{/if}
+									#{elseif invest.status == -7}
+									#{/elseif}
+									#{else}
+									逾期
+									#{/else}
+									</td>
+									<td align="center"><span class="membill_list_whk">
+									#{if invest.status == -1 || invest.status == -2 || invest.status == -5 || invest.status == -6}
+									未收款
+									#{/if}
+									#{elseif invest.status == -7}
+									已转让
+									#{/elseif}
+									#{else}
+									已收款
+									#{/else}
+									</span></td>
+									<td align="center">${invest?.repayment_time?.format('yyyy-MM-dd')}</td>
+									<td align="center">#{if invest.status != -7}${invest?.real_repayment_time?.format('yyyy-MM-dd')} #{/if}</td>
+									
+									<td align="center"> #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails(invest?.sign)}" class="xf_membill_cza" target="_blank">详情</a>
+									 #{/if}
+									</td>
+								 
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>
+				  </div>
+				  <div id="tab2">
+					<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+							<tbody>
+								<tr>
+									<th align="center" width="36">序号</th>
+								  	<th width="162">转让项目</th>
+								  	<th width="64">剩余期数</th>
+								  	<th width="63">年利率</th>
+								  	<th align="left" width="66">投资本金</th>
+								  	
+								  	<th width="64">下个还款日</th>
+								  	<th width="96">可转让本金</th>
+								  	<th width="104">待收本息</th>
+								  	
+								  	<th width="91">操作</th>
+								</tr>
+				
+				            #{if page?.page?.size()!=0}
+						        #{list items:page?.page,as:'invest'}
+								<tr>
+									<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+									<td align="left">${invest?.title}</td>
+									<td align="center">${invest?.income_amounts?.format("###,##0.00")}元</td>
+									<td align="center">
+									#{if invest.status == 0 || invest.status == -1 || invest.status == -5}
+									未逾期
+									#{/if}
+									#{elseif invest.status == -7}
+									#{/elseif}
+									#{else}
+									逾期
+									#{/else}
+									</td>
+									<td align="center"><span class="membill_list_whk">
+									#{if invest.status == -1 || invest.status == -2 || invest.status == -5 || invest.status == -6}
+									未收款
+									#{/if}
+									#{elseif invest.status == -7}
+									已转让
+									#{/elseif}
+									#{else}
+									已收款
+									#{/else}
+									</span></td>
+									<td align="center">${invest?.repayment_time?.format('yyyy-MM-dd')}</td>
+									<td align="center">#{if invest.status != -7}${invest?.real_repayment_time?.format('yyyy-MM-dd')} #{/if}</td>
+									
+									<td align="center"> #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails(invest?.sign)}" class="xf_membill_cza" target="_blank">详情</a>
+									 #{/if}
+									</td>
+								 
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>				  
+				  </div>
+				  <div id="tab3">
+					<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+							<tbody>
+								<tr>
+									<th align="center" width="36">序号</th>
+								  	<th width="162">转让项目</th>
+								  	<th align="left" width="66">转让份数</th>
+								  	<th width="63">转让本金</th>
+								  	<th width="64">转让价格</th>
+								  	<th width="96">收入金额</th>
+								  	<th width="104">转让盈亏</th>
+								  	<th width="104">转让日期</th>
+								  	<th width="91">操作</th>
+								</tr>
+				
+				            #{if page?.page?.size()!=0}
+						        #{list items:page?.page,as:'invest'}
+								<tr>
+									<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+									<td align="left">${invest?.title}</td>
+									<td align="center">${invest?.income_amounts?.format("###,##0.00")}元</td>
+									<td align="center">
+									#{if invest.status == 0 || invest.status == -1 || invest.status == -5}
+									未逾期
+									#{/if}
+									#{elseif invest.status == -7}
+									#{/elseif}
+									#{else}
+									逾期
+									#{/else}
+									</td>
+									<td align="center"><span class="membill_list_whk">
+									#{if invest.status == -1 || invest.status == -2 || invest.status == -5 || invest.status == -6}
+									未收款
+									#{/if}
+									#{elseif invest.status == -7}
+									已转让
+									#{/elseif}
+									#{else}
+									已收款
+									#{/else}
+									</span></td>
+									<td align="center">${invest?.repayment_time?.format('yyyy-MM-dd')}</td>
+									<td align="center">#{if invest.status != -7}${invest?.real_repayment_time?.format('yyyy-MM-dd')} #{/if}</td>
+									
+									<td align="center"> #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails(invest?.sign)}" class="xf_membill_cza" target="_blank">详情</a>
+									 #{/if}
+									</td>
+								 
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>				  
+				  </div>
+				  <div id="tab4">
+					<table border="0" cellpadding="0" cellspacing="0" width="auto" class="xf_membill_acc_viewcpms">
+							<tbody>
+								<tr>
+									<th align="center" width="36">序号</th>
+								  	<th width="162">借款项目</th>
+								  	<th align="left" width="66">投资本金</th>
+								  	<th width="63">年利率</th>
+								  	<th width="64">待收本息</th>
+								  	<th width="96">月收本息</th>
+								  	<th width="104">借款期限</th>
+								  	<th width="104">还款时间</th>
+								  	<th width="91">操作</th>
+								</tr>
+				
+				            #{if page?.page?.size()!=0}
+						        #{list items:page?.page,as:'invest'}
+								<tr>
+									<td align="center">${(page?.currPage - 1) * page?.pageSize + invest_index}</td>
+									<td align="left">${invest?.title}</td>
+									<td align="center">${invest?.income_amounts?.format("###,##0.00")}元</td>
+									<td align="center">
+									#{if invest.status == 0 || invest.status == -1 || invest.status == -5}
+									未逾期
+									#{/if}
+									#{elseif invest.status == -7}
+									#{/elseif}
+									#{else}
+									逾期
+									#{/else}
+									</td>
+									<td align="center"><span class="membill_list_whk">
+									#{if invest.status == -1 || invest.status == -2 || invest.status == -5 || invest.status == -6}
+									未收款
+									#{/if}
+									#{elseif invest.status == -7}
+									已转让
+									#{/elseif}
+									#{else}
+									已收款
+									#{/else}
+									</span></td>
+									<td align="center">${invest?.repayment_time?.format('yyyy-MM-dd')}</td>
+									<td align="center">#{if invest.status != -7}${invest?.real_repayment_time?.format('yyyy-MM-dd')} #{/if}</td>
+									
+									<td align="center"> #{if invest.status != -7} <a href="@{front.account.InvestAccount.investBillDetails(invest?.sign)}" class="xf_membill_cza" target="_blank">详情</a>
+									 #{/if}
+									</td>
+								 
+								</tr>
+								#{/list}
+								#{/if}
+							</tbody>
+						</table>				  
+				  </div>
+				  </div>
+		
+		</div>
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+
+			
+		
+		
+		</div>
+		
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+<!-- 内容区域 end -->
+<script>
+		
+		$(function(){
+			/* 高亮显示 */
+			showHighLightFront(16);
+			showHighLightFront2(7, 4);
+			
+		})
+  
+	function showPage(currPage, pageSize){
+    $("#currPage").val(currPage);
+    $("#pageSize").val(pageSize);
+    $("#investRecord").submit();
+ }
+
+		function find(){
+		    	
+		    	$("#investRecord").submit();
+		    }
+		    
+ $(document).ready(function() {
+	$("#content div").hide(); // Initially hide all content
+	$("#tabs li:first").attr("id","current"); // Activate first tab
+	$("#content div:first").fadeIn(); // Show first tab content
+    
+    $('#tabs a').click(function(e) {
+        e.preventDefault();        
+        $("#content div").hide(); //Hide all content
+        $("#tabs li").attr("id",""); //Reset id's
+        $(this).parent().attr("id","current"); // Activate this
+        $('#' + $(this).attr('title')).fadeIn(); // Show content for current tab
+    });
+})();   
+    </script>
+<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>

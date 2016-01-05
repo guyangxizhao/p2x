@@ -1,0 +1,42 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+#{extends 'common/frontMain.html' /} 
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 基本设置  | 安全问题设置'/}
+<script type="text/javascript">
+ $(function(){
+	   if($("#isSecretSet").val() == 'true' & $("#error").val() == '' ){
+	        $("#setquestion").hide();
+	        showDiv($("#xf_mem_aqwtsz_tc"));
+	        $(".xf_mem_shzdjkb_box_tcc").show();
+	     }
+	});
+</script>
+<!-- 内容区域 start -->
+	<div class="account w998center">
+	 <h3>
+      <a href="@{front.account.AccountHome.home()}" class="btn btn-link">我的账户</a>>安全信息
+    </h3>
+		
+		<!-- 左边导航区域 -->
+		#{include "front/account/AccountHome/homeLeft.control"/}
+		<input type="hidden" id="isSecretSet" name="isSecretSet" value="${user?.isSecretSet}">
+		<input type="hidden" id="error" name="error" value="${error?.code}">
+		<!-- 右侧内容区域 -->
+		#{include "front/account/BasicInformation/safetyInformationFirst.control"/}
+		<!-- 清除浮动 -->
+		<div class="clear"></div>
+	</div>
+	<!-- 安全问题设置 -->
+	
+	
+	<script type="text/javascript" src="@{'/public/javascripts/tab/tab_usr.js'}"></script>
+	<script type="text/javascript">
+	<!--
+		$(function(){
+			/* 高亮显示 */
+			showHighLightFront(32);
+			showHighLightFront2(7, 6);
+		});
+	//-->
+	</script>

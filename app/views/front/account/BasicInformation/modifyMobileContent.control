@@ -1,0 +1,308 @@
+ <input type="hidden" id="moble" value="${flash?.mobile}">
+ #{if flash?.type=="Mobile"}
+    <div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>设置安全手机</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+          <p class="inputp pbott" style="padding-left: 280px;padding-top: 100px;" >
+          <i>*</i>
+          #{if user?.mobile==null}
+          <input class="form-control" value="" placeholder="请输入手机号" type="text" id="phone" style="margin-left: 0px;">
+          #{/if}
+          #{else}
+           <input class="form-control" value="${user?.mobile}" placeholder="${user?.mobile}" type="text" id="phone" style="margin-left: 0px;">
+          #{/else}
+          </p>
+          
+            <div class="input-group inputp pbott" style="left: 0px;border-top-width: 1px;margin-top: 0px;top: auto;margin-bottom: 0px;padding-left: 280px;">
+            <i>*</i>
+				<input class="form-control w166" type="text" id="code1" name="code" value="${flash?.code}" placeholder="请输入验证码" style="width:136px;border-top-width: 1px;"/>
+				<input type="hidden" name="randomID" id="randomID" />
+				<img src="" class="" id="img" onclick="change()" style="height:35px;width:80px;margin-left: 4px;">
+				<a onclick="change()" class="a">刷新</a>
+			</div>
+            
+            <a class="submitbtn mg-12" id="submit1" style="margin-left: 290px;width: 250px;margin-top: 10px;">确&nbsp;&nbsp;&nbsp;&nbsp;认</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  #{/if}
+  #{if flash?.type=="Mobile2"}
+  
+  <div class="content">
+   <input type="hidden" id="phone" value="${flash?.mobile}">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>设置安全手机</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+        <p class="inputp pbott">
+            <i>*</i>
+            <span>手机验证码：</span>
+            <input class="form-control verifycode" value="" placeholder="" type="text" id="smsCode">
+            <a class="getCode" id="getCode" onclick="sendSMS()" >获取短信验证码</a>
+          </p>
+        <a class="submitbtn mg-12" id="submit2" style="margin-left: 290px;width: 250px;margin-top: 10px;">确&nbsp;&nbsp;&nbsp;&nbsp;认</a>
+          </p>
+        </div>
+      </div>
+    </div>
+#{/if}
+  #{if flash?.type=="mobile"}
+  <div class="content">
+  <input type="hidden" value="${user?.mobile}" id="phone">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>修改手机号码</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+          <p class="inputp">
+            <i class="fl-4">*</i>
+            <span>原手机号：</span>
+            <span class="phone">${user?.mobile}</span>
+          </p>
+          <p class="inputp pbott">
+            <i>*</i>
+            <span>手机验证码：</span>
+            <input class="form-control verifycode" value="" placeholder="" type="text" id="smsCode">
+            <a class="getCode" id="getCode">获取短信验证码</a>
+          </p>
+          <p>
+            <a class="submitbtn nextBtn mg-12" id="submit3">下一步</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    #{/if}
+    #{if flash?.type=="mobile2"}
+        <div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>修改手机号码</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+          <p class="inputp">
+            <i class="fl-4">*</i>
+            <span>新手机号：</span>
+            <input class="form-control" value="" placeholder="" type="text" id="phone" id="smsCode">
+          </p>
+          <p class="inputp pbott">
+            <i>*</i>
+            <span>手机验证码：</span>
+            <input class="form-control verifycode" value="" placeholder="" type="text">
+            <a class="getCode" id="getCode">获取短信验证码</a>
+          </p>
+          <p>
+            <a class="submitbtn mg-12" id="submit4">修改手机号</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    #{/if}
+    #{if flash?.type=="successMobile"}
+    <div class="content">
+      <div class="repayment repaymentLetter">
+        <div class="safety-title">
+          <span>设置手机号</span>
+          <a class="close" href="@{front.account.basicInformation.safetyInformation()}">
+            <span aria-hidden="true">×</span>
+          </a>
+        </div>
+        <div class="safety-wrap">
+          <div class="success-pop">
+            <i class="result-ico"></i>
+            <p>手机号设置成功！</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    #{/if}
+<script type="text/javascript">
+   $(function(){
+         change();
+         $("#getCode").click(sendSMS);
+         $("#submit1").click(saveCode);
+         $("#submit2").click(saveMobile);
+         $("#submit3").click(oldMobile);
+         $("#submit4").click(saveMobile2);
+        $("#update").click(function(){
+               showDiv($("#xf_mem_aqwtsz_tc"));
+               $(".xf_mem_shzdjkb_box_tcc").show();
+          })
+     });
+     /**验证旧手机号*/
+     function oldMobile(){
+     var smsCode=$("#smsCode").val();
+     if (smsCode == "") {
+			 alert("请输入短信验证码");
+			return;
+		}
+     var oldMobile= #{jsAction @oldMobile(':code')/}
+		$.post(oldMobile({code:smsCode}),function(data){
+					 var arr = eval(data);
+					 
+                     if(arr.error.code < 0){
+					     alert(arr.error.msg);
+					     return;
+					}
+                  
+					 if(arr.error.code>=0){
+	                    	window.location.href="@{front.account.BasicInformation.modifyMobile()}?type=mobile2";
+	                    }
+			 });
+     
+     
+     }
+     
+     function saveCode(){
+     var tel = $("#phone").val().trim();
+		var Code=$("#code1").val();
+		var randomID=$("#randomID").val();
+		$("#moble").val(tel);
+		if (!tel.match(/^1\d{10}$/g)) {
+		alert("请输入正确的手机号码");
+			return;
+		}
+		if (Code == "") {
+			 alert("验证码");
+			return;
+		}
+	var saveMobile= #{jsAction @front.account.BasicInformation.saveMobile(':code', ':mobile',':type',':randomID')/}
+		$.post(saveMobile({code:Code, mobile:tel,type:"Mobile2",randomID:randomID}),function(data){
+		           var arr = eval(data);
+					if(arr.success < 0){
+					     alert("验证码输入有误");
+					     return;
+					}
+			       window.location.href="@{front.account.BasicInformation.modifyMobile()}?type=Mobile2";
+	                 
+			 });
+		
+	 }
+     /**保存手机号*/
+     function saveMobile(){
+        var tel = $("#moble").val().trim();
+		var Code=$("#smsCode").val();
+		$("#moble").val(tel);
+		if (!tel.match(/^1\d{10}$/g)) {
+		alert("请输入正确的手机号码");
+			return;
+		}
+		if (Code == "") {
+			 alert("验证码");
+			return;
+		}
+	     var saveMobile= #{jsAction @saveMobile(':code', ':mobile')/}
+		$.post(saveMobile({code:Code, mobile:tel}),function(data){
+					 var arr = eval(data);
+					 
+                     if(arr.error.code < 0){
+					     alert(arr.error.msg);
+					     return;
+					}
+                  
+					 if(arr.error.code>=0){
+	                    	window.location.href="@{front.account.BasicInformation.modifyMobile()}?type=successMobile";
+	                    }
+			 });
+		
+ }
+ 
+  /**保存手机号*/
+     function saveMobile2(){
+        var tel = $("#phone").val().trim();
+		var Code=$("#smsCode").val();
+		$("#moble").val(tel);
+		if (!tel.match(/^1\d{10}$/g)) {
+		alert("请输入正确的手机号码");
+			return;
+		}
+		if (Code == "") {
+			 alert("验证码");
+			return;
+		}
+	     var saveMobile= #{jsAction @saveMobile(':code', ':mobile')/}
+		$.post(saveMobile({code:Code, mobile:tel}),function(data){
+					 var arr = eval(data);
+					 
+                     if(arr.error.code < 0){
+					     alert(arr.error.msg);
+					     return;
+					}
+                  
+					 if(arr.error.code>=0){
+	                    	window.location.href="@{front.account.BasicInformation.modifyMobile()}?type=successMobile";
+	                    }
+			 });
+		
+ }
+	/**控制时间 */
+    function setSMSTime() {
+	    if (curCount == 0) {
+	        window.clearInterval(timer); // 停止计时器
+			$(".getCode").removeClass("btnDisable"); // 启用按钮 
+	        $(".getCode").text("重新发送验证码");
+	       
+	    } else {
+	        curCount--;
+	        $(".getCode").text(curCount + "秒内有效");
+	   }
+	} 
+	 /**发送短信 */
+    function sendSMS() {
+
+		var smsBtn = $("#getCode");
+		if (smsBtn.hasClass("btnDisable"))
+			return;
+		
+		var tel = $("#phone").val().trim();
+		
+		if (!tel.match(/^1\d{10}$/g)) {
+			alert("请输入正确的手机号码");
+			return;
+		}
+		
+		var count =120000  / 1000; //间隔函数，1秒执行
+		curCount = count;
+		
+		// 设置button效果，开始计时  
+       	smsBtn.addClass("btnDisable"); 
+       	smsBtn.text(curCount + "秒内有效");
+		timer = window.setInterval(setSMSTime, 1000); // 启动计时器，1秒执行一次
+       
+		//向后台传递数据
+		$.ajax({     
+	  	 	url:"@{front.account.loginAndRegisterAction.templateSMS_send()}",
+	  	    type:'post',
+	  	    dataType:'json',
+	  	    data:{
+	  	    	'phone':tel
+	  	    },
+	  	    error:function() {     
+	  	       alert('error');
+	  	    },
+	  	  	success:function(data) {
+	  	    	if (data.success) {
+	  	    		hintSuccess(null, ".hint_area", "验证码已发送，请注意查收");
+	  	    	} else {
+	  	    		hintError(null, ".hint_area", "请输入正确的手机号码");
+	  	    	}
+			}
+	  	});
+	} 
+ </script>

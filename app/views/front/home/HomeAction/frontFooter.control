@@ -1,0 +1,18 @@
+%{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+<div class="footer">
+		<div class="footer_inner">
+			<p>
+				<a href="@{front.home.HomeAction.about}">关于我们</a> |
+        		<a href="@{front.home.HomeAction.security}">法律与安全</a> |
+        		<a href="@{front.home.HomeAction.service}">服务条款</a> |
+        		<a href="@{front.home.HomeAction.help}">帮助中心</a> |
+        		<a href="@{front.home.HomeAction.relation}">联系我们</a>
+			</p>
+			<span>
+       			${currBackstageSet?.companyName}
+       			<p>${currBackstageSet?.siteIcpNumber}<p>
+    		 </span>
+		</div>
+	</div> 

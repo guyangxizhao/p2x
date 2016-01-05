@@ -1,0 +1,53 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'邮箱激活成功' /}
+<div class="cleafix"></div>
+<div class="bidSuccess w998center">
+#{if flash?.error== null}
+	<span>
+		<i></i>邮箱激活成功！
+	</span>
+	<table>
+		<tr>
+			<td colspan="2">
+			#{if user == null}
+				<a href="@{front.account.loginAndRegisterAction.login()}">立即登录</a>
+			#{/if}
+			</td>
+		</tr>
+	</table>
+#{/if}
+#{else}
+	<span class="failure">
+		<i></i>${flash?.error?.msg}
+	</span>
+	<table>
+		<tr>
+			<td colspan="2">${flash.get("error")}</td>
+		</tr>
+	</table>
+#{/else}
+</div>
+<div class="loan-cleafix"></div>
+
+<script type="text/javascript" src="@{'/public/javascripts/verify.js'}"></script>
+<script type="text/javascript">
+$(function(){
+    $.ajax({  
+	    url:"@{front.account.LoginAndRegisterAction.activeEmail()}",
+  	    type:'post',
+  	    dataType:'json',
+  	    date:{},
+	    error:function() {     
+  	       alert('error');
+  	    },
+  	  success:function(data) {
+  	    	if (data.success) {
+             return;
+  	    	} else {
+  	         return;
+  	    	}
+		}
+  	});
+});
+
+</script>

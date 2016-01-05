@@ -1,0 +1,221 @@
+<div class="info-bottom">
+	<div class="info-wrap js-tab">
+		<div class="info-tab">
+			<p class="title hd">
+				<a class="on" id="detailA">借款标详情</a>
+				<a id="investRecords">投标记录</a>
+				<a id="bidInvestQuestions">向借款人提问</a>
+			</p>
+		</div>
+		<div class="tab-content detail-div">
+			<div class="bd">
+				<table class="table table-bordered">
+					<tr>
+						<td class="lefttd">借款人基本资料</td>
+						<td class="padding-0">
+							<table>
+								<tr>
+									<td width="38%">真实姓名：${bid?.user?.realityName?.asterisk()}</td>
+									<td>性别：${bid?.user?.sex} </td>
+									<td>年龄：${bid?.user?.age}岁</td>
+								</tr>
+								<tr>
+									<td>身份证号：${bid?.user?.idNumber?.asterisk()}</td>
+									<td>户口：${bid?.user?.provinceName}${bid?.user?.cityName}</td>
+									<td>文化程度：${bid?.user?.educationName}</td>
+								</tr>
+								<tr class="last">
+									<td>婚姻状况：${bid?.user?.maritalName}</td>
+									<td>购房情况：${bid?.user?.houseName}</td>
+									<td>购车情况：${bid?.user?.carName}</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="lefttd">借款目的</td>
+						<td>
+							<p>${bid?.purpose?.name}</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="lefttd">
+							详细说明<br>
+							（借款用途/还款能力/借款详情）
+						</td>
+						<td>
+							<p>${bid?.description}</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="lefttd">必须资料审核</td>
+						<td>
+							<table class="dataAudit">
+								<tr>                                                                                 
+									<th>序号</th>
+									<th>审核科目</th>
+									<th>状态</th>
+									<th>操作</th>
+									<th>CBO风控体系审核</th>
+								</tr>
+								#{list uItems}	
+								#{if _?.status == 2}
+								<tr>
+									<td class="borderLeft">${_index}</td>
+									<td>${_?.auditItem?.name}</td>
+									<td>${_?.strStatus}</td>
+									<td>
+									#{if _?.isVisible}
+										<a onclick="showitemNow('${_?.mark}','${bid?.signUserId}');">查看</a>
+									#{/if}
+									#{else}不可见#{/else}
+									</td>
+									#{if _index == 1}
+									<td valign="top" class="borderRight" rowspan="${uItems?.size}">
+										${bid?.auditSuggest}
+									</td>
+									#{/if}
+								</tr>
+								#{/if}
+						    	#{/list}
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="lefttd">历史情况</td>
+						<td>
+							<table>
+								<tr>
+						        	<td width="25%">注册时间：${bid?.user?.time?.format('yyyy-MM-dd')}</td>
+						        	<td>借款次数：${historySituationMap?.successBidCount}次</td>
+						        	<td> 还款次数：${historySituationMap?.normalRepaymentCount}次</td>
+						        	<td> 逾期次数：${historySituationMap?.overdueRepaymentCount}次</td>
+								</tr>
+								<tr class="last">
+						        	<td>待付款：${historySituationMap?.pendingRepaymentAmount}元</td>
+						        	<td>共计借入金额：${historySituationMap?.loanAmount}元</td>
+						        	<td>理财投标指数：${historySituationMap?.financialCount}笔</td>
+						        	<td>代收款金额：${historySituationMap?.receivingAmount}元</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+			            <td class="lefttd">投标奖励</td>
+			            <td>
+			            	<p>
+								#{if bid?.bonusType == 0}不设置奖励#{/if}
+								#{elseif bid?.bonusType == 1}按固定奖金${bid?.bonus?.format('#,##0.00')}元进行奖励#{/elseif}
+								#{elseif bid?.bonusType == 2}按借款总额的${bid?.awardScale}%进行奖励#{/elseif}
+			            	</p>
+			            </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="tab-content record-div" style="display:none"></div>
+		<div class="tab-content ask-div" style="display:none"></div>
+		<!-- 查看资料弹出层 -->
+    	<div id="showitem" class="xf_ht_ttc" >  
+    	</div>
+	</div>
+</div>
+<input type="hidden" id="hiddenbidvalue" name="hiddenbidvalue" value=${bid?.sign} />
+<input type="hidden" id="hiddenUserId" name="hiddenbidvalue" value=${bid?.signUserId} />
+<script type="text/javascript">
+	function showitemNow(mark,signUserId) {
+		var listAction = #{jsAction @front.bid.BidAction.checkUserStatus() /};
+	    $.post(listAction(), function(data) {
+			switch(data.status * 1) {
+			    case 1:
+			    	 showitem(mark,signUserId);  
+				break;
+				/* 未登录 */
+				case -1: 
+					showDiv($("#xf_logintcc_box"));
+					return;
+				/* 未激活 */
+				case -2: 
+					$("#userName1").html(data.userName);
+					$("#userName2").html(data.userName);
+					$("#email").html(data.email);
+					showDiv($("#active"));
+					return;
+				case -3: 
+					showitem(mark,signUserId);  
+					break;
+			}
+		});	
+	}
+	      
+	/* 查看弹出层 */
+	function showitem(mark,signUserId){
+		var listAction = #{jsAction @front.invest.InvestAction.showitem(':mark',':signUserId') /};
+		$.post(listAction({mark:mark,signUserId:signUserId}), function(data) {
+			showDiv($("#showitem").html(data));
+		});
+	}
+
+	$(function(){
+		$("#detailA").click(function() {
+      		$("p.title > a").removeClass("on");
+      		$(this).addClass("on");
+      		$(".tab-content").hide();
+			$(".detail-div").show();
+		});
+    	$("#investRecords").click(function() {
+			$(".tab-content").hide();
+			$(".record-div").show();
+			$("p.title > a").removeClass("on");
+			$(this).addClass("on");
+			
+			showBidRecords(1, 10);
+      	});
+      	$("#bidInvestQuestions").click(function() {
+      		$(".tab-content").hide();
+			$(".ask-div").show();
+      		$("p.title > a").removeClass("on");
+      		$(this).addClass("on");
+      		
+      		showBidAllQuestion(1, 10);
+      	});
+	});
+
+	function showBidRecords(pageNum, pageSize) {
+		var bidId = $("#hiddenbidvalue").val();
+		$.ajax({
+	    	url: "@{front.invest.investAction.viewBidInvestRecords}",
+			type: "POST",
+			data: {
+		    	"pageNum": pageNum,
+		    	"pageSize": pageSize,
+		    	"bidIdSign": bidId
+			},
+		    success: function(data) {
+				$(".record-div").html(data);
+			},
+			error: function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+
+	function showBidAllQuestion(pageNum, pageSize) {
+		var bidId = $("#hiddenbidvalue").val();
+		$.ajax({
+			url: "@{front.invest.investAction.viewBidAllQuestion()}",
+			type: "POST",
+			data: {
+			 	"pageNum": pageNum,
+			 	"pageSize": pageSize,
+			 	"bidIdSign": bidId
+			},
+			success: function(data) {
+				$(".ask-div").html(data);
+			},
+			error: function() {
+				alert("对不起，出现错误!");
+			}
+		});
+	}
+</script>
